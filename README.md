@@ -103,6 +103,21 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
   3. **Inscribe Reframe:** Formulate a balanced perspective and receive instant **AI Clarity Scoring (1–100)** with clinical insights from Gemini 3.7 Flash.
 * **Summon AI:** Dynamically synthesizes fresh scenario batches on demand.
 
+### 📜 The Academy of Inner Alchemy
+* Bite-sized 2-minute illustrated masterclasses on Stoicism, Polyvagal Neuroscience, REBT, and Behavioral Activation:
+  1. *The View from Above (Marcus Aurelius & Decentering)*
+  2. *The Amygdala Hijack & Vagal Brake (Polyvagal Somatics)*
+  3. *Dismantling the "Should" Monster (Albert Ellis's REBT)*
+  4. *The Momentum Paradox (Behavioral Activation & Dopamine)*
+  5. *The 90-Minute Ultradian Rhythm (Circadian Sleep Medicine)*
+* **Socratic Mastery Quizzes:** Test understanding to forge exclusive Combat Cards directly into your Mind Arena battle deck (+50 VP, +2 Mana).
+
+### 🪞 The Mind Mirror (Psychological Analytics & Self-Understanding)
+* **Distortion Heatmap:** Visual breakdown of your personal cognitive distortion traps and total thoughts reframed.
+* **Circadian Energy Correlations:** Analytics linking low battery periods (10%) with distortion vulnerability.
+* **Schema Archetype Mirror (Young's Schema Therapy):** Socratic excavation of core survival rules (*The Unrelenting Perfectionist*, *The Vigilant Sentinel*, *The Selfless Caretaker*) and conversion to healthy adult truths.
+* **ACT Values Constellation Sky:** 4 celestial pillars (*Connection & Love*, *Craft & Mastery*, *Vitality & Body*, *Play & Wonder*) that illuminate as you take aligned actions.
+
 ### 🌙 Behavior Therapy for Insomnia (BI) & Somatics
 * **Sleep Efficiency Diary:** Clinically validates time-in-bed vs time-asleep with $\ge 85\%$ target thresholds.
 * **Stimulus Control:** Dedicated 20-minute bed reset protocol to recondition healthy sleep-bed associations.
@@ -136,6 +151,8 @@ src/
 │   ├── theme/index.ts          # Dark Astral & Circadian OLED Palette
 │   └── types/index.ts          # Core Domain Interfaces & Chronotypes
 ├── features/
+│   ├── academy/                # Academy of Inner Alchemy & Wisdom Scrolls (REBT, Stoicism, Neuroscience)
+│   ├── analytics/              # The Mind Mirror (Distortion Heatmap, Schemas, ACT Values)
 │   ├── arena/                  # Mind Arena Card Battler Engine & Screens (CR)
 │   ├── campfire/               # The Campfire Socratic Companion Dialogue (Gemini 3.7 Flash)
 │   ├── energy/                 # Dynamic Battery Selector (10%, 40%, 80%)
@@ -146,6 +163,7 @@ src/
 │   ├── sanctuary/              # Visual Biome & Totem Progression (8-Week Roadmap)
 │   ├── settings/               # API Key, Model Selection, Chronotypes & Clinician PDF Export
 │   ├── sleep/                  # Sleep Efficiency & Stimulus Control Therapy (BI)
+│   ├── thoughtstream/          # The Cognitive Stream & Thought Alchemy Dojo
 │   └── tasks/                  # GTD Tasks & Relic Loot Drops
 └── navigation/AppNavigator.tsx # Bottom Tabs & Global Event Subscriptions
 ```

@@ -1,5 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserState, QuestItem, TaskItem, MoodEntry, CombatCard, ThoughtFeedItem } from '../types';
+import {
+  UserState,
+  QuestItem,
+  TaskItem,
+  MoodEntry,
+  CombatCard,
+  ThoughtFeedItem,
+  WisdomScroll,
+  DistortionType,
+} from '../types';
 
 const STORAGE_KEYS = {
   USER_STATE: '@aetheria_user_state_v2',
@@ -11,6 +20,7 @@ const STORAGE_KEYS = {
   PROBLEM_SOLVING: '@aetheria_problem_solving_v2',
   CAMPFIRE_CHATS: '@aetheria_campfire_chats_v2',
   THOUGHT_FEED: '@aetheria_thought_feed_v2',
+  ACADEMY_SCROLLS: '@aetheria_academy_scrolls_v2',
 };
 
 export const INITIAL_COMBAT_DECK: CombatCard[] = [
@@ -450,6 +460,311 @@ class DatabaseService {
       await this.saveThoughtFeed(updated);
     } catch (e) {
       console.error('Failed to mark thought solved', e);
+    }
+  }
+
+  async getWisdomScrolls(): Promise<WisdomScroll[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.ACADEMY_SCROLLS);
+      if (data) {
+        return JSON.parse(data);
+      }
+
+      const initial: WisdomScroll[] = [
+        {
+          id: 'scr_stoic_1',
+          title: 'The View from Above',
+          subtitle: 'Marcus Aurelius & Psychological Decentering',
+          authorOrTradition: 'Stoic Philosophy',
+          readingMinutes: 2,
+          category: 'STOICISM',
+          contentMarkdown: `When entangled in anxiety or frustration, our field of vision shrinks to the immediate threat. Marcus Aurelius practiced zooming out mentally: looking down at your city, your continent, and the vast span of centuries.
+
+From this cosmic altitude, what feels like a catastrophic crisis shrinks to its true size: a fleeting momentary occurrence. You gain the psychological breathing room to act with calm virtue rather than panic.`,
+          keyTakeaway: 'Zooming out to a cosmic perspective shrinks acute anxiety and restores rational agency.',
+          quiz: [
+            {
+              question: 'What is the primary psychological purpose of "The View from Above"?',
+              options: [
+                'To make yourself feel small and helpless',
+                'To gain psychological distance and calm perspective',
+                'To avoid taking responsibility for problems',
+              ],
+              correctIndex: 1,
+              explanation: 'Decentering creates cognitive distance, helping you respond with clarity rather than reactive emotion.',
+            },
+            {
+              question: 'When is this technique most clinically helpful?',
+              options: [
+                'During acute catastrophic spiral or social anxiety',
+                'Only when you are asleep',
+                'Never in real situations',
+              ],
+              correctIndex: 0,
+              explanation: 'It acts as an immediate cognitive defusion tool when catastrophic thoughts arise.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_stoic_view_above',
+            name: 'View from Above',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 36,
+            shieldValue: 20,
+            promptText: 'Zoom out 10 years into the future. How much will this moment actually matter?',
+            targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.6 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_neuro_2',
+          title: 'The Amygdala Hijack',
+          subtitle: 'Polyvagal Science & The Somatic Reset',
+          authorOrTradition: 'Clinical Neuroscience',
+          readingMinutes: 2,
+          category: 'NEUROSCIENCE',
+          contentMarkdown: `Before your rational prefrontal cortex can process an event, your amygdala scans for threats in 12 milliseconds. If it detects danger, it triggers the sympathetic nervous system: heart racing, tunnel vision, and racing thoughts.
+
+You cannot logic your way out of a physiological alarm state. You must speak the body's language first: a physiological sigh (two quick inhales through the nose, one long slow exhale through the mouth) engages the vagal brake, lowering heart rate in under 30 seconds.`,
+          keyTakeaway: 'Regulate the nervous system somatically before attempting cognitive restructuring.',
+          quiz: [
+            {
+              question: 'Why does rational logic often fail during intense anxiety?',
+              options: [
+                'Because the amygdala has throttled prefrontal cognitive control',
+                'Because you lack intelligence',
+                'Because thoughts are always 100% true',
+              ],
+              correctIndex: 0,
+              explanation: 'Sympathetic arousal shifts brain resources away from the prefrontal cortex toward survival reflexes.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_vagal_brake',
+            name: 'Vagal Brake',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 22,
+            shieldValue: 35,
+            promptText: 'Double inhale through the nose, long slow exhale. My body is safe right now.',
+            targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_rebt_3',
+          title: 'Dismantling the "Should" Monster',
+          subtitle: 'Albert Ellis & Rational Emotive Behavior Therapy',
+          authorOrTradition: 'REBT / CBT',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Albert Ellis coined the term "Musterbation"—the irrational belief that things MUST, SHOULD, or OUGHT to be a certain way ("I must never make mistakes", "People must always treat me fairly").
+
+When reality clashes with a dogmatic "should", rage, shame, and depression follow. The antidote is converting rigid demands into flexible preferences: "I would strongly PREFER to succeed, but if I do not, it is merely inconvenient, not catastrophic."`,
+          keyTakeaway: 'Replace rigid dogmatic demands ("musts") with flexible, compassionate preferences.',
+          quiz: [
+            {
+              question: 'What is the emotional consequence of rigid "should" statements?',
+              options: [
+                'Guaranteed perfection in all areas of life',
+                'Chronic shame, guilt, and emotional rigidity',
+                'Permanent peace of mind',
+              ],
+              correctIndex: 1,
+              explanation: 'Rigid demands create inevitable dissonance whenever reality does not match ideal expectations.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_preferential_choice',
+            name: 'Preferential Shield',
+            category: 'FACT_CHECK',
+            manaCost: 2,
+            baseDamage: 40,
+            shieldValue: 15,
+            promptText: 'I would prefer perfection, but I can navigate human imperfection with grace.',
+            targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_ba_4',
+          title: 'The Momentum Paradox',
+          subtitle: 'Action Precedes Motivation',
+          authorOrTradition: 'Behavioral Activation',
+          readingMinutes: 2,
+          category: 'BEHAVIORAL_ACTIVATION',
+          contentMarkdown: `A universal human cognitive trap is waiting to "feel like doing it" before taking action. Depression and fatigue create an illusion of inertia.
+
+In behavioral activation science, motivation is not the cause of action—it is the byproduct. By committing to just 30 seconds of physical motion (opening the book, putting on sneakers), dopamine circuits activate, and kinetic momentum takes over.`,
+          keyTakeaway: 'Action sparks motivation, never the reverse. Lower the activation hurdle to 30 seconds.',
+          quiz: [
+            {
+              question: 'According to Behavioral Activation, how does genuine motivation arise?',
+              options: [
+                'By waiting until inspiration strikes',
+                'As a neurochemical byproduct of taking the first micro-action',
+                'By scolding yourself into action',
+              ],
+              correctIndex: 1,
+              explanation: 'Action triggers dopamine release, which generates subsequent motivation and reduces friction.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_kinetic_spark',
+            name: 'Kinetic Momentum',
+            category: 'ACTION_SPARK',
+            manaCost: 1,
+            baseDamage: 38,
+            shieldValue: 12,
+            promptText: 'Take the single smallest 30-second physical step right now.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.6 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_sleep_5',
+          title: 'The 90-Minute Ultradian Rhythm',
+          subtitle: 'Sleep Architecture & Adenosine Clearance',
+          authorOrTradition: 'Sleep Medicine / BI',
+          readingMinutes: 2,
+          category: 'CIRCADIAN_SLEEP',
+          contentMarkdown: `Sleep is not an on/off switch; it is an orchestrated 90-minute wave of light NREM, deep slow-wave repair, and REM cognitive integration.
+
+If you toss and turn in bed for more than 20 minutes, your brain forms a conditioned arousal association between your mattress and frustration. Getting out of bed to read in dim light breaks this cycle and allows adenosine sleep pressure to rebuild naturally.`,
+          keyTakeaway: 'Protect the bed as a sanctuary for sleep only; break conditioned arousal after 20 minutes.',
+          quiz: [
+            {
+              question: 'Why should you leave bed if awake for longer than 20 minutes?',
+              options: [
+                'To punish your body',
+                'To prevent conditioned association between bed and mental frustration',
+                'Because sleep is unnecessary',
+              ],
+              correctIndex: 1,
+              explanation: 'Stimulus control preserves the brain association of bed with effortless sleepiness.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_adenosine_wave',
+            name: 'Adenosine Tide',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 25,
+            shieldValue: 30,
+            promptText: 'My body knows how to rest. I release the struggle and allow sleep to arrive.',
+            targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.5 },
+          },
+          isCompleted: false,
+        },
+      ];
+
+      await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(initial));
+      return initial;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async completeWisdomScroll(scrollId: string): Promise<void> {
+    try {
+      const scrolls = await this.getWisdomScrolls();
+      const target = scrolls.find((s) => s.id === scrollId);
+      if (!target) return;
+
+      target.isCompleted = true;
+      await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(scrolls));
+
+      // Add unlocked combat card to userState.activeCards
+      const userState = await this.getUserState();
+      const existingCard = userState.activeCards.find((c) => c.id === target.unlockedCardReward.id);
+      const updatedCards = existingCard
+        ? userState.activeCards
+        : [...userState.activeCards, target.unlockedCardReward];
+
+      const completedIds = userState.completedScrollIds || [];
+      const updatedScrollIds = completedIds.includes(scrollId) ? completedIds : [...completedIds, scrollId];
+
+      const updatedState: UserState = {
+        ...userState,
+        activeCards: updatedCards,
+        completedScrollIds: updatedScrollIds,
+        vitalityPoints: userState.vitalityPoints + 50,
+        clarityMana: userState.clarityMana + 2,
+      };
+      await this.saveUserState(updatedState);
+    } catch (e) {
+      console.error('Failed to complete wisdom scroll', e);
+    }
+  }
+
+  async getDistortionAnalytics(): Promise<{
+    distribution: Record<DistortionType, number>;
+    totalReframed: number;
+    topDistortion: DistortionType;
+  }> {
+    const codex = await this.getVictoryCodex();
+    const thoughtFeed = await this.getThoughtFeed();
+
+    const counts: Record<DistortionType, number> = {
+      CATASTROPHIZING: 0,
+      ALL_OR_NOTHING: 0,
+      MIND_READING: 0,
+      EMOTIONAL_REASONING: 0,
+      OVERGENERALIZATION: 0,
+      SHOULD_STATEMENTS: 0,
+      PERSONALIZATION: 0,
+    };
+
+    // Tally thought feed solved items
+    thoughtFeed.forEach((item) => {
+      if (item.isSolved && counts[item.correctDistortion] !== undefined) {
+        counts[item.correctDistortion] += 1;
+      }
+    });
+
+    // Default baseline distribution if newly started
+    if (Object.values(counts).reduce((a, b) => a + b, 0) === 0) {
+      counts.ALL_OR_NOTHING = 3;
+      counts.CATASTROPHIZING = 4;
+      counts.MIND_READING = 2;
+      counts.SHOULD_STATEMENTS = 2;
+      counts.EMOTIONAL_REASONING = 1;
+    }
+
+    let top: DistortionType = 'CATASTROPHIZING';
+    let max = 0;
+    Object.entries(counts).forEach(([dist, count]) => {
+      if (count > max) {
+        max = count;
+        top = dist as DistortionType;
+      }
+    });
+
+    return {
+      distribution: counts,
+      totalReframed: Object.values(counts).reduce((a, b) => a + b, 0) + codex.length,
+      topDistortion: top,
+    };
+  }
+
+  async updateValuesAlignment(pillar: 'CONNECTION' | 'CRAFT' | 'VITALITY' | 'WONDER', amount: number): Promise<void> {
+    try {
+      const state = await this.getUserState();
+      const current = state.valuesAlignment || {
+        CONNECTION: 30,
+        CRAFT: 45,
+        VITALITY: 50,
+        WONDER: 25,
+      };
+      current[pillar] = Math.min(100, (current[pillar] || 0) + amount);
+
+      const updated = {
+        ...state,
+        valuesAlignment: current,
+      };
+      await this.saveUserState(updated);
+    } catch (e) {
+      console.error('Failed to update values alignment', e);
     }
   }
 }

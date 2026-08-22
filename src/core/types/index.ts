@@ -207,6 +207,44 @@ export interface ThoughtEvaluation {
   manaReward: number;
 }
 
+export interface WisdomScroll {
+  id: string;
+  title: string;
+  subtitle: string;
+  authorOrTradition: string;
+  readingMinutes: number;
+  category: 'STOICISM' | 'NEUROSCIENCE' | 'CBT_REBT' | 'BEHAVIORAL_ACTIVATION' | 'CIRCADIAN_SLEEP';
+  contentMarkdown: string;
+  keyTakeaway: string;
+  quiz: {
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+  }[];
+  unlockedCardReward: CombatCard;
+  isCompleted?: boolean;
+}
+
+export interface SchemaArchetype {
+  id: string;
+  name: string;
+  title: string;
+  maladaptiveBelief: string;
+  healthyTruth: string;
+  originContext: string;
+  antidoteTechnique: string;
+}
+
+export interface LifeValuePillar {
+  id: 'CONNECTION' | 'CRAFT' | 'VITALITY' | 'WONDER';
+  title: string;
+  subtitle: string;
+  color: string;
+  iconName: string;
+  starResonance: number; // 0 to 100
+}
+
 export interface UserState {
   schemaVersion: string;
   userId: string;
@@ -221,6 +259,8 @@ export interface UserState {
   restShields: number;
   activeCards: CombatCard[];
   equippedRelics: TaskItem['relicDrop'][];
+  completedScrollIds?: string[];
+  valuesAlignment?: Record<'CONNECTION' | 'CRAFT' | 'VITALITY' | 'WONDER', number>;
   sanctuary: SanctuaryState;
   stats: {
     mindShield: number;

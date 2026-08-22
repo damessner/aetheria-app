@@ -24,6 +24,7 @@ export const Colors = {
   compassionPink: '#F472B6',
   reframeGold: '#FBBF24',
   dangerRed: '#F43F5E',
+  distortionRed: '#F43F5E',
   shieldCyan: '#2DD4BF',
   
   // Biomes

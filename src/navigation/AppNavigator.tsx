@@ -20,6 +20,8 @@ import { QuestBoard } from '../features/quests/QuestBoard';
 import { MindArenaScreen } from '../features/arena/MindArenaScreen';
 import { CampfireScreen } from '../features/campfire/CampfireScreen';
 import { ThoughtStreamScreen } from '../features/thoughtstream/ThoughtStreamScreen';
+import { AcademyScreen } from '../features/academy/AcademyScreen';
+import { MindMirrorScreen } from '../features/analytics/MindMirrorScreen';
 import { SleepTherapyScreen } from '../features/sleep/SleepTherapyScreen';
 import { ProblemSolvingScreen } from '../features/problemsolving/ProblemSolvingScreen';
 import { TaskManager } from '../features/tasks/TaskManager';
@@ -33,6 +35,8 @@ import {
   Swords,
   BrainCircuit,
   Flame,
+  BookOpen,
+  Eye,
   Moon,
   Hammer,
   CheckSquare,
@@ -45,6 +49,8 @@ type TabKey =
   | 'ARENA'
   | 'CAMPFIRE'
   | 'STREAM'
+  | 'ACADEMY'
+  | 'MIRROR'
   | 'SLEEP'
   | 'PROBLEM_SOLVING'
   | 'TASKS_MOOD'
@@ -148,6 +154,8 @@ export const AppNavigator: React.FC = () => {
     { key: 'ARENA', label: 'Arena (CR)', icon: Swords },
     { key: 'CAMPFIRE', label: 'Campfire', icon: Flame },
     { key: 'STREAM', label: 'Stream', icon: BrainCircuit },
+    { key: 'ACADEMY', label: 'Academy', icon: BookOpen },
+    { key: 'MIRROR', label: 'Mirror', icon: Eye },
     { key: 'SLEEP', label: 'Sleep (BI)', icon: Moon },
     { key: 'PROBLEM_SOLVING', label: 'Problem (PS)', icon: Hammer },
     { key: 'TASKS_MOOD', label: 'Tasks & Mood', icon: CheckSquare },
@@ -206,6 +214,10 @@ export const AppNavigator: React.FC = () => {
         {activeTab === 'CAMPFIRE' && <CampfireScreen userState={userState} />}
 
         {activeTab === 'STREAM' && <ThoughtStreamScreen userState={userState} />}
+
+        {activeTab === 'ACADEMY' && <AcademyScreen userState={userState} />}
+
+        {activeTab === 'MIRROR' && <MindMirrorScreen userState={userState} />}
 
         {activeTab === 'SLEEP' && <SleepTherapyScreen userState={userState} />}
 

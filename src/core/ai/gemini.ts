@@ -1,5 +1,14 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { DistortionType, CombatCard, EnergyTier, QuestItem } from '../types';
+import {
+  DistortionType,
+  CombatCard,
+  EnergyTier,
+  QuestItem,
+  ThoughtFeedItem,
+  TherapeuticTechnique,
+  ThoughtDomain,
+  ThoughtEvaluation,
+} from '../types';
 import { Database } from '../database/db';
 
 class GeminiService {
@@ -293,6 +302,166 @@ Companion:`;
     } else {
       return `Take a slow, deep breath with me. You are safe in this sanctuary, and you are allowed to rest without earning it.`;
     }
+  }
+
+  /**
+   * Generates a batch of realistic thought stream challenges via Gemini
+   */
+  async generateThoughtFeed(count: number = 3, domain?: ThoughtDomain): Promise<ThoughtFeedItem[]> {
+    try {
+      const modelInfo = await this.getClient();
+      if (!modelInfo) {
+        return this.getFallbackThoughtFeed(domain);
+      }
+
+      const model = modelInfo.client.getGenerativeModel({ model: modelInfo.modelName });
+
+      const prompt = `
+You are the Cognitive Alchemist of Aetheria. Generate ${count} realistic, everyday automatic negative thought scenarios.
+${domain ? `Filter domain to: ${domain}` : 'Cover diverse domains: WORK_BURNOUT, RELATIONSHIPS, PERFECTIONISM, HEALTH_ANXIETY.'}
+
+Return ONLY a JSON array matching this exact schema:
+[
+  {
+    "thought": "First-person automatic thought (e.g. 'I didn't finish everything today, so the whole week was useless.')",
+    "contextDomain": "WORK_BURNOUT" | "RELATIONSHIPS" | "PERFECTIONISM" | "HEALTH_ANXIETY",
+    "correctDistortion": "ALL_OR_NOTHING" | "CATASTROPHIZING" | "MIND_READING" | "EMOTIONAL_REASONING" | "OVERGENERALIZATION" | "SHOULD_STATEMENTS" | "PERSONALIZATION",
+    "explanation": "Why this thought represents this distortion",
+    "techniqueOptions": ["CBT_REALITY_CHECK", "CFT_COMPASSION", "BA_MICRO_ACTION", "STOIC_CONTROL", "ACT_DEFUSION"],
+    "suggestedReframe": "A balanced, compassionate, and realistic reframing statement"
+  }
+]
+No markdown, just raw JSON array.
+`;
+
+      const response = await model.generateContent(prompt);
+      const text = response.response.text().trim();
+      const cleanJson = text.replace(/^```json\s*/, '').replace(/```$/, '').trim();
+      const items = JSON.parse(cleanJson);
+
+      return items.map((item: any, idx: number) => ({
+        id: `thg_ai_${Date.now()}_${idx}`,
+        thought: item.thought,
+        contextDomain: item.contextDomain || 'WORK_BURNOUT',
+        correctDistortion: item.correctDistortion || 'ALL_OR_NOTHING',
+        explanation: item.explanation || '',
+        techniqueOptions: [
+          'CBT_REALITY_CHECK',
+          'CFT_COMPASSION',
+          'BA_MICRO_ACTION',
+          'STOIC_CONTROL',
+          'ACT_DEFUSION',
+        ],
+        suggestedReframe: item.suggestedReframe || '',
+        isSolved: false,
+      }));
+    } catch (e) {
+      console.warn('[Gemini] Thought feed generation fallback', e);
+      return this.getFallbackThoughtFeed(domain);
+    }
+  }
+
+  /**
+   * Evaluates user's reframe and therapeutic technique application
+   */
+  async evaluateThoughtReframe(
+    thought: string,
+    correctDistortion: DistortionType,
+    technique: TherapeuticTechnique,
+    userReframe: string
+  ): Promise<ThoughtEvaluation> {
+    try {
+      const modelInfo = await this.getClient();
+      if (!modelInfo) {
+        return {
+          score: 85,
+          clinicalFeedback: 'Solid balanced thought! You successfully challenged the extreme cognitive trap.',
+          vpReward: 40,
+          manaReward: 2,
+        };
+      }
+
+      const model = modelInfo.client.getGenerativeModel({ model: modelInfo.modelName });
+
+      const prompt = `
+You are a master clinical CBT/ACT therapist evaluating a user's cognitive reframe.
+Original Automatic Thought: "${thought}"
+Cognitive Distortion: ${correctDistortion}
+Therapeutic Technique Applied: ${technique}
+User's Crafted Reframe: "${userReframe}"
+
+Evaluate how balanced, non-judgmental, factual, and actionable the user's reframe is.
+Return ONLY a JSON object:
+{
+  "score": number between 60 and 100,
+  "clinicalFeedback": "1-2 sentence constructive praise and psychological insight."
+}
+No markdown, just raw JSON.
+`;
+
+      const response = await model.generateContent(prompt);
+      const text = response.response.text().trim();
+      const cleanJson = text.replace(/^```json\s*/, '').replace(/```$/, '').trim();
+      const parsed = JSON.parse(cleanJson);
+
+      const score = Math.max(60, Math.min(100, parsed.score || 85));
+      const vpReward = Math.round(score * 0.5);
+
+      return {
+        score,
+        clinicalFeedback: parsed.clinicalFeedback || 'Insightful reframe! Great cognitive flexibility.',
+        vpReward,
+        manaReward: score >= 85 ? 2 : 1,
+      };
+    } catch (e) {
+      return {
+        score: 85,
+        clinicalFeedback: 'Great reframe! You successfully applied the clinical technique.',
+        vpReward: 40,
+        manaReward: 2,
+      };
+    }
+  }
+
+  private getFallbackThoughtFeed(domain?: ThoughtDomain): ThoughtFeedItem[] {
+    const list: ThoughtFeedItem[] = [
+      {
+        id: 'thg_fb_1',
+        thought: 'I stumbled on my presentation slide. Everyone in the room now thinks I have no idea what I am doing.',
+        contextDomain: 'WORK_BURNOUT',
+        correctDistortion: 'MIND_READING',
+        explanation: 'Assuming you know what colleagues are thinking without concrete evidence.',
+        techniqueOptions: ['CBT_REALITY_CHECK', 'CFT_COMPASSION', 'STOIC_CONTROL'],
+        suggestedReframe: 'One awkward slide does not erase the quality of the rest of the presentation. Most people are focused on the content, not minor slips.',
+        isSolved: false,
+      },
+      {
+        id: 'thg_fb_2',
+        thought: 'If I don’t exercise for a full 60 minutes, there’s no point in doing any workout at all.',
+        contextDomain: 'PERFECTIONISM',
+        correctDistortion: 'ALL_OR_NOTHING',
+        explanation: 'Viewing fitness and health through black-or-white extremes.',
+        techniqueOptions: ['BA_MICRO_ACTION', 'CBT_REALITY_CHECK', 'CFT_COMPASSION'],
+        suggestedReframe: 'A 10-minute walk or gentle stretch still benefits my cardiovascular health and mood. Consistency beats perfection.',
+        isSolved: false,
+      },
+      {
+        id: 'thg_fb_3',
+        thought: 'They haven’t replied to my message in 4 hours. They must be angry with me.',
+        contextDomain: 'RELATIONSHIPS',
+        correctDistortion: 'PERSONALIZATION',
+        explanation: 'Attributing someone else’s busy schedule or silence directly to your own actions.',
+        techniqueOptions: ['CBT_REALITY_CHECK', 'STOIC_CONTROL', 'ACT_DEFUSION'],
+        suggestedReframe: 'People get busy with work and life. Their response time is about their day, not an indictment of our relationship.',
+        isSolved: false,
+      },
+    ];
+
+    if (domain) {
+      const filtered = list.filter((i) => i.contextDomain === domain);
+      return filtered.length > 0 ? filtered : list;
+    }
+    return list;
   }
 }
 

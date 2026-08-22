@@ -172,6 +172,41 @@ export interface CampfireMessage {
   insightExtracted?: boolean;
 }
 
+export type TherapeuticTechnique =
+  | 'CBT_REALITY_CHECK'
+  | 'CFT_COMPASSION'
+  | 'BA_MICRO_ACTION'
+  | 'STOIC_CONTROL'
+  | 'ACT_DEFUSION';
+
+export type ThoughtDomain =
+  | 'WORK_BURNOUT'
+  | 'RELATIONSHIPS'
+  | 'PERFECTIONISM'
+  | 'HEALTH_ANXIETY';
+
+export interface ThoughtFeedItem {
+  id: string;
+  thought: string;
+  contextDomain: ThoughtDomain;
+  correctDistortion: DistortionType;
+  explanation: string;
+  techniqueOptions: TherapeuticTechnique[];
+  suggestedReframe: string;
+  isSolved?: boolean;
+  userScore?: number;
+  userReframe?: string;
+  userDistortionGuess?: DistortionType;
+  userTechniqueChosen?: TherapeuticTechnique;
+}
+
+export interface ThoughtEvaluation {
+  score: number; // 0 to 100
+  clinicalFeedback: string;
+  vpReward: number;
+  manaReward: number;
+}
+
 export interface UserState {
   schemaVersion: string;
   userId: string;

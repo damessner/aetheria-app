@@ -19,6 +19,7 @@ import { EnergySelector } from '../features/energy/EnergySelector';
 import { QuestBoard } from '../features/quests/QuestBoard';
 import { MindArenaScreen } from '../features/arena/MindArenaScreen';
 import { CampfireScreen } from '../features/campfire/CampfireScreen';
+import { ThoughtStreamScreen } from '../features/thoughtstream/ThoughtStreamScreen';
 import { SleepTherapyScreen } from '../features/sleep/SleepTherapyScreen';
 import { ProblemSolvingScreen } from '../features/problemsolving/ProblemSolvingScreen';
 import { TaskManager } from '../features/tasks/TaskManager';
@@ -30,6 +31,7 @@ import {
   Sparkles,
   ScrollText,
   Swords,
+  BrainCircuit,
   Flame,
   Moon,
   Hammer,
@@ -42,6 +44,7 @@ type TabKey =
   | 'QUESTS'
   | 'ARENA'
   | 'CAMPFIRE'
+  | 'STREAM'
   | 'SLEEP'
   | 'PROBLEM_SOLVING'
   | 'TASKS_MOOD'
@@ -144,6 +147,7 @@ export const AppNavigator: React.FC = () => {
     { key: 'QUESTS', label: 'Quests', icon: ScrollText },
     { key: 'ARENA', label: 'Arena (CR)', icon: Swords },
     { key: 'CAMPFIRE', label: 'Campfire', icon: Flame },
+    { key: 'STREAM', label: 'Stream', icon: BrainCircuit },
     { key: 'SLEEP', label: 'Sleep (BI)', icon: Moon },
     { key: 'PROBLEM_SOLVING', label: 'Problem (PS)', icon: Hammer },
     { key: 'TASKS_MOOD', label: 'Tasks & Mood', icon: CheckSquare },
@@ -200,6 +204,8 @@ export const AppNavigator: React.FC = () => {
         {activeTab === 'ARENA' && <MindArenaScreen />}
 
         {activeTab === 'CAMPFIRE' && <CampfireScreen userState={userState} />}
+
+        {activeTab === 'STREAM' && <ThoughtStreamScreen userState={userState} />}
 
         {activeTab === 'SLEEP' && <SleepTherapyScreen userState={userState} />}
 

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserState, QuestItem, TaskItem, MoodEntry, CombatCard } from '../types';
+import { UserState, QuestItem, TaskItem, MoodEntry, CombatCard, ThoughtFeedItem } from '../types';
 
 const STORAGE_KEYS = {
   USER_STATE: '@aetheria_user_state_v2',
@@ -10,6 +10,7 @@ const STORAGE_KEYS = {
   SLEEP_LOGS: '@aetheria_sleep_logs_v2',
   PROBLEM_SOLVING: '@aetheria_problem_solving_v2',
   CAMPFIRE_CHATS: '@aetheria_campfire_chats_v2',
+  THOUGHT_FEED: '@aetheria_thought_feed_v2',
 };
 
 export const INITIAL_COMBAT_DECK: CombatCard[] = [
@@ -384,6 +385,71 @@ class DatabaseService {
       );
     } catch (e) {
       console.error('Failed to save CampfireMessages', e);
+    }
+  }
+
+  async getThoughtFeed(): Promise<ThoughtFeedItem[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.THOUGHT_FEED);
+      if (data) {
+        return JSON.parse(data);
+      }
+      const initial = [
+        {
+          id: 'thg_seed_1',
+          thought: 'I didn’t finish all 5 goals today, so the entire weekend was a complete waste.',
+          contextDomain: 'PERFECTIONISM',
+          correctDistortion: 'ALL_OR_NOTHING',
+          explanation: 'Evaluating an entire day as either 100% successful or a total failure.',
+          techniqueOptions: ['CBT_REALITY_CHECK', 'CFT_COMPASSION', 'BA_MICRO_ACTION'],
+          suggestedReframe: 'Finishing 3 out of 5 goals is still meaningful progress. Rest and partial completion have value.',
+          isSolved: false,
+        },
+        {
+          id: 'thg_seed_2',
+          thought: 'My heart is beating faster before this meeting. I am definitely going to have a panic attack and embarrass myself.',
+          contextDomain: 'HEALTH_ANXIETY',
+          correctDistortion: 'CATASTROPHIZING',
+          explanation: 'Interpreting normal physiological arousal as an imminent catastrophe.',
+          techniqueOptions: ['CBT_REALITY_CHECK', 'CFT_COMPASSION', 'ACT_DEFUSION'],
+          suggestedReframe: 'A fast heart rate is simply my body preparing energy for focus. It is uncomfortable, but not dangerous.',
+          isSolved: false,
+        },
+        {
+          id: 'thg_seed_3',
+          thought: 'My manager sent a calendar invite without a description. I must be getting fired or demoted.',
+          contextDomain: 'WORK_BURNOUT',
+          correctDistortion: 'MIND_READING',
+          explanation: 'Assuming the worst possible motivation without factual data.',
+          techniqueOptions: ['CBT_REALITY_CHECK', 'STOIC_CONTROL', 'ACT_DEFUSION'],
+          suggestedReframe: 'Most calendar invites are standard check-ins or project syncs. I will wait for actual facts before stressing.',
+          isSolved: false,
+        },
+      ];
+      await this.saveThoughtFeed(initial as any);
+      return initial as any;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async saveThoughtFeed(items: ThoughtFeedItem[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.THOUGHT_FEED, JSON.stringify(items.slice(0, 50)));
+    } catch (e) {
+      console.error('Failed to save ThoughtFeed', e);
+    }
+  }
+
+  async markThoughtSolved(id: string, score: number, userReframe: string): Promise<void> {
+    try {
+      const feed = await this.getThoughtFeed();
+      const updated = feed.map((item) =>
+        item.id === id ? { ...item, isSolved: true, userScore: score, userReframe } : item
+      );
+      await this.saveThoughtFeed(updated);
+    } catch (e) {
+      console.error('Failed to mark thought solved', e);
     }
   }
 }

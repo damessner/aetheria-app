@@ -95,6 +95,14 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
   * **💧 Liora the Water-Nymph:** Compassion-focused therapy, somatic soothing, and radical self-kindness.
 * **Insight Extraction:** 1-tap extraction of conversation breakthroughs into the **Codex of Wisdom** with $+25\text{ VP}$ and $+1\text{ Mana}$.
 
+### 🌊 The Cognitive Stream & Thought Alchemy Dojo
+* Endless interactive feed of realistic everyday thoughts across **Work & Focus**, **Perfectionism**, **Relationships**, and **Health & Calm**.
+* **3-Step Cognitive Alchemy:**
+  1. **Diagnose Thinking Trap:** Identify the active distortion (*All-or-Nothing, Catastrophizing, Mind Reading, Emotional Reasoning, Shoulds, Personalization*).
+  2. **Select Therapeutic Technique:** Apply **CBT Evidence Vault**, **Compassionate Friend (CFT)**, **Behavioral Spark (BA)**, **Stoic Dichotomy of Control**, or **ACT Cognitive Defusion**.
+  3. **Inscribe Reframe:** Formulate a balanced perspective and receive instant **AI Clarity Scoring (1–100)** with clinical insights from Gemini 3.7 Flash.
+* **Summon AI:** Dynamically synthesizes fresh scenario batches on demand.
+
 ### 🌙 Behavior Therapy for Insomnia (BI) & Somatics
 * **Sleep Efficiency Diary:** Clinically validates time-in-bed vs time-asleep with $\ge 85\%$ target thresholds.
 * **Stimulus Control:** Dedicated 20-minute bed reset protocol to recondition healthy sleep-bed associations.

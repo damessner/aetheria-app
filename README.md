@@ -151,8 +151,8 @@ Aetheria comes pre-configured with two automated GitHub Actions CI/CD workflows:
 ## 7. Getting Started
 
 ### Prerequisites
-* [Node.js](https://nodejs.org) (v18+) or [Bun](https://bun.sh) (v1.0+)
-* [Expo Go](https://expo.dev/go) app on your Android physical device
+* [Node.js](https://nodejs.org) (v20+ / tested on v26) or [Bun](https://bun.sh) (v1.4+)
+* [Expo Go](https://expo.dev/go) app (SDK 52) on your Android physical device
 
 ### Installation
 ```bash

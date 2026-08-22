@@ -26,11 +26,19 @@
         "RECEIVE_BOOT_COMPLETED",
         "VIBRATE",
         "USE_BIOMETRIC",
-        "USE_FINGERPRINT",
-        "health.READ_STEPS",
-        "health.READ_SLEEP"
+        "USE_FINGERPRINT"
       ]
     },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.9.25"
+          }
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     },

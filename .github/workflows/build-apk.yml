@@ -14,7 +14,12 @@ jobs:
       - name: 🏗 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js & Bun
+      - name: 🟢 Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: 🍞 Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -34,10 +39,11 @@ jobs:
       - name: 🚀 Prebuild Android Project
         run: bunx expo prebuild --platform android --clean
 
-      - name: 🔧 Configure Gradle Properties
+      - name: 🔧 Patch Kotlin 1.9.25 in build.gradle & gradle.properties
         run: |
-          printf "\n\nkotlinVersion=1.9.25\nandroid.kotlinVersion=1.9.25\nkotlin.suppressKotlinVersionCompatibilityCheck=true\nsuppressKotlinVersionCompatibilityCheck=true\n" >> android/gradle.properties
-          cat android/gradle.properties
+          sed -i "s/'1.9.24'/'1.9.25'/g" android/build.gradle
+          sed -i 's/"1.9.24"/"1.9.25"/g' android/build.gradle
+          printf "\nkotlin.suppressKotlinVersionCompatibilityCheck=true\nsuppressKotlinVersionCompatibilityCheck=true\n" >> android/gradle.properties
 
       - name: 🔨 Compile Android APK
         working-directory: android

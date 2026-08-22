@@ -3,7 +3,7 @@ import { DistortionType, CombatCard, EnergyTier, QuestItem } from '../types';
 import { Database } from '../database/db';
 
 class GeminiService {
-  private async getClient(): Promise<GoogleGenerativeAI | null> {
+  private async getClient(): Promise<{ client: GoogleGenerativeAI; modelName: string } | null> {
     const userState = await Database.getUserState();
     const apiKey =
       userState.preferences.geminiApiKey ||
@@ -13,7 +13,8 @@ class GeminiService {
     if (!apiKey) {
       return null;
     }
-    return new GoogleGenerativeAI(apiKey);
+    const modelName = userState.preferences.geminiModel || 'gemini-3.7-flash';
+    return { client: new GoogleGenerativeAI(apiKey), modelName };
   }
 
   /**
@@ -26,12 +27,12 @@ class GeminiService {
     cards: CombatCard[];
   }> {
     try {
-      const client = await this.getClient();
-      if (!client) {
+      const modelInfo = await this.getClient();
+      if (!modelInfo) {
         return this.getFallbackReframe(thought);
       }
 
-      const model = client.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = modelInfo.client.getGenerativeModel({ model: modelInfo.modelName });
 
       const prompt = `
 You are Kael the Owl-Sage, an expert clinical Cognitive Behavioral Therapy (CBT) AI guardian in Aetheria.
@@ -103,12 +104,12 @@ Do not include markdown ticks, just raw JSON.
    */
   async decomposeTask(taskTitle: string, energyTier: EnergyTier): Promise<string[]> {
     try {
-      const client = await this.getClient();
-      if (!client) {
+      const modelInfo = await this.getClient();
+      if (!modelInfo) {
         return this.getFallbackDecomposition(taskTitle);
       }
 
-      const model = client.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = modelInfo.client.getGenerativeModel({ model: modelInfo.modelName });
 
       const prompt = `
 You are a Behavioral Activation task decomposition engine in Aetheria.
@@ -133,10 +134,10 @@ Return ONLY a JSON array of strings, e.g. ["Step 1", "Step 2", "Step 3"]. No mar
    */
   async generateDynamicQuests(energyTier: EnergyTier): Promise<QuestItem[]> {
     try {
-      const client = await this.getClient();
-      if (!client) return [];
+      const modelInfo = await this.getClient();
+      if (!modelInfo) return [];
 
-      const model = client.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = modelInfo.client.getGenerativeModel({ model: modelInfo.modelName });
 
       const prompt = `
 Generate 2 evidence-based Behavioral Activation quests for a user with energy tier ${energyTier}.

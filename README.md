@@ -125,7 +125,7 @@ src/
 
 ## 5. Gemini AI Cognitive Engine
 
-Aetheria integrates **Google Gemini 1.5 Flash** for three key clinical capabilities:
+Aetheria integrates **Google Gemini (defaulting to Gemini 3.7 Flash with selectable 2.5 Flash / 2.5 Pro models)** for three key clinical capabilities:
 
 1. **Socratic Reframe Mirror:** Type in any raw, distressing thought. Gemini identifies the cognitive distortion, constructs a personalized Distortion Phantom boss, and generates 3 tailored counter-cards.
 2. **Intelligent Task Decomposer ("Break Down" Button):** Deconstructs overwhelming tasks into 3 gentle, atomic micro-steps based on the user's current energy tier.
@@ -140,7 +140,7 @@ Aetheria integrates **Google Gemini 1.5 Flash** for three key clinical capabilit
 Aetheria comes pre-configured with two automated GitHub Actions CI/CD workflows:
 
 * **Automated APK Builder (`.github/workflows/build-apk.yml`):**
-  Triggered when pushing a version tag (e.g. `git tag v1.0.0 && git push origin v1.0.0`). Compiles a release Android APK and publishes it to your repository's GitHub Releases page.
+  Triggered when pushing a version tag or manually via Actions dispatch. Compiles a release Android APK and publishes it to your repository's GitHub Releases page using **Node.js 24 & Temurin JDK 17**.
 * **Instant OTA Updates (`.github/workflows/ota-update.yml`):**
   Pushes instant Over-The-Air JavaScript/Asset bundle updates to active devices on `git push` to `main`.
 * **In-App Updater (`UpdateBanner.tsx`):**
@@ -151,7 +151,7 @@ Aetheria comes pre-configured with two automated GitHub Actions CI/CD workflows:
 ## 7. Getting Started
 
 ### Prerequisites
-* [Node.js](https://nodejs.org) (v20+ / tested on v26) or [Bun](https://bun.sh) (v1.4+)
+* [Node.js](https://nodejs.org) (v24+) or [Bun](https://bun.sh) (v1.4+)
 * [Expo Go](https://expo.dev/go) app (SDK 52) on your Android physical device
 
 ### Installation

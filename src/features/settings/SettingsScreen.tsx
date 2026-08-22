@@ -32,9 +32,18 @@ interface SettingsScreenProps {
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onStateUpdated }) => {
   const [apiKey, setApiKey] = useState(userState.preferences.geminiApiKey || '');
+  const [selectedModel, setSelectedModel] = useState<'gemini-3.7-flash' | 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.0-flash'>(
+    userState.preferences.geminiModel || 'gemini-3.7-flash'
+  );
   const [githubRepo, setGithubRepo] = useState(userState.preferences.githubRepo || '');
   const [circadianAuto, setCircadianAuto] = useState(userState.preferences.circadianMode === 'AUTO');
   const [crisisModalVisible, setCrisisModalVisible] = useState(false);
+
+  const modelOptions: { id: 'gemini-3.7-flash' | 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.0-flash'; label: string; tag: string }[] = [
+    { id: 'gemini-3.7-flash', label: 'Gemini 3.7 Flash', tag: 'Fastest & Advanced' },
+    { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash', tag: 'Ultra-Low Latency' },
+    { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', tag: 'Deep Socratic Logic' },
+  ];
 
   const handleSavePreferences = async () => {
     const updated: UserState = {
@@ -42,6 +51,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
       preferences: {
         ...userState.preferences,
         geminiApiKey: apiKey.trim(),
+        geminiModel: selectedModel,
         githubRepo: githubRepo.trim(),
         circadianMode: circadianAuto ? 'AUTO' : 'DISABLED',
       },
@@ -78,6 +88,29 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
           value={apiKey}
           onChangeText={setApiKey}
         />
+
+        <Text style={[styles.cardTitle, { marginTop: Spacing.sm, fontSize: 13 }]}>Model Selection</Text>
+        <Text style={styles.cardDesc}>Select the active Gemini model for Socratic battles and task planning:</Text>
+        <View style={{ gap: 6, marginTop: 4 }}>
+          {modelOptions.map((opt) => {
+            const isSelected = selectedModel === opt.id;
+            return (
+              <TouchableOpacity
+                key={opt.id}
+                style={[styles.modelOptionBtn, isSelected && styles.modelOptionBtnActive]}
+                onPress={() => setSelectedModel(opt.id)}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.modelOptionText, isSelected && { color: Colors.reframeGold, fontWeight: '700' }]}>
+                    {opt.label}
+                  </Text>
+                  <Text style={styles.modelOptionTag}>{opt.tag}</Text>
+                </View>
+                {isSelected && <Sparkles size={14} color={Colors.reframeGold} />}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       </View>
 
       <Text style={styles.sectionTitle}>Over-The-Air (OTA) & GitHub Releases</Text>
@@ -206,6 +239,30 @@ const styles = StyleSheet.create({
     padding: Spacing.sm,
     color: Colors.textPrimary,
     fontSize: 13,
+  },
+  modelOptionBtn: {
+    backgroundColor: Colors.surfaceLight,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 10,
+    padding: Spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  modelOptionBtnActive: {
+    borderColor: Colors.reframeGold,
+    backgroundColor: 'rgba(251, 191, 36, 0.1)',
+  },
+  modelOptionText: {
+    color: Colors.textPrimary,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  modelOptionTag: {
+    color: Colors.textMuted,
+    fontSize: 10,
+    marginTop: 1,
   },
   switchRow: {
     flexDirection: 'row',

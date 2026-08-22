@@ -34,12 +34,10 @@ jobs:
       - name: 🚀 Prebuild Android Project
         run: bunx expo prebuild --platform android --clean
 
-      - name: 🔧 Configure Gradle Properties for Kotlin & Compose
+      - name: 🔧 Configure Gradle Properties
         run: |
-          echo "android.kotlinVersion=1.9.25" >> android/gradle.properties
-          echo "kotlin.version=1.9.25" >> android/gradle.properties
-          echo "kotlin.suppressKotlinVersionCompatibilityCheck=true" >> android/gradle.properties
-          echo "suppressKotlinVersionCompatibilityCheck=true" >> android/gradle.properties
+          printf "\n\nkotlinVersion=1.9.25\nandroid.kotlinVersion=1.9.25\nkotlin.suppressKotlinVersionCompatibilityCheck=true\nsuppressKotlinVersionCompatibilityCheck=true\n" >> android/gradle.properties
+          cat android/gradle.properties
 
       - name: 🔨 Compile Android APK
         working-directory: android

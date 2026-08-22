@@ -35,6 +35,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
   const [selectedModel, setSelectedModel] = useState<'gemini-3.7-flash' | 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.0-flash'>(
     userState.preferences.geminiModel || 'gemini-3.7-flash'
   );
+  const [chronotype, setChronotype] = useState(userState.preferences.chronotype || 'STANDARD_DAYTIME');
   const [githubRepo, setGithubRepo] = useState(userState.preferences.githubRepo || '');
   const [circadianAuto, setCircadianAuto] = useState(userState.preferences.circadianMode === 'AUTO');
   const [crisisModalVisible, setCrisisModalVisible] = useState(false);
@@ -52,6 +53,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
         ...userState.preferences,
         geminiApiKey: apiKey.trim(),
         geminiModel: selectedModel,
+        chronotype: chronotype,
         githubRepo: githubRepo.trim(),
         circadianMode: circadianAuto ? 'AUTO' : 'DISABLED',
       },
@@ -59,7 +61,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
 
     await Database.saveUserState(updated);
     onStateUpdated(updated);
-    Alert.alert('Settings Saved', 'Gemini AI & GitHub OTA preferences updated successfully.');
+    Alert.alert('Settings Saved', 'Gemini AI, Chronotype & GitHub OTA preferences updated successfully.');
   };
 
   const handleExportClinicalReport = () => {
@@ -131,16 +133,45 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
         />
       </View>
 
-      <Text style={styles.sectionTitle}>Display & Circadian Engine</Text>
+      <Text style={styles.sectionTitle}>Circadian Chronotype & Shift-Worker Engine</Text>
       <View style={styles.card}>
-        <View style={styles.switchRow}>
+        <Text style={styles.cardTitle}>Circadian Phenotype</Text>
+        <Text style={styles.cardDesc}>
+          Adapts behavioral activation quests and wind-down periods to your operational sleep-wake cycle:
+        </Text>
+        <View style={{ gap: 6, marginVertical: 6 }}>
+          {[
+            { id: 'STANDARD_DAYTIME', label: 'Standard Daytime (07:00 – 23:00)', desc: 'Standard diurnal schedule' },
+            { id: 'NIGHT_OWL', label: 'Night-Owl / Delayed Phase (14:00 – 04:00)', desc: 'Late evening peak focus' },
+            { id: 'ROTATING_SHIFT', label: 'Rotating Shift Worker (Flexible)', desc: 'Dynamic adaptive windows' },
+          ].map((item) => {
+            const isSelected = chronotype === item.id;
+            return (
+              <TouchableOpacity
+                key={item.id}
+                style={[styles.modelOptionBtn, isSelected && styles.modelOptionBtnActive]}
+                onPress={() => setChronotype(item.id as any)}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.modelOptionText, isSelected && { color: Colors.reframeGold, fontWeight: '700' }]}>
+                    {item.label}
+                  </Text>
+                  <Text style={styles.modelOptionTag}>{item.desc}</Text>
+                </View>
+                {isSelected && <Sparkles size={14} color={Colors.reframeGold} />}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        <View style={[styles.switchRow, { marginTop: Spacing.sm }]}>
           <View style={{ flex: 1, marginRight: Spacing.sm }}>
             <View style={styles.rowHeader}>
               <Moon size={16} color={Colors.gloomPurple} />
-              <Text style={styles.cardTitle}>Automatic Night-Owl Mode</Text>
+              <Text style={styles.cardTitle}>Automatic OLED Night Theme</Text>
             </View>
             <Text style={styles.cardDesc}>
-              Automatically switches to pure low-blue-light OLED black between 23:00 and 06:00.
+              Automatically switches to low-blue-light OLED black during wind-down hours.
             </Text>
           </View>
           <Switch

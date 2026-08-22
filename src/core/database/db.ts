@@ -7,6 +7,8 @@ const STORAGE_KEYS = {
   TASKS: '@aetheria_tasks_v2',
   MOOD_LOGS: '@aetheria_mood_logs_v2',
   VICTORY_CODEX: '@aetheria_codex_v2',
+  SLEEP_LOGS: '@aetheria_sleep_logs_v2',
+  PROBLEM_SOLVING: '@aetheria_problem_solving_v2',
 };
 
 export const INITIAL_COMBAT_DECK: CombatCard[] = [
@@ -69,6 +71,7 @@ export const INITIAL_USER_STATE: UserState = {
   userId: 'usr_' + Math.random().toString(36).substring(2, 9),
   createdAt: new Date().toISOString(),
   campaignWeek: 1,
+  clinicalPhase: 'PHASE_1_BA_BI',
   vitalityResonance: 0.75,
   restResonanceBank: 1.0,
   energyTier: 'STEADY_40',
@@ -112,8 +115,12 @@ export const INITIAL_USER_STATE: UserState = {
     compassionAura: 35,
   },
   preferences: {
+    chronotype: 'STANDARD_DAYTIME',
     circadianMode: 'AUTO',
+    wakeHour: 7,
+    sleepHour: 23,
     geminiApiKey: '',
+    geminiModel: 'gemini-3.7-flash',
     githubRepo: 'damessner/aetheria-app',
     biometricLock: false,
   },
@@ -313,6 +320,49 @@ class DatabaseService {
       await AsyncStorage.setItem(STORAGE_KEYS.VICTORY_CODEX, JSON.stringify(codex.slice(0, 50)));
     } catch (e) {
       console.error('Failed to save Codex entry', e);
+    }
+  }
+
+  async getSleepLogs(): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.SLEEP_LOGS);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async saveSleepLog(entry: any): Promise<void> {
+    try {
+      const logs = await this.getSleepLogs();
+      logs.unshift(entry);
+      await AsyncStorage.setItem(STORAGE_KEYS.SLEEP_LOGS, JSON.stringify(logs.slice(0, 60)));
+    } catch (e) {
+      console.error('Failed to save SleepLog', e);
+    }
+  }
+
+  async getProblemSolvingWorksheets(): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.PROBLEM_SOLVING);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async saveProblemSolvingWorksheet(worksheet: any): Promise<void> {
+    try {
+      const list = await this.getProblemSolvingWorksheets();
+      const existingIdx = list.findIndex((w) => w.id === worksheet.id);
+      if (existingIdx >= 0) {
+        list[existingIdx] = worksheet;
+      } else {
+        list.unshift(worksheet);
+      }
+      await AsyncStorage.setItem(STORAGE_KEYS.PROBLEM_SOLVING, JSON.stringify(list.slice(0, 30)));
+    } catch (e) {
+      console.error('Failed to save ProblemSolvingWorksheet', e);
     }
   }
 }

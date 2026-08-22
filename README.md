@@ -88,6 +88,17 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
 ### 📝 GTD Tasks with Relic Loot Drops
 * Built-in task manager with one-tap Gemini task decomposition. Completing real-life tasks drops mythical relics (*Lens of Clarity*, *Aegis of Calm*) that permanently boost Arena combat stats.
 
+### 🌙 Behavior Therapy for Insomnia (BI) & Somatics
+* **Sleep Efficiency Diary:** Clinically validates time-in-bed vs time-asleep with $\ge 85\%$ target thresholds.
+* **Stimulus Control:** Dedicated 20-minute bed reset protocol to recondition healthy sleep-bed associations.
+* **Diaphragmatic Breath Pacer:** Integrated 4-4-6 somatic parasympathetic pulse generator for pre-sleep calming.
+
+### 🔨 7-Step Structured Problem-Solving (PS)
+* Arean et al. / Furukawa et al. clinical 7-step wizard: Concrete stressor definition, Gemini-assisted divergent brainstorming, feasibility matrix, baby-step decomposition, and offline physical execution anchors.
+
+### 🌓 Circadian Phenotyping & Shift-Worker Engine
+* Full multi-chronotype support: **Standard Daytime (07:00–23:00)**, **Night-Owl / Delayed Phase (14:00–04:00)**, and **Rotating Shift Worker**.
+
 ### 📊 2D Valence-Arousal Mood Tracker
 * 5-second Ecological Momentary Assessment (EMA) on a 2D grid (Pleasure vs Energy) paired with behavioral correlational insights.
 
@@ -101,22 +112,24 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
 ```
 src/
 ├── core/
-│   ├── ai/gemini.ts            # Google Gemini AI Client (Socratic Reframe, Task Splitter)
+│   ├── ai/gemini.ts            # Google Gemini AI Client (Gemini 3.7 Flash default)
 │   ├── database/db.ts          # Encrypted Local Storage & Seed Persistence
 │   ├── eventbus/EventBus.ts    # Decoupled Reactive Event Bus
 │   ├── ota/UpdateManager.ts    # In-App GitHub Releases & OTA Update Checker
 │   ├── ota/UpdateBanner.tsx    # 1-Tap Update Notification Banner
 │   ├── security/crisisDirectory.ts # Offline International Crisis Database
 │   ├── theme/index.ts          # Dark Astral & Circadian OLED Palette
-│   └── types/index.ts          # Core Domain Interfaces
+│   └── types/index.ts          # Core Domain Interfaces & Chronotypes
 ├── features/
-│   ├── arena/                  # Mind Arena Card Battler Engine & Screens
-│   ├── energy/                 # Dynamic Battery Selector
+│   ├── arena/                  # Mind Arena Card Battler Engine & Screens (CR)
+│   ├── energy/                 # Dynamic Battery Selector (10%, 40%, 80%)
 │   ├── mood/                   # 2D Valence-Arousal Mood Tracker
-│   ├── quests/                 # Behavioral Activation Quest Board & Decomposition
+│   ├── problemsolving/         # 7-Step Structured Problem Solving (PS)
+│   ├── quests/                 # Behavioral Activation Quest Board & Decomposition (BA)
 │   ├── safety/                 # Crisis Bridge Modal
-│   ├── sanctuary/              # Visual Biome & Totem Progression
-│   ├── settings/               # API Key, GitHub Repo & Clinician PDF Export
+│   ├── sanctuary/              # Visual Biome & Totem Progression (8-Week Roadmap)
+│   ├── settings/               # API Key, Model Selection, Chronotypes & Clinician PDF Export
+│   ├── sleep/                  # Sleep Efficiency & Stimulus Control Therapy (BI)
 │   └── tasks/                  # GTD Tasks & Relic Loot Drops
 └── navigation/AppNavigator.tsx # Bottom Tabs & Global Event Subscriptions
 ```

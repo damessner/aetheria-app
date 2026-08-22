@@ -10,6 +10,8 @@ import { SanctuaryView } from '../features/sanctuary/SanctuaryView';
 import { EnergySelector } from '../features/energy/EnergySelector';
 import { QuestBoard } from '../features/quests/QuestBoard';
 import { MindArenaScreen } from '../features/arena/MindArenaScreen';
+import { SleepTherapyScreen } from '../features/sleep/SleepTherapyScreen';
+import { ProblemSolvingScreen } from '../features/problemsolving/ProblemSolvingScreen';
 import { TaskManager } from '../features/tasks/TaskManager';
 import { MoodTracker } from '../features/mood/MoodTracker';
 import { SettingsScreen } from '../features/settings/SettingsScreen';
@@ -19,11 +21,13 @@ import {
   Sparkles,
   ScrollText,
   Swords,
+  Moon,
+  Hammer,
   CheckSquare,
   Settings as SettingsIcon,
 } from 'lucide-react-native';
 
-type TabKey = 'SANCTUARY' | 'QUESTS' | 'ARENA' | 'TASKS_MOOD' | 'SETTINGS';
+type TabKey = 'SANCTUARY' | 'QUESTS' | 'ARENA' | 'SLEEP' | 'PROBLEM_SOLVING' | 'TASKS_MOOD' | 'SETTINGS';
 
 export const AppNavigator: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('SANCTUARY');
@@ -120,7 +124,9 @@ export const AppNavigator: React.FC = () => {
   const tabs: { key: TabKey; label: string; icon: any }[] = [
     { key: 'SANCTUARY', label: 'Sanctuary', icon: Sparkles },
     { key: 'QUESTS', label: 'Quests', icon: ScrollText },
-    { key: 'ARENA', label: 'Mind Arena', icon: Swords },
+    { key: 'ARENA', label: 'Arena (CR)', icon: Swords },
+    { key: 'SLEEP', label: 'Sleep (BI)', icon: Moon },
+    { key: 'PROBLEM_SOLVING', label: 'Problem (PS)', icon: Hammer },
     { key: 'TASKS_MOOD', label: 'Tasks & Mood', icon: CheckSquare },
     { key: 'SETTINGS', label: 'Settings', icon: SettingsIcon },
   ];
@@ -173,6 +179,10 @@ export const AppNavigator: React.FC = () => {
         )}
 
         {activeTab === 'ARENA' && <MindArenaScreen />}
+
+        {activeTab === 'SLEEP' && <SleepTherapyScreen userState={userState} />}
+
+        {activeTab === 'PROBLEM_SOLVING' && <ProblemSolvingScreen userState={userState} />}
 
         {activeTab === 'TASKS_MOOD' && (
           <View style={{ flex: 1 }}>

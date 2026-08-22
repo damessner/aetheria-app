@@ -133,11 +133,42 @@ export interface SanctuaryState {
   }[];
 }
 
+export type Chronotype = 'STANDARD_DAYTIME' | 'NIGHT_OWL' | 'ROTATING_SHIFT';
+
+export type ClinicalPhase = 'PHASE_1_BA_BI' | 'PHASE_2_CR_PS';
+
+export interface SleepEfficiencyEntry {
+  id: string;
+  date: string;
+  bedTime: string; // e.g. "23:30"
+  wakeTime: string; // e.g. "07:30"
+  timeInBedMinutes: number;
+  timeAsleepMinutes: number;
+  sleepEfficiencyPercentage: number; // (asleep / inBed) * 100
+  nightWakingsCount: number;
+  stimulusControlFollowed: boolean; // got out of bed if awake >20m
+}
+
+export interface ProblemSolvingWorksheet {
+  id: string;
+  title: string;
+  createdAt: string;
+  step1_problemDefinition: string;
+  step2_brainstormedSolutions: string[];
+  step3_evaluatedOptions: { solution: string; pros: string[]; cons: string[]; feasibilityScore: number }[];
+  step4_selectedSolution: string;
+  step5_actionSteps: { step: string; isDone: boolean }[];
+  step6_offlineExecutionAnchor: string;
+  step7_outcomeReview?: string;
+  isCompleted: boolean;
+}
+
 export interface UserState {
   schemaVersion: string;
   userId: string;
   createdAt: string;
-  campaignWeek: number; // 1 to 6
+  campaignWeek: number; // 1 to 8 (4w BA+BI -> 4w CR+PS)
+  clinicalPhase: ClinicalPhase;
   vitalityResonance: number; // 0.0 to 1.0 (replaces streak)
   restResonanceBank: number; // Accumulated 2x bonus for rest days
   energyTier: EnergyTier;
@@ -153,7 +184,10 @@ export interface UserState {
     compassionAura: number;
   };
   preferences: {
+    chronotype: Chronotype;
     circadianMode: 'AUTO' | 'FORCE_NIGHT' | 'DISABLED';
+    wakeHour: number; // default 7 (or 14 for night owls)
+    sleepHour: number; // default 23 (or 4 for night owls)
     geminiApiKey?: string;
     geminiModel?: 'gemini-3.7-flash' | 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.0-flash';
     githubRepo?: string;

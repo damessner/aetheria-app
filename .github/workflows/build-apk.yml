@@ -34,12 +34,17 @@ jobs:
       - name: 🚀 Prebuild Android Project
         run: bunx expo prebuild --platform android --clean
 
+      - name: 🔧 Configure Gradle Properties for Kotlin & Compose
+        run: |
+          echo "android.kotlinVersion=1.9.25" >> android/gradle.properties
+          echo "kotlin.version=1.9.25" >> android/gradle.properties
+          echo "kotlin.suppressKotlinVersionCompatibilityCheck=true" >> android/gradle.properties
+          echo "suppressKotlinVersionCompatibilityCheck=true" >> android/gradle.properties
+
       - name: 🔨 Compile Android APK
         working-directory: android
         run: |
-          ./gradlew assembleRelease assembleDebug --no-daemon \
-            -PkotlinVersion=1.9.25 \
-            -Dkotlin.suppressKotlinVersionCompatibilityCheck=true
+          ./gradlew assembleRelease assembleDebug --no-daemon
 
       - name: 📤 Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -48,9 +53,10 @@ jobs:
           path: android/app/build/outputs/apk/**/*.apk
 
       - name: 🎉 Attach APK to GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v1.0.0
           files: android/app/build/outputs/apk/**/*.apk
           generate_release_notes: true
           draft: false

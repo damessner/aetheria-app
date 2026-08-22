@@ -39,16 +39,29 @@ jobs:
       - name: 🚀 Prebuild Android Project
         run: bunx expo prebuild --platform android --clean
 
-      - name: 🔧 Patch Kotlin 1.9.25 in build.gradle & gradle.properties
+      - name: 🔧 Patch Kotlin & Compose Compiler Compatibility
         run: |
           sed -i "s/'1.9.24'/'1.9.25'/g" android/build.gradle
           sed -i 's/"1.9.24"/"1.9.25"/g' android/build.gradle
-          printf "\nkotlin.suppressKotlinVersionCompatibilityCheck=true\nsuppressKotlinVersionCompatibilityCheck=true\n" >> android/gradle.properties
+          printf "\nandroid.kotlinVersion=1.9.25\nkotlinVersion=1.9.25\nkotlin.suppressKotlinVersionCompatibilityCheck=true\nsuppressKotlinVersionCompatibilityCheck=true\n" >> android/gradle.properties
+          cat << 'GRADLE_PATCH' >> android/build.gradle
+
+          allprojects {
+              tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                  kotlinOptions {
+                      freeCompilerArgs += [
+                          "-P",
+                          "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+                      ]
+                  }
+              }
+          }
+          GRADLE_PATCH
 
       - name: 🔨 Compile Android APK
         working-directory: android
         run: |
-          ./gradlew assembleRelease assembleDebug --no-daemon
+          ./gradlew assembleRelease assembleDebug -Pandroid.kotlinVersion=1.9.25 -PkotlinVersion=1.9.25 -Pkotlin.suppressKotlinVersionCompatibilityCheck=true -PsuppressKotlinVersionCompatibilityCheck=true --no-daemon
 
       - name: 📤 Upload APK Artifact
         uses: actions/upload-artifact@v4

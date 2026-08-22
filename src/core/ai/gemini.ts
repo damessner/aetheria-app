@@ -235,6 +235,65 @@ No markdown, only valid JSON.
       ],
     };
   }
+
+  /**
+   * Socratic Campfire Dialogue with Companions
+   */
+  async chatWithCompanion(
+    companionId: 'KAEL_OWL' | 'PYRA_FOX' | 'LIORA_NYMPH',
+    userMessage: string,
+    history: { sender: 'user' | 'companion'; text: string }[],
+    energyTier: EnergyTier
+  ): Promise<string> {
+    try {
+      const modelInfo = await this.getClient();
+      if (!modelInfo) {
+        return this.getFallbackCompanionResponse(companionId, userMessage);
+      }
+
+      const model = modelInfo.client.getGenerativeModel({ model: modelInfo.modelName });
+
+      let personaPrompt = '';
+      if (companionId === 'KAEL_OWL') {
+        personaPrompt = `You are Kael the Owl-Sage, a wise, observant, and intellectually curious Socratic CBT guardian in Aetheria.
+Your style: Ask gentle, insightful questions to help the user examine their assumptions, reality-test catastrophic thoughts, and see nuanced perspectives. Keep responses conversational, concise (2-4 sentences), and thoughtful. Never judge or lecture.`;
+      } else if (companionId === 'PYRA_FOX') {
+        personaPrompt = `You are Pyra the Ember-Fox, a warm, energetic, and encouraging Behavioral Activation guardian in Aetheria.
+Your style: You help users break through overwhelm and task freeze with micro-sparks, gentle momentum, and friendly hype. The user's current energy is ${energyTier}. Keep responses warm, actionable, concise (2-3 sentences), and empowering.`;
+      } else {
+        personaPrompt = `You are Liora the Water-Nymph, a soothing, deeply empathetic Somatic & Compassion-Focused Therapy (CFT) guardian in Aetheria.
+Your style: Validate emotions gently without rushing to fix them, remind the user of common humanity, and guide somatic grounding or deep self-kindness. Keep responses soft, comforting, concise (2-3 sentences).`;
+      }
+
+      const historyFormatted = history
+        .slice(-6)
+        .map((h) => `${h.sender === 'user' ? 'Seeker' : 'Companion'}: ${h.text}`)
+        .join('\n');
+
+      const fullPrompt = `${personaPrompt}
+
+Conversation so far:
+${historyFormatted}
+Seeker: ${userMessage}
+Companion:`;
+
+      const response = await model.generateContent(fullPrompt);
+      return response.response.text().trim();
+    } catch (e) {
+      console.warn('[Gemini] Companion chat error, falling back', e);
+      return this.getFallbackCompanionResponse(companionId, userMessage);
+    }
+  }
+
+  private getFallbackCompanionResponse(companionId: string, userMessage: string): string {
+    if (companionId === 'KAEL_OWL') {
+      return `I hear what weighs on your mind. If a dear friend brought this exact thought to you, what perspective or gentle truth would you share with them?`;
+    } else if (companionId === 'PYRA_FOX') {
+      return `Every grand fire starts with a single ember. What is the smallest 30-second action we can take together right now?`;
+    } else {
+      return `Take a slow, deep breath with me. You are safe in this sanctuary, and you are allowed to rest without earning it.`;
+    }
+  }
 }
 
 export const Gemini = new GeminiService();

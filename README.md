@@ -88,6 +88,13 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
 ### 📝 GTD Tasks with Relic Loot Drops
 * Built-in task manager with one-tap Gemini task decomposition. Completing real-life tasks drops mythical relics (*Lens of Clarity*, *Aegis of Calm*) that permanently boost Arena combat stats.
 
+### 🔥 The Campfire & Socratic Companion Dialogue
+* Real-time Socratic self-discovery chat with the 3 Spirit Guardians powered by **Gemini 3.7 Flash**:
+  * **🦉 Kael the Owl-Sage:** Cognitive restructuring, reality testing, and challenging cognitive distortions.
+  * **🦊 Pyra the Ember-Fox:** Behavioral activation, micro-steps, and breaking task inertia.
+  * **💧 Liora the Water-Nymph:** Compassion-focused therapy, somatic soothing, and radical self-kindness.
+* **Insight Extraction:** 1-tap extraction of conversation breakthroughs into the **Codex of Wisdom** with $+25\text{ VP}$ and $+1\text{ Mana}$.
+
 ### 🌙 Behavior Therapy for Insomnia (BI) & Somatics
 * **Sleep Efficiency Diary:** Clinically validates time-in-bed vs time-asleep with $\ge 85\%$ target thresholds.
 * **Stimulus Control:** Dedicated 20-minute bed reset protocol to recondition healthy sleep-bed associations.
@@ -122,6 +129,7 @@ src/
 │   └── types/index.ts          # Core Domain Interfaces & Chronotypes
 ├── features/
 │   ├── arena/                  # Mind Arena Card Battler Engine & Screens (CR)
+│   ├── campfire/               # The Campfire Socratic Companion Dialogue (Gemini 3.7 Flash)
 │   ├── energy/                 # Dynamic Battery Selector (10%, 40%, 80%)
 │   ├── mood/                   # 2D Valence-Arousal Mood Tracker
 │   ├── problemsolving/         # 7-Step Structured Problem Solving (PS)

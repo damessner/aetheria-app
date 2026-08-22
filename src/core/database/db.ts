@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   VICTORY_CODEX: '@aetheria_codex_v2',
   SLEEP_LOGS: '@aetheria_sleep_logs_v2',
   PROBLEM_SOLVING: '@aetheria_problem_solving_v2',
+  CAMPFIRE_CHATS: '@aetheria_campfire_chats_v2',
 };
 
 export const INITIAL_COMBAT_DECK: CombatCard[] = [
@@ -363,6 +364,26 @@ class DatabaseService {
       await AsyncStorage.setItem(STORAGE_KEYS.PROBLEM_SOLVING, JSON.stringify(list.slice(0, 30)));
     } catch (e) {
       console.error('Failed to save ProblemSolvingWorksheet', e);
+    }
+  }
+
+  async getCampfireMessages(companionId: string): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(`${STORAGE_KEYS.CAMPFIRE_CHATS}_${companionId}`);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async saveCampfireMessages(companionId: string, messages: any[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(
+        `${STORAGE_KEYS.CAMPFIRE_CHATS}_${companionId}`,
+        JSON.stringify(messages.slice(-50))
+      );
+    } catch (e) {
+      console.error('Failed to save CampfireMessages', e);
     }
   }
 }

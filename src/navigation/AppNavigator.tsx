@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Platform,
+  StatusBar as RNStatusBar,
+} from 'react-native';
 import { Colors, Spacing } from '../core/theme';
 import { UserState, QuestItem, TaskItem, EnergyTier } from '../core/types';
 import { Database } from '../core/database/db';
@@ -10,6 +18,7 @@ import { SanctuaryView } from '../features/sanctuary/SanctuaryView';
 import { EnergySelector } from '../features/energy/EnergySelector';
 import { QuestBoard } from '../features/quests/QuestBoard';
 import { MindArenaScreen } from '../features/arena/MindArenaScreen';
+import { CampfireScreen } from '../features/campfire/CampfireScreen';
 import { SleepTherapyScreen } from '../features/sleep/SleepTherapyScreen';
 import { ProblemSolvingScreen } from '../features/problemsolving/ProblemSolvingScreen';
 import { TaskManager } from '../features/tasks/TaskManager';
@@ -21,13 +30,22 @@ import {
   Sparkles,
   ScrollText,
   Swords,
+  Flame,
   Moon,
   Hammer,
   CheckSquare,
   Settings as SettingsIcon,
 } from 'lucide-react-native';
 
-type TabKey = 'SANCTUARY' | 'QUESTS' | 'ARENA' | 'SLEEP' | 'PROBLEM_SOLVING' | 'TASKS_MOOD' | 'SETTINGS';
+type TabKey =
+  | 'SANCTUARY'
+  | 'QUESTS'
+  | 'ARENA'
+  | 'CAMPFIRE'
+  | 'SLEEP'
+  | 'PROBLEM_SOLVING'
+  | 'TASKS_MOOD'
+  | 'SETTINGS';
 
 export const AppNavigator: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('SANCTUARY');
@@ -125,6 +143,7 @@ export const AppNavigator: React.FC = () => {
     { key: 'SANCTUARY', label: 'Sanctuary', icon: Sparkles },
     { key: 'QUESTS', label: 'Quests', icon: ScrollText },
     { key: 'ARENA', label: 'Arena (CR)', icon: Swords },
+    { key: 'CAMPFIRE', label: 'Campfire', icon: Flame },
     { key: 'SLEEP', label: 'Sleep (BI)', icon: Moon },
     { key: 'PROBLEM_SOLVING', label: 'Problem (PS)', icon: Hammer },
     { key: 'TASKS_MOOD', label: 'Tasks & Mood', icon: CheckSquare },
@@ -180,6 +199,8 @@ export const AppNavigator: React.FC = () => {
 
         {activeTab === 'ARENA' && <MindArenaScreen />}
 
+        {activeTab === 'CAMPFIRE' && <CampfireScreen userState={userState} />}
+
         {activeTab === 'SLEEP' && <SleepTherapyScreen userState={userState} />}
 
         {activeTab === 'PROBLEM_SOLVING' && <ProblemSolvingScreen userState={userState} />}
@@ -219,14 +240,15 @@ export const AppNavigator: React.FC = () => {
               activeOpacity={0.7}
             >
               <IconComponent
-                size={20}
-                color={isSelected ? Colors.clarityMana : Colors.textMuted}
+                size={18}
+                color={isSelected ? Colors.reframeGold : Colors.textMuted}
               />
               <Text
                 style={[
                   styles.tabLabel,
-                  isSelected && { color: Colors.clarityMana, fontWeight: '700' },
+                  isSelected && { color: Colors.reframeGold, fontWeight: '700' },
                 ]}
+                numberOfLines={1}
               >
                 {tab.label}
               </Text>
@@ -242,6 +264,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+    paddingTop: Platform.OS === 'android' ? (RNStatusBar.currentHeight || 28) : 0,
   },
   body: {
     flex: 1,
@@ -251,18 +274,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     borderTopWidth: 1,
     borderTopColor: Colors.border,
-    paddingVertical: 8,
-    paddingBottom: 12,
+    paddingVertical: 6,
+    paddingBottom: Platform.OS === 'ios' ? 14 : 8,
   },
   tabItem: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 3,
+    gap: 2,
   },
   tabLabel: {
     color: Colors.textMuted,
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '500',
   },
 });

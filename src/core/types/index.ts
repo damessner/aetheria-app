@@ -163,6 +163,15 @@ export interface ProblemSolvingWorksheet {
   isCompleted: boolean;
 }
 
+export interface CampfireMessage {
+  id: string;
+  companionId: 'KAEL_OWL' | 'PYRA_FOX' | 'LIORA_NYMPH';
+  sender: 'user' | 'companion';
+  text: string;
+  timestamp: string;
+  insightExtracted?: boolean;
+}
+
 export interface UserState {
   schemaVersion: string;
   userId: string;

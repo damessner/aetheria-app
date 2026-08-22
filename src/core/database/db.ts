@@ -8,6 +8,9 @@ import {
   ThoughtFeedItem,
   WisdomScroll,
   DistortionType,
+  ShadowDossier,
+  ShadowFlawType,
+  CardinalVirtues,
 } from '../types';
 
 const STORAGE_KEYS = {
@@ -21,6 +24,7 @@ const STORAGE_KEYS = {
   CAMPFIRE_CHATS: '@aetheria_campfire_chats_v2',
   THOUGHT_FEED: '@aetheria_thought_feed_v2',
   ACADEMY_SCROLLS: '@aetheria_academy_scrolls_v2',
+  SHADOW_CRUCIBLE: '@aetheria_shadow_crucible_v2',
 };
 
 export const INITIAL_COMBAT_DECK: CombatCard[] = [
@@ -766,6 +770,332 @@ If you toss and turn in bed for more than 20 minutes, your brain forms a conditi
     } catch (e) {
       console.error('Failed to update values alignment', e);
     }
+  }
+
+  async getShadowDossiers(): Promise<ShadowDossier[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.SHADOW_CRUCIBLE);
+      if (data) {
+        return JSON.parse(data);
+      }
+
+      const initial: ShadowDossier[] = [
+        {
+          id: 'FRAGILE_EGO',
+          name: 'The Fragile Ego',
+          title: 'Vanity, Intellectual Defensiveness & Superiority',
+          iconName: 'Crown',
+          color: '#FBBF24',
+          unconsciousTerror: 'Terror of being exposed as ordinary, flawed, or unintelligent.',
+          psychoanalyticAnatomy: 'Arises when self-worth is made contingent exclusively on performance, intelligence, or external praise. The ego constructs a fragile fortress: any criticism is treated as an existential threat, triggering immediate rationalization, counter-attacks, or condescension.',
+          selfDeceptions: [
+            '"I am not defensive; I am just explaining why I was actually right."',
+            '"They only criticized my work because they don’t understand my high vision."',
+            '"I don’t need advice from people who haven’t achieved what I have."',
+          ],
+          hiddenRelationalPoison: 'Suffocates honest communication. Makes teammates and partners walk on eggshells, leading to professional stagnation because nobody dares give you the truth.',
+          razorProbes: [
+            'When was the last time you admitted you were 100% wrong without adding a "but" or an excuse?',
+            'What uncomfortable truth about your limitations are you terrified others will notice?',
+            'How much mental energy do you waste curating an impression of competence rather than building real competence?',
+          ],
+          acuteEmergencyProtocol: 'When criticism stings: Close your mouth for 5 seconds. Place hands flat on your thighs. Say only: "Thank you for that perspective, let me sit with it."',
+          crucibleVowText: 'Explicitly seek unvarnished critical feedback on a project or behavior from a peer, and respond ONLY with gratitude without offering a single defense.',
+          associatedVirtue: 'HUMILITY',
+          virtueForgedName: 'Radical Humility',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'CHRONIC_AVOIDANCE',
+          name: 'The Chronic Evader',
+          title: 'Sloth, Fake Productivity & Discomfort Phobia',
+          iconName: 'Hourglass',
+          color: '#60A5FA',
+          unconsciousTerror: 'Terror of confronting difficult effort, potential failure, and the discomfort of sustained focus.',
+          psychoanalyticAnatomy: 'A sophisticated escape mechanism where the nervous system treats cognitive strain or boredom as physical danger. It disguises sloth as "research," "reorganizing," or "waiting for inspiration," keeping you trapped in the comfortable purgatory of unfulfilled potential.',
+          selfDeceptions: [
+            '"I am just gathering more information before I start."',
+            '"I work much better under pressure at the very last minute."',
+            '"I am too tired right now; I will execute this with full energy tomorrow."',
+          ],
+          hiddenRelationalPoison: 'Destroys trust and reliability. Leaves partners carrying the emotional and logistical load while you remain in perpetual intention without execution.',
+          razorProbes: [
+            'What is the #1 hardest task you have been postponing for weeks while pretending to be busy?',
+            'How many years of your life have dissolved into low-grade digital stimulation to avoid 20 minutes of boredom?',
+            'If your actions over the last 30 days were broadcast publicly, what would they reveal about your actual discipline?',
+          ],
+          acuteEmergencyProtocol: 'The 10-Second Physical Ignition: Count backwards 5-4-3-2-1, stand up physically, and open the document without letting your mind debate.',
+          crucibleVowText: 'Execute your single most dreaded, postponed task for 30 unbroken minutes first thing in the morning before opening any social media or news.',
+          associatedVirtue: 'TEMPERANCE',
+          virtueForgedName: 'Kinetic Discipline',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'BITTER_CYNIC',
+          name: 'The Bitter Cynic',
+          title: 'Resentment, Grudges & Self-Righteous Inaction',
+          iconName: 'FlameKindling',
+          color: '#8B5CF6',
+          unconsciousTerror: 'Terror of vulnerability, hope, and the heartbreak of trying your best and still being disappointed.',
+          psychoanalyticAnatomy: 'Resentment is the emotional weapon of the defeated. The cynic adopts a posture of intellectual superiority: by declaring that people are selfish, systems are rigged, and effort is futile, they insulate themselves from the terrifying risk of genuine earnestness.',
+          selfDeceptions: [
+            '"I am not cynical; I am just a realist about human nature."',
+            '"Why bother trying hard when corrupt or shallow people always win anyway?"',
+            '"They don’t deserve my forgiveness or kindness after what they did."',
+          ],
+          hiddenRelationalPoison: 'Radiates toxic negativity that drains the energy of everyone around you. Repels optimistic, high-agency collaborators and leaves you bitterly isolated.',
+          razorProbes: [
+            'Who are you silently holding a grudge against right now, and how is that resentment keeping you passive?',
+            'What risk of heartbreak or failure are you avoiding by claiming "nothing matters anyway"?',
+            'How much of your cynicism is merely a lazy rationalization for not stepping into the arena?',
+          ],
+          acuteEmergencyProtocol: 'The Sarcasm Brake: When about to make a disparaging remark, swallow the words and identify the underlying fear or unmet need.',
+          crucibleVowText: 'Go 48 hours without uttering a single complaint, cynical remark, or sarcastic jab. If you slip, log it immediately and reset the clock.',
+          associatedVirtue: 'COURAGE',
+          virtueForgedName: 'Earnest Fortitude',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'PEOPLE_PLEASER',
+          name: 'The People-Pleaser',
+          title: 'Cowardice, Chameleonic Fawning & Dishonesty',
+          iconName: 'Mask',
+          color: '#F472B6',
+          unconsciousTerror: 'Terror of conflict, rejection, abandonment, and someone being angry with you.',
+          psychoanalyticAnatomy: 'Often mistaken for virtue, extreme people-pleasing is actually a manipulative covert contract: "If I never say no and always make you happy, you are not allowed to reject or criticize me." It breeds deep internal resentment because you betray your own needs to buy security.',
+          selfDeceptions: [
+            '"I just love helping people and hate being selfish."',
+            '"It’s not a big deal; I’ll just do what they want to keep the peace."',
+            '"If I speak my real opinion, it will destroy the relationship."',
+          ],
+          hiddenRelationalPoison: 'Creates shallow, dishonest relationships built on a false persona. Leads to sudden passive-aggressive explosions when the people-pleaser inevitably burns out.',
+          razorProbes: [
+            'Where in your life are you currently saying "yes" when your soul screams "no"?',
+            'How is your chronic avoidance of conflict actually an act of dishonesty toward those you claim to love?',
+            'What would happen if you let someone experience their disappointment without rushing to fix it for them?',
+          ],
+          acuteEmergencyProtocol: 'The 24-Hour Buffer: When asked for a favor, never say yes instantly. Say: "Let me check my priorities and get back to you by tomorrow."',
+          crucibleVowText: 'Say a direct, unapologetic, and polite "No" to one request or obligation that violates your boundaries, offering ZERO excuses or over-explanations.',
+          associatedVirtue: 'INTEGRITY',
+          virtueForgedName: 'Authentic Backbone',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'CONTROL_TYRANT',
+          name: 'The Control Tyrant',
+          title: 'Micromanagement, Impatience & Inability to Trust',
+          iconName: 'ShieldAlert',
+          color: '#EF4444',
+          unconsciousTerror: 'Terror of vulnerability, chaos, and reliance on fallible human beings.',
+          psychoanalyticAnatomy: 'The tyrant equates control with safety. Deep down, they believe the universe is chaotic and people are fundamentally incompetent. To stave off panic, they police every minor detail, suffocate autonomy in others, and burn themselves out carrying every burden.',
+          selfDeceptions: [
+            '"If you want something done right, you have to do it yourself."',
+            '"I am not micromanaging; I just have very high standards for quality."',
+            '"People are grateful that I keep everything organized and on track."',
+          ],
+          hiddenRelationalPoison: 'Infantilizes colleagues, children, and partners. Crushes initiative in others, breeding resentment, learned helplessness, and high team turnover.',
+          razorProbes: [
+            'What catastrophic disaster do you secretly believe will occur if you let someone else manage this task their way?',
+            'How is your chronic impatience actually an inability to tolerate your own inner anxiety?',
+            'How much burnout have you inflicted upon yourself by refusing to share control?',
+          ],
+          acuteEmergencyProtocol: 'The Surrender Exhale: When feeling the urge to intervene, sit on your hands and take three deep breaths, repeating: "Outcome does not equal my safety."',
+          crucibleVowText: 'Delegate one significant task or decision entirely to another person. Give ZERO unsolicited check-ins, corrections, or micromanagement for 72 hours.',
+          associatedVirtue: 'TEMPERANCE',
+          virtueForgedName: 'Radical Trust',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'PROFESSIONAL_VICTIM',
+          name: 'The Professional Victim',
+          title: 'Learned Helplessness, Resignation & Agency Surrender',
+          iconName: 'Compass',
+          color: '#A78BFA',
+          unconsciousTerror: 'Terror of the terrifying burden of personal sovereignty and accountability.',
+          psychoanalyticAnatomy: 'The victim archetype extracts psychological secondary gain from suffering. If you are helpless, no one can demand excellence from you; if fate is cruel, you never have to face the shame of trying and failing. Misery becomes an unassailable moral identity.',
+          selfDeceptions: [
+            '"You don’t understand how uniquely difficult my circumstances are."',
+            '"I have tried everything; nothing ever works for someone like me."',
+            '"I am just waiting for things to stabilize before I take action."',
+          ],
+          hiddenRelationalPoison: 'Exhausts the empathy of friends and mentors. Transforms every supportive conversation into an emotional black hole where solutions are systematically rejected.',
+          razorProbes: [
+            'What secret freedom or comfort does playing the helpless victim give you right now?',
+            'How are you choosing the familiar misery of stagnation over the terrifying responsibility of growth?',
+            'If you were forced to acknowledge that your current state is 100% your responsibility to fix, what would you start doing today?',
+          ],
+          acuteEmergencyProtocol: 'The Agency Shift: Strike the words "I can’t" and "It’s unfair" from your vocabulary. Replace with: "What is my immediate next move?"',
+          crucibleVowText: 'Identify one recurring life complaint. Write down 3 concrete physical actions that YOU ALONE can take, and execute all 3 without asking for sympathy.',
+          associatedVirtue: 'COURAGE',
+          virtueForgedName: 'Sovereign Agency',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'SECRET_ENVIER',
+          name: 'The Secret Envier',
+          title: 'Malicious Social Comparison & Begrudging Success',
+          iconName: 'Eye',
+          color: '#10B981',
+          unconsciousTerror: 'Terror of being left behind, outshined, or proven fundamentally inadequate.',
+          psychoanalyticAnatomy: 'Envy views the world as a zero-sum game of status. When a peer succeeds, the envier feels personally diminished. Rather than converting this sting into inspiration, the shadow attempts to equalize status by privately diminishing, gossiping, or looking for flaws in the winner.',
+          selfDeceptions: [
+            '"They only succeeded because they got lucky or had unfair advantages."',
+            '"I am happy for them, but their work really isn’t that impressive."',
+            '"They are letting success get to their head; someone needs to humble them."',
+          ],
+          hiddenRelationalPoison: 'Eats away at your soul like acid. Prevents you from learning from those ahead of you and poisons authentic camaraderie in your social circle.',
+          razorProbes: [
+            'Whose recent victory secretly gave you a pang of bitterness or jealousy?',
+            'How does obsessing over their advantages blind you to the disciplined effort they put in?',
+            'What dormant greatness in yourself are you mourning when you look at their success?',
+          ],
+          acuteEmergencyProtocol: 'The Mudita Blessing: When envy strikes, silently say: "May their success continue to flourish, and may I cultivate my own craft."',
+          crucibleVowText: 'Send a heartfelt, detailed, and unprompted message of praise to a competitor or peer whose success triggered your envy, celebrating their achievement.',
+          associatedVirtue: 'HUMILITY',
+          virtueForgedName: 'Mudita (Generous Joy)',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'EMOTIONAL_TYRANT',
+          name: 'The Emotional Tyrant',
+          title: 'Explosive Reactivity, Mood Drama & Eggshell Tyranny',
+          iconName: 'Zap',
+          color: '#F97316',
+          unconsciousTerror: 'Terror of internal helplessness and being overwhelmed by unexpressed emotions.',
+          psychoanalyticAnatomy: 'The emotional tyrant uses volatile moods as an unconscious weapon of coercion. When stressed, they explode in anger or retreat into punishing coldness, forcing everyone in the room to scramble to pacify them. They mistake emotional dysregulation for "authenticity."',
+          selfDeceptions: [
+            '"I am just a passionate, authentic person who wears their heart on their sleeve."',
+            '"If people didn’t do stupid things, I wouldn’t have to lose my temper."',
+            '"I apologized afterward, so they have no right to still be upset."',
+          ],
+          hiddenRelationalPoison: 'Creates a climate of chronic fear and walking on eggshells. Teaches your loved ones to hide the truth from you and slowly destroys emotional safety.',
+          razorProbes: [
+            'How often do you use your bad mood to intimidate or control the emotional atmosphere of your home or team?',
+            'Why do you believe your temporary feelings give you a license to inflict verbal cruelty upon others?',
+            'What childhood memory taught you that anger was the only way to feel powerful?',
+          ],
+          acuteEmergencyProtocol: 'The 60-Second Quarantine: When anger surges, immediately state: "I am overwhelmed right now. I am stepping outside for 5 minutes before I speak."',
+          crucibleVowText: 'Commit to zero raised voices, door-slamming, or passive-aggressive silent treatment for 7 consecutive days. If you lose control, make a formal, humble apology within 1 hour.',
+          associatedVirtue: 'TEMPERANCE',
+          virtueForgedName: 'Stoic Self-Regulation',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'SCARCITY_HOARDER',
+          name: 'The Scarcity Hoarder',
+          title: 'Stinginess with Money, Time, Praise & Vulnerability',
+          iconName: 'Coins',
+          color: '#EAB308',
+          unconsciousTerror: 'Terror of starvation, running out, and having nothing left when catastrophe strikes.',
+          psychoanalyticAnatomy: 'Rooted in deep emotional deprivation, the hoarder operates from constant panic: "There is never enough." They hoard finances, refuse to give genuine praise, guard their time obsessively, and treat emotional intimacy as an expensive transaction where they might get shortchanged.',
+          selfDeceptions: [
+            '"I am not cheap; I am just responsible and financially prudent."',
+            '"If I praise them too much, they will get lazy and stop working hard."',
+            '"I have to look out for myself first because no one else will."',
+          ],
+          hiddenRelationalPoison: 'Starves relationships of warmth, joy, and spontaneous generosity. Leaves you rich in assets or protected time, but deeply impoverished in human connection.',
+          razorProbes: [
+            'Where are you clutching resources, time, or validation out of terror rather than genuine prudence?',
+            'When was the last time you gave something meaningful to someone with zero expectation of return or recognition?',
+            'How is your scarcity mentality actually creating the very poverty of spirit you fear?',
+          ],
+          acuteEmergencyProtocol: 'The Generosity Reflex: Whenever you feel the urge to pinch pennies or hold back a compliment, deliberately give 20% more.',
+          crucibleVowText: 'Perform three radical acts of anonymous generosity this week: give an unexpectedly generous tip, gift something valuable, or spend 1 hour mentoring someone for free.',
+          associatedVirtue: 'INTEGRITY',
+          virtueForgedName: 'Magnanimous Abundance',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+        {
+          id: 'HYPOCRITICAL_MORALIST',
+          name: 'The Hypocritical Moralist',
+          title: 'Self-Righteousness, Double Standards & Virtue Posturing',
+          iconName: 'Scale',
+          color: '#38BDF8',
+          unconsciousTerror: 'Terror of being seen as ordinary, dirty, corrupt, or ethically compromised.',
+          psychoanalyticAnatomy: 'The moralist splits human nature into pure virtue and evil. By loudly condemning the moral failings of politicians, coworkers, or public figures, they project their own disowned dark impulses onto others, granting themselves a hallucination of moral purity while quietly indulging in hypocrisy.',
+          selfDeceptions: [
+            '"I only call people out because ethics and justice matter to me."',
+            '"My mistakes were understandable accidents, but their mistakes were malicious."',
+            '"The world would be a better place if everyone followed my standards."',
+          ],
+          hiddenRelationalPoison: 'Breeds suffocating self-righteousness. Makes you impossible to live with because you hold others to standards of perfection that you yourself do not meet.',
+          razorProbes: [
+            'What specific behavior do you loudly condemn in others that you secretly indulge in behind closed doors?',
+            'How much of your ethical outrage is actually a cheap dopamine hit of moral superiority?',
+            'If your private thoughts and private hypocrisies were made public, how pure would you look?',
+          ],
+          acuteEmergencyProtocol: 'The Mirror Check: Before criticizing anyone, ask yourself: "Where have I done something comparable in my own life?"',
+          crucibleVowText: 'Identify someone you have judged or criticized recently. Privately write down 3 ways you are guilty of the exact same flaw, and confess one to a trusted confidant.',
+          associatedVirtue: 'INTEGRITY',
+          virtueForgedName: 'Uncompromising Integrity',
+          isVowActive: false,
+          isVowCompleted: false,
+        },
+      ];
+
+      await AsyncStorage.setItem(STORAGE_KEYS.SHADOW_CRUCIBLE, JSON.stringify(initial));
+      return initial;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async completeCrucibleVow(flawId: ShadowFlawType): Promise<void> {
+    try {
+      const dossiers = await this.getShadowDossiers();
+      const target = dossiers.find((d) => d.id === flawId);
+      if (!target) return;
+
+      target.isVowCompleted = true;
+      target.isVowActive = false;
+      await AsyncStorage.setItem(STORAGE_KEYS.SHADOW_CRUCIBLE, JSON.stringify(dossiers));
+
+      // Update UserState Virtues & Rewards
+      const userState = await this.getUserState();
+      const currentVirtues = userState.cardinalVirtues || {
+        courage: 25,
+        integrity: 25,
+        temperance: 25,
+        humility: 25,
+      };
+
+      const virtueKey = target.associatedVirtue.toLowerCase() as keyof CardinalVirtues;
+      currentVirtues[virtueKey] = Math.min(100, (currentVirtues[virtueKey] || 0) + 15);
+
+      const activeVows = (userState.activeCrucibleVows || []).filter((id) => id !== flawId);
+
+      const updatedState: UserState = {
+        ...userState,
+        vitalityPoints: userState.vitalityPoints + 60,
+        clarityMana: userState.clarityMana + 3,
+        cardinalVirtues: currentVirtues,
+        activeCrucibleVows: activeVows,
+      };
+      await this.saveUserState(updatedState);
+    } catch (e) {
+      console.error('Failed to complete crucible vow', e);
+    }
+  }
+
+  async getCardinalVirtues(): Promise<CardinalVirtues> {
+    const state = await this.getUserState();
+    return (
+      state.cardinalVirtues || {
+        courage: 30,
+        integrity: 35,
+        temperance: 25,
+        humility: 20,
+      }
+    );
   }
 }
 

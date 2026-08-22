@@ -118,6 +118,22 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
 * **Schema Archetype Mirror (Young's Schema Therapy):** Socratic excavation of core survival rules (*The Unrelenting Perfectionist*, *The Vigilant Sentinel*, *The Selfless Caretaker*) and conversion to healthy adult truths.
 * **ACT Values Constellation Sky:** 4 celestial pillars (*Connection & Love*, *Craft & Mastery*, *Vitality & Body*, *Play & Wonder*) that illuminate as you take aligned actions.
 
+### 🌑 The Shadow Crucible (10 Core Character Flaws & Radical Honesty)
+* An uncompromising psychological crucible rooted in **Jungian Shadow Work, Stoic Virtue Ethics, and Psychoanalytic Defense Analysis**:
+  1. **🦚 The Fragile Ego:** Vanity, intellectual defensiveness & need for validation $\rightarrow$ *Radical Humility*.
+  2. **⏳ The Chronic Evader:** Sloth, digital dopamine addiction & discomfort avoidance $\rightarrow$ *Kinetic Discipline*.
+  3. **🧊 The Bitter Cynic:** Resentment, silent grudges & moral superiority $\rightarrow$ *Earnest Fortitude*.
+  4. **🎭 The People-Pleaser:** Cowardice, chameleonic fawning & conflict avoidance $\rightarrow$ *Authentic Backbone*.
+  5. **👑 The Control Tyrant:** Micromanagement, impatience & distrust of others $\rightarrow$ *Radical Trust*.
+  6. **🕳️ The Professional Victim:** Learned helplessness, wallowing & agency surrender $\rightarrow$ *Sovereign Agency*.
+  7. **🐍 The Secret Envier:** Malicious social comparison & begrudging peers' success $\rightarrow$ *Mudita (Generous Joy)*.
+  8. **🌪️ The Emotional Tyrant:** Explosive reactivity, mood drama & walking-on-eggshells $\rightarrow$ *Stoic Self-Regulation*.
+  9. **💰 The Scarcity Hoarder:** Stinginess with money, time, praise & vulnerability $\rightarrow$ *Magnanimous Abundance*.
+  10. **🥀 The Hypocritical Moralist:** Self-righteous double standards & virtue posturing $\rightarrow$ *Uncompromising Integrity*.
+* **Deep Psychological Dossiers:** Detailed psychoanalytic root anatomy, seductive self-deceptions, hidden relational poison, and Socratic razor probes.
+* **Socratic Blindspot Inquest (Gemini 3.7 Flash):** Uncompromising AI interrogation that cuts through excuses and rationalizations.
+* **Real-World Anti-Flaw Vows:** Concrete friction challenges that forge the **4 Cardinal Virtues (Courage, Integrity, Temperance, Humility)**.
+
 ### 🌙 Behavior Therapy for Insomnia (BI) & Somatics
 * **Sleep Efficiency Diary:** Clinically validates time-in-bed vs time-asleep with $\ge 85\%$ target thresholds.
 * **Stimulus Control:** Dedicated 20-minute bed reset protocol to recondition healthy sleep-bed associations.
@@ -162,6 +178,7 @@ src/
 │   ├── safety/                 # Crisis Bridge Modal
 │   ├── sanctuary/              # Visual Biome & Totem Progression (8-Week Roadmap)
 │   ├── settings/               # API Key, Model Selection, Chronotypes & Clinician PDF Export
+│   ├── shadow/                 # The Shadow Crucible (10 Character Flaws, Socratic Inquests & Vows)
 │   ├── sleep/                  # Sleep Efficiency & Stimulus Control Therapy (BI)
 │   ├── thoughtstream/          # The Cognitive Stream & Thought Alchemy Dojo
 │   └── tasks/                  # GTD Tasks & Relic Loot Drops

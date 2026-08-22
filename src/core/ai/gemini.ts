@@ -8,6 +8,7 @@ import {
   TherapeuticTechnique,
   ThoughtDomain,
   ThoughtEvaluation,
+  ShadowFlawType,
 } from '../types';
 import { Database } from '../database/db';
 
@@ -462,6 +463,71 @@ No markdown, just raw JSON.
       return filtered.length > 0 ? filtered : list;
     }
     return list;
+  }
+
+  /**
+   * Uncompromising Socratic Blindspot Interrogation for The Shadow Crucible
+   */
+  async interrogateShadowBlindspot(
+    flawType: ShadowFlawType,
+    userConfession: string,
+    history: { sender: 'user' | 'inquisitor'; text: string }[]
+  ): Promise<string> {
+    try {
+      const modelInfo = await this.getClient();
+      if (!modelInfo) {
+        return this.getFallbackShadowInquest(flawType);
+      }
+
+      const model = modelInfo.client.getGenerativeModel({ model: modelInfo.modelName });
+
+      const prompt = `
+You are the Master Inquisitor of The Shadow Crucible in Aetheria. Your role is inspired by Socrates, Carl Jung, and Epictetus.
+You do NOT offer shallow praise or gentle coddling. Your purpose is RADICAL SELF-HONESTY, exposing defense mechanisms (rationalization, projection, intellectualization, victimhood, fawning, blame), and confronting the user's specific character flaw: ${flawType}.
+
+Guidelines:
+- Tone: Uncompromisingly honest, deeply insightful, philosophically rigorous, free of cruelty but completely free of flattery.
+- Length: 2 to 4 concise, piercing sentences.
+- Method: Point out the subtle self-justification or hidden payoff in the user's statement. Ask 1 surgical question that forces 100% personal agency and accountability.
+
+Conversation history:
+${history.slice(-4).map((h) => `${h.sender === 'user' ? 'Seeker' : 'Inquisitor'}: ${h.text}`).join('\n')}
+Seeker's Confession: "${userConfession}"
+Inquisitor:`;
+
+      const response = await model.generateContent(prompt);
+      return response.response.text().trim();
+    } catch (e) {
+      console.warn('[Gemini] Shadow inquest fallback', e);
+      return this.getFallbackShadowInquest(flawType);
+    }
+  }
+
+  private getFallbackShadowInquest(flawType: ShadowFlawType): string {
+    switch (flawType) {
+      case 'FRAGILE_EGO':
+        return 'Notice how quickly your mind sought to justify your actions rather than examine the criticism. What uncomfortable truth are you defending your ego from?';
+      case 'CHRONIC_AVOIDANCE':
+        return 'You have spent hours analyzing and feeling guilty about this task, but not 10 minutes executing it. What exact physical discomfort are you fleeing right now?';
+      case 'BITTER_CYNIC':
+        return 'Cynicism is the ultimate shield for the lazy: if the game is rigged, you never have to risk trying your best. What are you using resentment to excuse yourself from?';
+      case 'PEOPLE_PLEASER':
+        return 'You call your silence "kindness," but it is actually cowardice—depriving others of your truth so they will protect your comfort. What boundary are you terrified of speaking?';
+      case 'CONTROL_TYRANT':
+        return 'Your need to control every detail is not high standards; it is unmanaged terror of chaos. What catastrophic outcome do you believe will happen if you step back?';
+      case 'PROFESSIONAL_VICTIM':
+        return 'Suffering is inevitable, but wallowing is a choice that grants you freedom from agency. If you had to take 100% responsibility for your next step, what would you do right now?';
+      case 'SECRET_ENVIER':
+        return 'Their victory did not diminish your capacity by a single fraction of an ounce. What untapped potential in yourself are you refusing to cultivate while you watch them?';
+      case 'EMOTIONAL_TYRANT':
+        return 'Exploding or withdrawing into sullen silence is not "being passionate"—it is using emotional volatility to hold others hostage. What are you avoiding feeling inside yourself?';
+      case 'SCARCITY_HOARDER':
+        return 'Hoarding your resources, time, or vulnerability is proof of your lack of faith in your own future capability. What would it mean to give freely without keeping score?';
+      case 'HYPOCRITICAL_MORALIST':
+        return 'You demand absolute perfection from others while quietly granting yourself exemptions and excuses. Where in your life are you currently violating your own rules?';
+      default:
+        return 'Look past your first layer of defense. What uncomfortable truth about your own choices are you hiding from yourself?';
+    }
   }
 }
 

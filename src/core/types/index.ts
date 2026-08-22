@@ -245,6 +245,44 @@ export interface LifeValuePillar {
   starResonance: number; // 0 to 100
 }
 
+export type ShadowFlawType =
+  | 'FRAGILE_EGO'
+  | 'CHRONIC_AVOIDANCE'
+  | 'BITTER_CYNIC'
+  | 'PEOPLE_PLEASER'
+  | 'CONTROL_TYRANT'
+  | 'PROFESSIONAL_VICTIM'
+  | 'SECRET_ENVIER'
+  | 'EMOTIONAL_TYRANT'
+  | 'SCARCITY_HOARDER'
+  | 'HYPOCRITICAL_MORALIST';
+
+export interface ShadowDossier {
+  id: ShadowFlawType;
+  name: string;
+  title: string;
+  iconName: string;
+  color: string;
+  unconsciousTerror: string;
+  psychoanalyticAnatomy: string;
+  selfDeceptions: string[];
+  hiddenRelationalPoison: string;
+  razorProbes: string[];
+  acuteEmergencyProtocol: string;
+  crucibleVowText: string;
+  associatedVirtue: 'COURAGE' | 'INTEGRITY' | 'TEMPERANCE' | 'HUMILITY';
+  virtueForgedName: string;
+  isVowActive?: boolean;
+  isVowCompleted?: boolean;
+}
+
+export interface CardinalVirtues {
+  courage: number; // 0 to 100 (Facing truth & discomfort)
+  integrity: number; // 0 to 100 (Taking 100% radical ownership)
+  temperance: number; // 0 to 100 (Mastery over impulse & comfort)
+  humility: number; // 0 to 100 (Transcending ego defense & vanity)
+}
+
 export interface UserState {
   schemaVersion: string;
   userId: string;
@@ -261,6 +299,8 @@ export interface UserState {
   equippedRelics: TaskItem['relicDrop'][];
   completedScrollIds?: string[];
   valuesAlignment?: Record<'CONNECTION' | 'CRAFT' | 'VITALITY' | 'WONDER', number>;
+  cardinalVirtues?: CardinalVirtues;
+  activeCrucibleVows?: ShadowFlawType[];
   sanctuary: SanctuaryState;
   stats: {
     mindShield: number;

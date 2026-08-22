@@ -68,6 +68,25 @@ jobs:
         run: |
           ./gradlew assembleRelease assembleDebug -Pandroid.kotlinVersion=1.9.25 -PkotlinVersion=1.9.25 -Pkotlin.suppressKotlinVersionCompatibilityCheck=true -PsuppressKotlinVersionCompatibilityCheck=true --no-daemon
 
+      - name: ✍️ Sign & Verify APKs (v1, v2, v3 Signature Schemes)
+        run: |
+          BUILD_TOOLS_DIR=$(find $ANDROID_HOME/build-tools -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)
+          APKSIGNER="$BUILD_TOOLS_DIR/apksigner"
+          echo "Using apksigner from $APKSIGNER"
+
+          KEYSTORE="android/app/debug.keystore"
+          if [ ! -f "$KEYSTORE" ]; then
+            echo "Creating debug keystore..."
+            keytool -genkey -v -keystore "$KEYSTORE" -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Aetheria, OU=Mobile, O=Aetheria, L=City, S=State, C=US"
+          fi
+
+          for apk in $(find android/app/build/outputs/apk -name "*.apk" -type f); do
+            echo "Signing $apk ..."
+            "$APKSIGNER" sign --ks "$KEYSTORE" --ks-pass pass:android --ks-key-alias androiddebugkey --key-pass pass:android --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true "$apk"
+            echo "Verifying $apk ..."
+            "$APKSIGNER" verify --verbose "$apk"
+          done
+
       - name: 📤 Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:

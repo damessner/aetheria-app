@@ -73,7 +73,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
         <TextInput
           style={styles.input}
           secureTextEntry
-          placeholder="AQ.Ab8RN..."
+          placeholder="Enter Gemini API Key..."
           placeholderTextColor={Colors.textMuted}
           value={apiKey}
           onChangeText={setApiKey}

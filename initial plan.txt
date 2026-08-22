@@ -1,0 +1,148 @@
+Product Requirement & Technical Specification: "Aetheria: The Cognitive Quest"1. Executive Summary & Evidence-Based Clinical Foundation1.1 Core Value Proposition"Aetheria" transforms evidence-based Cognitive Behavioral Therapy (CBT) and Behavioral Activation (BA) into an immersive fantasy world-restoration mobile application. Designed to maximize clinical efficacy while maintaining deep user engagement, Aetheria translates proven psychological techniques into a 6-week gamified campaign.1.2 Grounding in Clinical LiteratureThe application architecture directly implements empirical findings from key clinical trials and meta-analyses:Dual-Skill Efficacy (Furukawa et al., 2025): The app prioritizes dual-skill combinations—specifically Behavioral Activation (BA) + Cognitive Restructuring (CR) and BA + Problem Solving (PS) / BA + Behavior Therapy for Insomnia (BI). Research shows that combining two core CBT skills yields superior, durable symptom reduction ($\Delta PHQ-9 = -0.67$) up to 26 weeks compared to single-skill interventions or control conditions.Optimal Intervention Duration (Bae et al., 2023): Interventions structured within a 4- to 6-week window demonstrate significantly higher effect sizes ($SMD = 0.77$) than longer programs ($SMD = 0.43$), avoiding attrition while ensuring full content exposure.Notification Strategy (Bae et al., 2023): Intrusive in-app push alerts are removed in favor of asynchronous weekly email digests and scheduled check-in summaries, preventing alert fatigue and shame loops.Incentive & Gamification Loops (Bae et al., 2023; Shahsavar & Choudhury, 2025): Structured reward systems and context-engagement mechanics (video playback, gamified challenges) drive significantly stronger treatment adherence ($SMD = 0.72$).Target Audience Severity (Arean et al., 2016): Active CBT and cognitive control tools demonstrate their strongest differential impact on users with moderate depression ($PHQ-9 \ge 10$).Circadian & Night-Owl Adaptations (Furukawa et al., 2025): Behavior Therapy for Insomnia (BI) mechanics are specifically adapted for shift-workers and late-night programmers, replacing strict rigid wake-up rules with adaptive stimulus control and blue-light UI transitions.2. Gamification Mechanics & Core Loop┌────────────────────────────────────────────────────────────────────────┐
+│                          CORE GAME LOOP                                │
+└────────────────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+        1. Daily Micro-Lesson & Skill Briefing (2–5 mins)
+       (Learn CBT/BA concept -> Earn Base Clarity Shards)
+                                   │
+                                   ▼
+      2. Execute Real-World Quest / Behavioral Activation
+     (e.g., Code review, 5-min walk, water break, clean desk)
+                                   │
+                                   ▼
+          3. Earn Vitality Points (VP) & Rest Shields
+                                   │
+                                   ▼
+      4. Thought-Reframing Card Battles & Sanctuary Rebuilding
+        (Banish Cognitive Distortions, restore realm visuals)
+                                   │
+                                   ▼
+      5. Weekly Core Crystal Check-In (PHQ-9 / GAD-7 Audit)
+        (Unlocks new realm zones, updates encrypted progress)
+2.1 Currency & Economy BalanceVitality Points (VP): Earned by executing real-world Behavioral Activation (BA) tasks. VP is spent to repair damaged sanctuary zones, plant cosmetic flora, and upgrade realm lighting.Clarity Shards (XP): Earned through psychoeducational micro-lessons and successful thought-reframing battles. Used to level up avatar stats (Mind Shield, Logic Edge, Focus Pulse).Rest Shields: Automatically granted when logging off or taking rest days. Rest Shields shield the user's progress bar from resetting, guaranteeing a "Depression-Safe" environment.2.2 Anti-Frustration & Depression-Safe MechanicsCumulative Consistency Bars: Replaces rigid single-day streak resets. Missed days pause progress and accumulate "Rest XP" that grants double rewards upon return.Task Micro-Decomposition ("Break Down" Button): Automatically decomposes overwhelming tasks into atomic sub-steps (e.g., "Write API endpoint" $\rightarrow$ "Open IDE" $\rightarrow$ "Define route signature" $\rightarrow$ "Write test case").Late-Night / Night-Owl Mode: Detects active sessions between 00:00 and 06:00, automatically transitioning the UI to a low-blue-light dark mode and replacing high-energy physical quests with somatic breathing or stimulus-control micro-quests.3. Data Models & JSON Schemas3.1 User Progress & State Schema (UserState.json){
+  "userId": "usr_98f7a2b1c",
+  "createdAt": "2026-08-22T00:00:00Z",
+  "campaignWeek": 3,
+  "level": 7,
+  "experiencePoints": 1420,
+  "vitalityPoints": 380,
+  "restShields": 3,
+  "consistencyScore": 0.88,
+  "activeSkills": ["BA", "CR"],
+  "stats": {
+    "mindShield": 45,
+    "logicEdge": 60,
+    "focusPulse": 30
+  },
+  "nightOwlMode": true,
+  "preferences": {
+    "digestChannel": "email",
+    "theme": "dark_astral"
+  }
+}
+3.2 Quest Object Schema (QuestItem.json){
+  "questId": "qst_ba_tier1_004",
+  "category": "Movement",
+  "tier": 1,
+  "energyCostPercent": 5,
+  "title": "Hydration Refactor",
+  "description": "Drink 1 full glass of water away from your workstation.",
+  "microSteps": [
+    "Stand up from desk",
+    "Walk to kitchen or water source",
+    "Drink glass of water"
+  ],
+  "rewards": {
+    "vitalityPoints": 50,
+    "clarityShards": 15
+  },
+  "circadianFriendly": true
+}
+3.3 Distortion Battle Card Schema (CardBattle.json){
+  "encounterId": "enc_catastro_phantom_01",
+  "enemy": {
+    "name": "Catastro-Phantom",
+    "distortionType": "Catastrophizing",
+    "healthPoints": 60,
+    "maxHealthPoints": 60,
+    "attackPower": 15,
+    "prompt": "If this deployment fails, my entire career is over."
+  },
+  "playerHand": [
+    {
+      "cardId": "crd_evidence_check",
+      "type": "FactCheck",
+      "label": "Evidence Vault",
+      "promptText": "What is the actual statistical probability of the worst-case scenario?",
+      "baseDamage": 20
+    },
+    {
+      "cardId": "crd_past_survival",
+      "type": "PastEvidence",
+      "label": "Historical Resilience",
+      "promptText": "I have encountered production bugs before and successfully resolved them.",
+      "baseDamage": 25
+    },
+    {
+      "cardId": "crd_self_compassion",
+      "type": "Compassion",
+      "label": "Self-Compassion",
+      "promptText": "One mistake does not define my competence as an engineer or person.",
+      "baseDamage": 18
+    }
+  ]
+}
+4. Card Battler Algorithm & Combat MechanicsThe thought-reframing battle uses a deterministic combat calculation modified by the accuracy of distortion identification:$$\text{Total Damage} = \text{Base Damage} \times \text{Distortion Multiplier} + \text{Evidence Bonus} + \text{Reframe Score}$$4.1 Combat Multiplier LogicDistortion Identification Phase:Correct Distortion Selected (e.g., Identifying "Catastrophizing"): $\text{Distortion Multiplier} = 1.5$Incorrect Distortion Selected: $\text{Distortion Multiplier} = 0.8$Evidence Validation Phase:User selects 1–2 validated facts from their pre-filled "Evidence Vault": $\text{Evidence Bonus} = +10 \text{ HP Damage}$Reframing Generation Phase:User inputs a custom alternative thought or selects a structured card:$$\text{Reframe Score} = \min\left(20, \; \text{Length Penalty} \times \text{Keyword Match}\right)$$5. The 6-Week Curriculum & Module Architecture  WEEK 1              WEEK 2              WEEK 3
+  The Awakening       Mapping Shadows     The Mind Arena
+  [BA Focus]          [CR Focus]          [BA + CR Dual-Skill]
+         │                   │                   │
+         ▼                   ▼                   ▼
+  WEEK 4              WEEK 5              WEEK 6
+  Unlocking Roadblocks Sanctuary of Rest  The Master Shield
+  [BA + PS Focus]     [BA + BI Somatics]  [Relapse Prevention]
+5.1 Week-by-Week Clinical & Gamified RoadmapWeekClinical Skill Focus (Furukawa 2025)Narrative ThemeInteractive Game MinigameKey DeliverableWeek 1Behavioral Activation (BA)The AwakeningQuest Board: Executing micro-actions in physical space.Establish 3 daily low-energy micro-quests.Week 2Cognitive Restructuring (CR)Mapping ShadowsBestiary of Thoughts: Cataloging automatic thoughts.Fill out interactive "Mind Maps".Week 3BA + CR CombinationThe Mind ArenaTurn-Based Card Battler vs. Distortion Bosses.Build custom counter-thought deck.Week 4BA + Problem Solving (PS)Clearing Boulders5-Step Boulder Shatter worksheet interface.Deconstruct 1 major real-life blocker into sub-tasks.Week 5BA + Sleep Therapy (BI)Sanctuary of RestDiaphragmatic Breathing visual tree sync minigame.Daily sleep efficiency log & night mode UI.Week 6Relapse PreventionThe Master ShieldForge permanent emergency deck & export plan.PDF Export of Personal Crisis Plan.6. Technical Architecture & Implementation Specification┌────────────────────────────────────────────────────────────────────────┐
+│                   AETHERIA SYSTEM ARCHITECTURE                         │
+└────────────────────────────────────────────────────────────────────────┘
+                                   │
+   ┌───────────────────────────────┴───────────────────────────────┐
+   ▼                                                               ▼
+┌─────────────────────────────────┐             ┌─────────────────────────┐
+│     CLIENT LAYER (Flutter/RN)   │             │   LOCAL STORAGE LAYER   │
+├─────────────────────────────────┤             ├─────────────────────────┤
+│ • Rive Vector Game Engine       │             │ • Encrypted SQLite DB   │
+│ • Local State (Zustand/Riverpod)│ ◄──────────►│ • AES-256 Vault         │
+│ • Dark/Night-Owl UI Controller  │             │ • Offline-First Sync    │
+└─────────────────────────────────┘             └─────────────────────────┘
+                   │                                         │
+                   └───────────────────┬─────────────────────┘
+                                       ▼
+                       ┌──────────────────────────────┐
+                       │    SECURE BACKEND SERVICE    │
+                       ├──────────────────────────────┤
+                       │ • Node.js / Express API      │
+                       │ • PostgreSQL (Encrypted)     │
+                       │ • Async Email Digest Worker  │
+                       │ • Telemetry & Safety Engine  │
+                       └──────────────────────────────┘
+6.1 Recommended Tech StackClient Framework: Flutter or React Native (Ensures multiplatform support for iOS/Android from a single codebase).Game Rendering: Rive Engine or Lottie for vector-based 60fps interactive animations without Unity engine overhead.Local Storage (Local-First): SQLite (via WatermelonDB / Drift) encrypted with SQLCipher (AES-256). All reflection journals remain local to the device.Backend Framework: Node.js (TypeScript) with PostgreSQL hosted on HIPAA/GDPR-compliant infrastructure.Email Digest Service: SendGrid or Amazon SES executing weekly scheduled cron jobs for asynchronous progress summaries (avoiding push notifications).6.2 Data Security & E2EE ArchitectureZero Analytics Trackers: Complete removal of third-party advertising SDKs (no Facebook Pixel, Google AdMob, or AppsFlyer).End-to-End Encryption (E2EE): Personal thoughts, journal entries, and crisis responses encrypted using keypairs generated via the device's Secure Enclave / Keystore.7. Clinical Safety & Emergency Telemetry Engine                          WEEKLY SOUL CHECK
+                      (PHQ-9 & GAD-7 Survey Prompt)
+                                   │
+                                   ▼
+                       ┌───────────────────────┐
+                       │   Score Trigger Check │
+                       └───────────────────────┘
+                                   │
+              ┌────────────────────┴────────────────────┐
+              ▼                                         ▼
+   PHQ-9 Item 9 < 2                           PHQ-9 Item 9 >= 2 OR
+   (Standard Progression)                     PHQ-9 Spike (>= 15)
+              │                                         │
+              ▼                                         ▼
+   Continue Campaign                        SAFETY PROTOCOL ACTIVATED
+   Unlock Next Zone                         ┌─────────────────────────┐
+                                            │ 1. Soft-Pause Game      │
+                                            │ 2. Display Calming UI   │
+                                            │ 3. 24/7 Crisis Bridge   │
+                                            └─────────────────────────┘
+7.1 Emergency Protocol ExecutionIf a user scores $\ge 2$ on Item 9 of the PHQ-9 (suicidal ideation) or displays a score spike ($\ge 15$):Immediate Game Freeze: The main loop temporarily pauses non-essential game encounters.Support Overlay: The screen transitions to a serene visual palette with one-touch connections to national crisis lines (988 Lifeline, Crisis Text Line).Encrypted Export: Option to immediately generate an encrypted PDF summary of the user's safety plan and evidence vault to share with their healthcare professional.

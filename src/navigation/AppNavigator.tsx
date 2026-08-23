@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Platform,
+  Modal,
   StatusBar as RNStatusBar,
 } from 'react-native';
 import { Colors, Spacing } from '../core/theme';
@@ -44,24 +45,51 @@ import {
   Hammer,
   CheckSquare,
   Settings as SettingsIcon,
+  Menu,
 } from 'lucide-react-native';
+
+/** Icons for the "More" overflow sheet */
+const OVERFLOW_ICONS: Record<string, React.ComponentType<{ size: number; color: string }> | any> = {
+  MIRROR: Eye,
+  STREAM: BrainCircuit,
+  ACADEMY: BookOpen,
+  CRUCIBLE: Skull,
+  SLEEP: Moon,
+  PROBLEM_SOLVING: Hammer,
+  TASKS_MOOD: CheckSquare,
+  SETTINGS: SettingsIcon,
+};
 
 type TabKey =
   | 'SANCTUARY'
   | 'QUESTS'
   | 'ARENA'
   | 'CAMPFIRE'
+  | 'MIRROR'
   | 'STREAM'
   | 'ACADEMY'
-  | 'MIRROR'
   | 'CRUCIBLE'
   | 'SLEEP'
   | 'PROBLEM_SOLVING'
   | 'TASKS_MOOD'
   | 'SETTINGS';
 
+/** Tabs shown directly in the bottom bar; the rest live in the "More" sheet */
+const PRIMARY_TABS: TabKey[] = ['SANCTUARY', 'QUESTS', 'ARENA', 'CAMPFIRE'];
+const OVERFLOW_TABS: { key: TabKey; label: string }[] = [
+  { key: 'MIRROR', label: 'Mind Mirror' },
+  { key: 'STREAM', label: 'Cognitive Stream' },
+  { key: 'ACADEMY', label: 'Academy' },
+  { key: 'CRUCIBLE', label: 'Shadow Crucible' },
+  { key: 'SLEEP', label: 'Sleep Therapy' },
+  { key: 'PROBLEM_SOLVING', label: 'Problem Solving' },
+  { key: 'TASKS_MOOD', label: 'Tasks & Mood' },
+  { key: 'SETTINGS', label: 'Settings' },
+];
+
 export const AppNavigator: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('SANCTUARY');
+  const [moreVisible, setMoreVisible] = useState(false);
   const [userState, setUserState] = useState<UserState | null>(null);
   const [quests, setQuests] = useState<QuestItem[]>([]);
   const [tasks, setTasks] = useState<TaskItem[]>([]);
@@ -109,23 +137,26 @@ export const AppNavigator: React.FC = () => {
   };
 
   const handleCompleteQuest = async (questId: string) => {
+    const quest = quests.find((item) => item.id === questId);
+    // Idempotency guard: never grant rewards twice for the same quest
+    if (!quest || quest.isCompleted) return;
+
     const updatedQuests = quests.map((q) =>
       q.id === questId ? { ...q, isCompleted: true, completedAt: new Date().toISOString() } : q
     );
     setQuests(updatedQuests);
     await Database.saveQuests(updatedQuests);
 
-    const q = quests.find((item) => item.id === questId);
-    if (q && userState) {
+    if (userState) {
       const updatedState: UserState = {
         ...userState,
-        vitalityPoints: userState.vitalityPoints + q.rewards.vitalityPoints,
-        clarityMana: userState.clarityMana + q.rewards.clarityMana,
+        vitalityPoints: userState.vitalityPoints + quest.rewards.vitalityPoints,
+        clarityMana: userState.clarityMana + quest.rewards.clarityMana,
         sanctuary: {
           ...userState.sanctuary,
           gloomClearingPercentage: Math.min(
             100,
-            userState.sanctuary.gloomClearingPercentage + q.rewards.sanctuaryGrowth
+            userState.sanctuary.gloomClearingPercentage + quest.rewards.sanctuaryGrowth
           ),
           vitalityFloraCount: userState.sanctuary.vitalityFloraCount + 1,
         },
@@ -135,8 +166,8 @@ export const AppNavigator: React.FC = () => {
 
       EventBus.emit('quest:completed', {
         questId,
-        vpEarned: q.rewards.vitalityPoints,
-        manaEarned: q.rewards.clarityMana,
+        vpEarned: quest.rewards.vitalityPoints,
+        manaEarned: quest.rewards.clarityMana,
       });
     }
   };
@@ -158,21 +189,26 @@ export const AppNavigator: React.FC = () => {
     await Database.saveUserState(updatedState);
   };
 
-  if (!userState) return null;
+  const handleNavigate = (tab: TabKey) => {
+    setActiveTab(tab);
+    setMoreVisible(false);
+  };
+
+  if (!userState) {
+    return (
+      <SafeAreaView style={[styles.container, styles.loadingContainer]}>
+        <Sparkles size={42} color={Colors.reframeGold} />
+        <Text style={styles.loadingTitle}>Aetheria</Text>
+        <Text style={styles.loadingSubtitle}>Kindling the sanctuary flames...</Text>
+      </SafeAreaView>
+    );
+  }
 
   const tabs: { key: TabKey; label: string; icon: any }[] = [
     { key: 'SANCTUARY', label: 'Sanctuary', icon: Sparkles },
     { key: 'QUESTS', label: 'Quests', icon: ScrollText },
     { key: 'ARENA', label: 'Arena (CR)', icon: Swords },
     { key: 'CAMPFIRE', label: 'Campfire', icon: Flame },
-    { key: 'STREAM', label: 'Stream', icon: BrainCircuit },
-    { key: 'ACADEMY', label: 'Academy', icon: BookOpen },
-    { key: 'MIRROR', label: 'Mirror', icon: Eye },
-    { key: 'CRUCIBLE', label: 'Crucible', icon: Skull },
-    { key: 'SLEEP', label: 'Sleep (BI)', icon: Moon },
-    { key: 'PROBLEM_SOLVING', label: 'Problem (PS)', icon: Hammer },
-    { key: 'TASKS_MOOD', label: 'Tasks & Mood', icon: CheckSquare },
-    { key: 'SETTINGS', label: 'Settings', icon: SettingsIcon },
   ];
 
   return (
@@ -260,7 +296,7 @@ export const AppNavigator: React.FC = () => {
         )}
       </View>
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation Bar: primary tabs + "More" overflow */}
       <View style={styles.bottomNav}>
         {tabs.map((tab) => {
           const isSelected = activeTab === tab.key;
@@ -269,11 +305,11 @@ export const AppNavigator: React.FC = () => {
             <TouchableOpacity
               key={tab.key}
               style={styles.tabItem}
-              onPress={() => setActiveTab(tab.key)}
+              onPress={() => handleNavigate(tab.key)}
               activeOpacity={0.7}
             >
               <IconComponent
-                size={18}
+                size={20}
                 color={isSelected ? Colors.reframeGold : Colors.textMuted}
               />
               <Text
@@ -288,7 +324,56 @@ export const AppNavigator: React.FC = () => {
             </TouchableOpacity>
           );
         })}
+        <TouchableOpacity
+          style={styles.tabItem}
+          onPress={() => setMoreVisible(true)}
+          activeOpacity={0.7}
+        >
+          <Menu
+            size={20}
+            color={[...PRIMARY_TABS, ...OVERFLOW_TABS.map((t) => t.key)].includes(activeTab) &&
+            !PRIMARY_TABS.includes(activeTab)
+              ? Colors.reframeGold
+              : Colors.textMuted}
+          />
+          <Text style={styles.tabLabel} numberOfLines={1}>
+            More
+          </Text>
+        </TouchableOpacity>
       </View>
+
+      {/* Overflow sheet for secondary screens */}
+      <Modal visible={moreVisible} transparent animationType="slide" onRequestClose={() => setMoreVisible(false)}>
+        <View style={styles.sheetOverlay}>
+          <TouchableOpacity style={{ flex: 1 }} activeOpacity={1} onPress={() => setMoreVisible(false)} />
+          <View style={styles.sheetContainer}>
+            <View style={styles.sheetHandle} />
+            <Text style={styles.sheetTitle}>Explore Aetheria</Text>
+            <View style={styles.sheetGrid}>
+              {OVERFLOW_TABS.map((tab) => {
+                const IconComponent = OVERFLOW_ICONS[tab.key];
+                const isActive = activeTab === tab.key;
+                return (
+                  <TouchableOpacity
+                    key={tab.key}
+                    style={[styles.sheetItem, isActive && styles.sheetItemActive]}
+                    onPress={() => handleNavigate(tab.key)}
+                    activeOpacity={0.7}
+                  >
+                    <IconComponent size={22} color={isActive ? Colors.reframeGold : Colors.textPrimary} />
+                    <Text
+                      style={[styles.sheetItemLabel, isActive && { color: Colors.reframeGold }]}
+                      numberOfLines={2}
+                    >
+                      {tab.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -301,6 +386,21 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  loadingTitle: {
+    color: Colors.reframeGold,
+    fontSize: 24,
+    fontWeight: '700',
+    letterSpacing: 2,
+  },
+  loadingSubtitle: {
+    color: Colors.textMuted,
+    fontSize: 13,
   },
   bottomNav: {
     flexDirection: 'row',
@@ -318,7 +418,59 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     color: Colors.textMuted,
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '500',
+  },
+  sheetOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'flex-end',
+  },
+  sheetContainer: {
+    backgroundColor: Colors.surface,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: 32,
+    paddingTop: 10,
+  },
+  sheetHandle: {
+    alignSelf: 'center',
+    width: 44,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: Colors.border,
+    marginBottom: 14,
+  },
+  sheetTitle: {
+    color: Colors.textPrimary,
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 14,
+  },
+  sheetGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  sheetItem: {
+    width: '23%',
+    minWidth: 96,
+    flexGrow: 1,
+    backgroundColor: Colors.background,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingVertical: 14,
+    alignItems: 'center',
+    gap: 8,
+  },
+  sheetItemActive: {
+    borderColor: Colors.reframeGold,
+  },
+  sheetItemLabel: {
+    color: Colors.textPrimary,
+    fontSize: 12,
+    textAlign: 'center',
   },
 });

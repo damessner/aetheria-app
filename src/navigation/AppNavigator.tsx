@@ -1,21 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
+  ScrollView,
   TouchableOpacity,
-  SafeAreaView,
-  Platform,
-  Modal,
-  StatusBar as RNStatusBar,
+  ActivityIndicator,
 } from 'react-native';
+import {
+  CompositeScreenProps,
+  NavigationContainer,
+  DefaultTheme,
+} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import {
+  createBottomTabNavigator,
+  BottomTabScreenProps,
+} from '@react-navigation/bottom-tabs';
 import { Colors, Spacing } from '../core/theme';
-import { UserState, QuestItem, TaskItem, EnergyTier } from '../core/types';
-import { Database } from '../core/database/db';
-import { EventBus } from '../core/eventbus/EventBus';
+import { UserState, EnergyTier } from '../core/types';
+import { useAppStore } from '../core/state/appStore';
+import { EventBus, AppEvents } from '../core/eventbus/EventBus';
+import { UpdateBanner } from '../core/ota/UpdateBanner';
 import { ContentSyncService } from '../core/sync/ContentSyncService';
 
-// Screens & Components
+// Screens
 import { SanctuaryView } from '../features/sanctuary/SanctuaryView';
 import { EnergySelector } from '../features/energy/EnergySelector';
 import { QuestBoard } from '../features/quests/QuestBoard';
@@ -23,373 +35,422 @@ import { MindArenaScreen } from '../features/arena/MindArenaScreen';
 import { CampfireScreen } from '../features/campfire/CampfireScreen';
 import { ThoughtStreamScreen } from '../features/thoughtstream/ThoughtStreamScreen';
 import { AcademyScreen } from '../features/academy/AcademyScreen';
-import { MindMirrorScreen } from '../features/analytics/MindMirrorScreen';
 import { ShadowCrucibleScreen } from '../features/shadow/ShadowCrucibleScreen';
+import { MindMirrorScreen } from '../features/analytics/MindMirrorScreen';
 import { SleepTherapyScreen } from '../features/sleep/SleepTherapyScreen';
 import { ProblemSolvingScreen } from '../features/problemsolving/ProblemSolvingScreen';
 import { TaskManager } from '../features/tasks/TaskManager';
 import { MoodTracker } from '../features/mood/MoodTracker';
 import { SettingsScreen } from '../features/settings/SettingsScreen';
-import { UpdateBanner } from '../core/ota/UpdateBanner';
 
 import {
   Sparkles,
   ScrollText,
   Swords,
-  BrainCircuit,
   Flame,
-  BookOpen,
   Eye,
+  BrainCircuit,
+  BookOpen,
   Skull,
   Moon,
   Hammer,
   CheckSquare,
   Settings as SettingsIcon,
-  Menu,
 } from 'lucide-react-native';
 
-/** Icons for the "More" overflow sheet */
-const OVERFLOW_ICONS: Record<string, React.ComponentType<{ size: number; color: string }> | any> = {
-  MIRROR: Eye,
-  STREAM: BrainCircuit,
-  ACADEMY: BookOpen,
-  CRUCIBLE: Skull,
-  SLEEP: Moon,
-  PROBLEM_SOLVING: Hammer,
-  TASKS_MOOD: CheckSquare,
-  SETTINGS: SettingsIcon,
+export type RootStackParamList = {
+  Tabs: undefined;
+  ARENA: undefined;
+  STREAM: undefined;
+  ACADEMY: undefined;
+  CRUCIBLE: undefined;
+  MIRROR: undefined;
+  SLEEP: undefined;
+  PROBLEM_SOLVING: undefined;
+  TASKS_MOOD: undefined;
+  SETTINGS: undefined;
 };
 
-type TabKey =
-  | 'SANCTUARY'
-  | 'QUESTS'
-  | 'ARENA'
-  | 'CAMPFIRE'
-  | 'MIRROR'
-  | 'STREAM'
-  | 'ACADEMY'
-  | 'CRUCIBLE'
-  | 'SLEEP'
-  | 'PROBLEM_SOLVING'
-  | 'TASKS_MOOD'
-  | 'SETTINGS';
+export type TabParamList = {
+  HomeTab: undefined;
+  PracticeTab: undefined;
+  CampfireTab: undefined;
+  ProgressTab: undefined;
+};
 
-/** Tabs shown directly in the bottom bar; the rest live in the "More" sheet */
-const PRIMARY_TABS: TabKey[] = ['SANCTUARY', 'QUESTS', 'ARENA', 'CAMPFIRE'];
-const OVERFLOW_TABS: { key: TabKey; label: string }[] = [
-  { key: 'MIRROR', label: 'Mind Mirror' },
-  { key: 'STREAM', label: 'Cognitive Stream' },
-  { key: 'ACADEMY', label: 'Academy' },
-  { key: 'CRUCIBLE', label: 'Shadow Crucible' },
-  { key: 'SLEEP', label: 'Sleep Therapy' },
-  { key: 'PROBLEM_SOLVING', label: 'Problem Solving' },
-  { key: 'TASKS_MOOD', label: 'Tasks & Mood' },
-  { key: 'SETTINGS', label: 'Settings' },
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<TabParamList>();
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Colors.background,
+    card: Colors.surface,
+    text: Colors.textPrimary,
+    border: Colors.border,
+    primary: Colors.reframeGold,
+  },
+};
+
+const stackScreenOptions = {
+  headerStyle: { backgroundColor: Colors.surface },
+  headerTintColor: Colors.textPrimary,
+  headerTitleStyle: { fontWeight: '700' as const },
+  contentStyle: { backgroundColor: Colors.background },
+};
+
+/* ------------------------------- Shared bits ------------------------------ */
+
+const Loading: React.FC = () => (
+  <View style={styles.loadingContainer}>
+    <Sparkles size={42} color={Colors.reframeGold} />
+    <Text style={styles.loadingTitle}>Aetheria</Text>
+    <Text style={styles.loadingSubtitle}>Kindling the sanctuary flames...</Text>
+    <ActivityIndicator color={Colors.reframeGold} style={{ marginTop: 10 }} />
+  </View>
+);
+
+interface HubItem {
+  key: keyof RootStackParamList;
+  label: string;
+  subtitle: string;
+  icon: any;
+}
+
+const HubCard: React.FC<{ item: HubItem; onPress: () => void }> = ({ item, onPress }) => {
+  const Icon = item.icon;
+  return (
+    <TouchableOpacity style={styles.hubCard} onPress={onPress} activeOpacity={0.8}>
+      <Icon size={24} color={Colors.reframeGold} />
+      <Text style={styles.hubCardLabel}>{item.label}</Text>
+      <Text style={styles.hubCardSubtitle}>{item.subtitle}</Text>
+    </TouchableOpacity>
+  );
+};
+
+/** Screen wrapper that supplies store state as props to existing feature screens */
+const WithUserState: React.FC<{
+  render: (userState: UserState) => React.ReactNode;
+}> = ({ render }) => {
+  const userState = useAppStore((s) => s.userState);
+  if (!userState) return <Loading />;
+  return <>{render(userState)}</>;
+};
+
+/* ---------------------------------- Home ---------------------------------- */
+
+const HomeScreen: React.FC = () => {
+  const userState = useAppStore((s) => s.userState);
+  const quests = useAppStore((s) => s.quests);
+  const completeQuest = useAppStore((s) => s.completeQuest);
+  const setQuests = useAppStore((s) => s.setQuests);
+  const setUserState = useAppStore((s) => s.setUserState);
+
+  if (!userState) return <Loading />;
+
+  return (
+    <View style={styles.screenBody}>
+      <EnergySelector
+        currentTier={userState.energyTier}
+        onSelectTier={(tier: EnergyTier) =>
+          setUserState((prev) => ({ ...prev, energyTier: tier }))
+        }
+      />
+      <ScrollView>
+        <SanctuaryView
+          userState={userState}
+          onCompanionSelect={(companionId) => {
+            setUserState((prev) => ({
+              ...prev,
+              sanctuary: {
+                ...prev.sanctuary,
+                companions: prev.sanctuary.companions.map((c) => ({
+                  ...c,
+                  isActive: c.id === companionId,
+                })),
+              },
+            }));
+          }}
+        />
+        <QuestBoard
+          quests={quests}
+          energyTier={userState.energyTier}
+          onCompleteQuest={completeQuest}
+          onQuestsUpdated={(updated) => setQuests(updated)}
+        />
+      </ScrollView>
+    </View>
+  );
+};
+
+/* -------------------------------- Practice -------------------------------- */
+
+const PRACTICE_ITEMS: HubItem[] = [
+  { key: 'ARENA', label: 'Mind Arena', subtitle: 'Battle distortions with Socratic cards', icon: Swords },
+  { key: 'STREAM', label: 'Cognitive Stream', subtitle: 'Rapid thought-reframing quizzes', icon: BrainCircuit },
+  { key: 'ACADEMY', label: 'Academy', subtitle: '24 wisdom masterclass scrolls', icon: BookOpen },
+  { key: 'CRUCIBLE', label: 'Shadow Crucible', subtitle: 'Excavate & forge your flaws', icon: Skull },
 ];
 
+const PracticeHubScreen: React.FC<
+  CompositeScreenProps<
+    BottomTabScreenProps<TabParamList, 'PracticeTab'>,
+    NativeStackScreenProps<RootStackParamList>
+  >
+> = ({ navigation }) => {
+  return (
+    <ScrollView style={styles.hubScreen} contentContainerStyle={styles.hubContent}>
+      <Text style={styles.hubHeader}>Training Grounds</Text>
+      <Text style={styles.hubSubheader}>Choose your practice for this moment</Text>
+      <View style={styles.hubGrid}>
+        {PRACTICE_ITEMS.map((item) => (
+          <HubCard
+            key={item.key}
+            item={item}
+            onPress={() => navigation.navigate(item.key as never)}
+          />
+        ))}
+      </View>
+    </ScrollView>
+  );
+};
+
+/* -------------------------------- Progress -------------------------------- */
+
+const PROGRESS_ITEMS: HubItem[] = [
+  { key: 'MIRROR', label: 'Mind Mirror', subtitle: 'Analytics, trophies & virtues', icon: Eye },
+  { key: 'SLEEP', label: 'Sleep Therapy', subtitle: 'Sleep efficiency & stimulus control', icon: Moon },
+  { key: 'PROBLEM_SOLVING', label: 'Problem Solving', subtitle: '7-step structured wizard', icon: Hammer },
+  { key: 'TASKS_MOOD', label: 'Tasks & Mood', subtitle: 'GTD list & valence tracker', icon: CheckSquare },
+];
+
+const ProgressHubScreen: React.FC<
+  CompositeScreenProps<
+    BottomTabScreenProps<TabParamList, 'ProgressTab'>,
+    NativeStackScreenProps<RootStackParamList>
+  >
+> = ({ navigation }) => {
+  return (
+    <ScrollView style={styles.hubScreen} contentContainerStyle={styles.hubContent}>
+      <Text style={styles.hubHeader}>Reflection</Text>
+      <Text style={styles.hubSubheader}>Track patterns, tend your inner world</Text>
+      <View style={styles.hubGrid}>
+        {PROGRESS_ITEMS.map((item) => (
+          <HubCard
+            key={item.key}
+            item={item}
+            onPress={() => navigation.navigate(item.key as never)}
+          />
+        ))}
+        <TouchableOpacity
+          style={[styles.hubCard, styles.settingsCard]}
+          onPress={() => navigation.navigate('SETTINGS')}
+          activeOpacity={0.8}
+        >
+          <SettingsIcon size={24} color={Colors.textSecondary} />
+          <Text style={[styles.hubCardLabel, { color: Colors.textSecondary }]}>Settings</Text>
+          <Text style={styles.hubCardSubtitle}>AI key, chronotype & sync</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
+/* ------------------------------ Pushed screens ---------------------------- */
+
+const StreamScreenWrapper: React.FC = () => (
+  <WithUserState render={(userState) => <ThoughtStreamScreen userState={userState} />} />
+);
+
+const AcademyScreenWrapper: React.FC = () => (
+  <WithUserState render={(userState) => <AcademyScreen userState={userState} />} />
+);
+
+const CrucibleScreenWrapper: React.FC = () => (
+  <WithUserState render={(userState) => <ShadowCrucibleScreen userState={userState} />} />
+);
+
+const MirrorScreenWrapper: React.FC = () => (
+  <WithUserState render={(userState) => <MindMirrorScreen userState={userState} />} />
+);
+
+const SleepScreenWrapper: React.FC = () => (
+  <WithUserState render={(userState) => <SleepTherapyScreen userState={userState} />} />
+);
+
+const TasksMoodScreenWrapper: React.FC = () => {
+  const tasks = useAppStore((s) => s.tasks);
+  const userState = useAppStore((s) => s.userState);
+  const setTasks = useAppStore((s) => s.setTasks);
+  if (!userState) return <Loading />;
+  return (
+    <View style={styles.screenBody}>
+      <TaskManager
+        tasks={tasks}
+        energyTier={userState.energyTier}
+        onTasksUpdated={(updated) => setTasks(updated)}
+      />
+      <MoodTracker />
+    </View>
+  );
+};
+
+const SettingsScreenWrapper: React.FC = () => (
+  <WithUserState
+    render={(userState) => (
+      <SettingsScreen
+        userState={userState}
+        onStateUpdated={(updated) =>
+          useAppStore.getState().setUserState(() => updated)
+        }
+      />
+    )}
+  />
+);
+
+/* ------------------------------- Navigators ------------------------------- */
+
+const ProblemSolvingScreenWrapper: React.FC = () => (
+  <WithUserState render={(userState) => <ProblemSolvingScreen userState={userState} />} />
+);
+
+const TabIcon =
+  (IconComponent: any) =>
+  ({ color, size }: { color: string; size: number }) =>
+    <IconComponent size={size} color={color} />;
+
+const TabNavigator: React.FC = () => {
+  const userState = useAppStore((s) => s.userState);
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: Colors.reframeGold,
+        tabBarInactiveTintColor: Colors.textMuted,
+        tabBarStyle: {
+          backgroundColor: Colors.surface,
+          borderTopColor: Colors.border,
+        },
+        tabBarLabelStyle: { fontSize: 11 },
+      }}
+    >
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeScreen}
+        options={{ title: 'Sanctuary', tabBarIcon: TabIcon(Sparkles) }}
+      />
+      <Tab.Screen
+        name="PracticeTab"
+        component={PracticeHubScreen}
+        options={{ title: 'Practice', tabBarIcon: TabIcon(Swords) }}
+      />
+      <Tab.Screen
+        name="CampfireTab"
+        component={() => (userState ? <CampfireScreen userState={userState} /> : <Loading />)}
+        options={{ title: 'Campfire', tabBarIcon: TabIcon(Flame) }}
+      />
+      <Tab.Screen
+        name="ProgressTab"
+        component={ProgressHubScreen}
+        options={{ title: 'Progress', tabBarIcon: TabIcon(Eye) }}
+      />
+    </Tab.Navigator>
+  );
+};
+
 export const AppNavigator: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabKey>('SANCTUARY');
-  const [moreVisible, setMoreVisible] = useState(false);
-  const [userState, setUserState] = useState<UserState | null>(null);
-  const [quests, setQuests] = useState<QuestItem[]>([]);
-  const [tasks, setTasks] = useState<TaskItem[]>([]);
+  const hydrate = useAppStore((s) => s.hydrate);
+  const hydrated = useAppStore((s) => s.hydrated);
 
   useEffect(() => {
-    loadAllData();
-
+    hydrate();
     // Quiet background sync from GitHub
     ContentSyncService.syncContent(false).catch(() => {});
 
-    // Listen to global events
-    const unsubQuest = EventBus.subscribe('quest:completed', (data) => {
-      loadAllData();
-    });
-
-    const unsubArena = EventBus.subscribe('arena:victory', () => {
-      loadAllData();
-    });
-
-    const unsubSync = EventBus.subscribe('content:synced', () => {
-      loadAllData();
-    });
-
-    return () => {
-      unsubQuest();
-      unsubArena();
-      unsubSync();
-    };
-  }, []);
-
-  const loadAllData = async () => {
-    const s = await Database.getUserState();
-    const q = await Database.getQuests();
-    const t = await Database.getTasks();
-    setUserState(s);
-    setQuests(q);
-    setTasks(t);
-  };
-
-  const handleEnergyChange = async (newTier: EnergyTier) => {
-    if (!userState) return;
-    const updated = { ...userState, energyTier: newTier };
-    setUserState(updated);
-    await Database.saveUserState(updated);
-  };
-
-  const handleCompleteQuest = async (questId: string) => {
-    const quest = quests.find((item) => item.id === questId);
-    // Idempotency guard: never grant rewards twice for the same quest
-    if (!quest || quest.isCompleted) return;
-
-    const updatedQuests = quests.map((q) =>
-      q.id === questId ? { ...q, isCompleted: true, completedAt: new Date().toISOString() } : q
+    // Some feature screens (Arena, Mirror, Campfire...) persist rewards via
+    // Database directly. Re-hydrate so the store converges after their events.
+    const syncEvents: (keyof AppEvents)[] = [
+      'quest:completed',
+      'task:completed',
+      'arena:victory',
+      'mood:logged',
+      'energy:changed',
+      'content:synced',
+    ];
+    const unsubs = syncEvents.map((event) =>
+      EventBus.subscribe(event, () => void hydrate())
     );
-    setQuests(updatedQuests);
-    await Database.saveQuests(updatedQuests);
 
-    if (userState) {
-      const updatedState: UserState = {
-        ...userState,
-        vitalityPoints: userState.vitalityPoints + quest.rewards.vitalityPoints,
-        clarityMana: userState.clarityMana + quest.rewards.clarityMana,
-        sanctuary: {
-          ...userState.sanctuary,
-          gloomClearingPercentage: Math.min(
-            100,
-            userState.sanctuary.gloomClearingPercentage + quest.rewards.sanctuaryGrowth
-          ),
-          vitalityFloraCount: userState.sanctuary.vitalityFloraCount + 1,
-        },
-      };
-      setUserState(updatedState);
-      await Database.saveUserState(updatedState);
+    return () => unsubs.forEach((u) => u());
+  }, [hydrate]);
 
-      EventBus.emit('quest:completed', {
-        questId,
-        vpEarned: quest.rewards.vitalityPoints,
-        manaEarned: quest.rewards.clarityMana,
-      });
-    }
-  };
-
-  const handleCompanionSelect = async (companionId: 'PYRA_FOX' | 'KAEL_OWL' | 'LIORA_NYMPH') => {
-    if (!userState) return;
-    const updatedCompanions = userState.sanctuary.companions.map((c) => ({
-      ...c,
-      isActive: c.id === companionId,
-    }));
-    const updatedState: UserState = {
-      ...userState,
-      sanctuary: {
-        ...userState.sanctuary,
-        companions: updatedCompanions,
-      },
-    };
-    setUserState(updatedState);
-    await Database.saveUserState(updatedState);
-  };
-
-  const handleNavigate = (tab: TabKey) => {
-    setActiveTab(tab);
-    setMoreVisible(false);
-  };
-
-  if (!userState) {
-    return (
-      <SafeAreaView style={[styles.container, styles.loadingContainer]}>
-        <Sparkles size={42} color={Colors.reframeGold} />
-        <Text style={styles.loadingTitle}>Aetheria</Text>
-        <Text style={styles.loadingSubtitle}>Kindling the sanctuary flames...</Text>
-      </SafeAreaView>
-    );
-  }
-
-  const tabs: { key: TabKey; label: string; icon: any }[] = [
-    { key: 'SANCTUARY', label: 'Sanctuary', icon: Sparkles },
-    { key: 'QUESTS', label: 'Quests', icon: ScrollText },
-    { key: 'ARENA', label: 'Arena (CR)', icon: Swords },
-    { key: 'CAMPFIRE', label: 'Campfire', icon: Flame },
-  ];
+  if (!hydrated) return <Loading />;
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Top GitHub / OTA Update Banner */}
-      <UpdateBanner />
-
-      {/* Main Screen Content */}
-      <View style={styles.body}>
-        {activeTab === 'SANCTUARY' && (
-          <View style={{ flex: 1 }}>
-            <EnergySelector
-              currentTier={userState.energyTier}
-              onSelectTier={handleEnergyChange}
-            />
-            <SanctuaryView
-              userState={userState}
-              onCompanionSelect={handleCompanionSelect}
-            />
-            <QuestBoard
-              quests={quests}
-              energyTier={userState.energyTier}
-              onCompleteQuest={handleCompleteQuest}
-              onQuestsUpdated={async (updated) => {
-                setQuests(updated);
-                await Database.saveQuests(updated);
-              }}
-            />
-          </View>
-        )}
-
-        {activeTab === 'QUESTS' && (
-          <View style={{ flex: 1 }}>
-            <EnergySelector
-              currentTier={userState.energyTier}
-              onSelectTier={handleEnergyChange}
-            />
-            <QuestBoard
-              quests={quests}
-              energyTier={userState.energyTier}
-              onCompleteQuest={handleCompleteQuest}
-              onQuestsUpdated={async (updated) => {
-                setQuests(updated);
-                await Database.saveQuests(updated);
-              }}
-            />
-          </View>
-        )}
-
-        {activeTab === 'ARENA' && <MindArenaScreen />}
-
-        {activeTab === 'CAMPFIRE' && <CampfireScreen userState={userState} />}
-
-        {activeTab === 'STREAM' && <ThoughtStreamScreen userState={userState} />}
-
-        {activeTab === 'ACADEMY' && <AcademyScreen userState={userState} />}
-
-        {activeTab === 'MIRROR' && <MindMirrorScreen userState={userState} />}
-
-        {activeTab === 'CRUCIBLE' && <ShadowCrucibleScreen userState={userState} />}
-
-        {activeTab === 'SLEEP' && <SleepTherapyScreen userState={userState} />}
-
-        {activeTab === 'PROBLEM_SOLVING' && <ProblemSolvingScreen userState={userState} />}
-
-        {activeTab === 'TASKS_MOOD' && (
-          <View style={{ flex: 1 }}>
-            <TaskManager
-              tasks={tasks}
-              energyTier={userState.energyTier}
-              onTasksUpdated={async (updated) => {
-                setTasks(updated);
-                await Database.saveTasks(updated);
-              }}
-            />
-            <MoodTracker />
-          </View>
-        )}
-
-        {activeTab === 'SETTINGS' && (
-          <SettingsScreen
-            userState={userState}
-            onStateUpdated={(updated) => setUserState(updated)}
-          />
-        )}
-      </View>
-
-      {/* Bottom Navigation Bar: primary tabs + "More" overflow */}
-      <View style={styles.bottomNav}>
-        {tabs.map((tab) => {
-          const isSelected = activeTab === tab.key;
-          const IconComponent = tab.icon;
-          return (
-            <TouchableOpacity
-              key={tab.key}
-              style={styles.tabItem}
-              onPress={() => handleNavigate(tab.key)}
-              activeOpacity={0.7}
-            >
-              <IconComponent
-                size={20}
-                color={isSelected ? Colors.reframeGold : Colors.textMuted}
-              />
-              <Text
-                style={[
-                  styles.tabLabel,
-                  isSelected && { color: Colors.reframeGold, fontWeight: '700' },
-                ]}
-                numberOfLines={1}
-              >
-                {tab.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => setMoreVisible(true)}
-          activeOpacity={0.7}
-        >
-          <Menu
-            size={20}
-            color={[...PRIMARY_TABS, ...OVERFLOW_TABS.map((t) => t.key)].includes(activeTab) &&
-            !PRIMARY_TABS.includes(activeTab)
-              ? Colors.reframeGold
-              : Colors.textMuted}
-          />
-          <Text style={styles.tabLabel} numberOfLines={1}>
-            More
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Overflow sheet for secondary screens */}
-      <Modal visible={moreVisible} transparent animationType="slide" onRequestClose={() => setMoreVisible(false)}>
-        <View style={styles.sheetOverlay}>
-          <TouchableOpacity style={{ flex: 1 }} activeOpacity={1} onPress={() => setMoreVisible(false)} />
-          <View style={styles.sheetContainer}>
-            <View style={styles.sheetHandle} />
-            <Text style={styles.sheetTitle}>Explore Aetheria</Text>
-            <View style={styles.sheetGrid}>
-              {OVERFLOW_TABS.map((tab) => {
-                const IconComponent = OVERFLOW_ICONS[tab.key];
-                const isActive = activeTab === tab.key;
-                return (
-                  <TouchableOpacity
-                    key={tab.key}
-                    style={[styles.sheetItem, isActive && styles.sheetItemActive]}
-                    onPress={() => handleNavigate(tab.key)}
-                    activeOpacity={0.7}
-                  >
-                    <IconComponent size={22} color={isActive ? Colors.reframeGold : Colors.textPrimary} />
-                    <Text
-                      style={[styles.sheetItemLabel, isActive && { color: Colors.reframeGold }]}
-                      numberOfLines={2}
-                    >
-                      {tab.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
+    <NavigationContainer theme={navTheme}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Tabs" component={TabNavigator} />
+        <Stack.Screen
+          name="ARENA"
+          component={MindArenaScreen}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Mind Arena' }}
+        />
+        <Stack.Screen
+          name="STREAM"
+          component={StreamScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Cognitive Stream' }}
+        />
+        <Stack.Screen
+          name="ACADEMY"
+          component={AcademyScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Academy of Inner Alchemy' }}
+        />
+        <Stack.Screen
+          name="CRUCIBLE"
+          component={CrucibleScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Shadow Crucible' }}
+        />
+        <Stack.Screen
+          name="MIRROR"
+          component={MirrorScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Mind Mirror' }}
+        />
+        <Stack.Screen
+          name="SLEEP"
+          component={SleepScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Sleep Therapy' }}
+        />
+        <Stack.Screen
+          name="PROBLEM_SOLVING"
+          component={ProblemSolvingScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Problem Solving' }}
+        />
+        <Stack.Screen
+          name="TASKS_MOOD"
+          component={TasksMoodScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Tasks & Mood' }}
+        />
+        <Stack.Screen
+          name="SETTINGS"
+          component={SettingsScreenWrapper}
+          options={{ ...stackScreenOptions, headerShown: true, title: 'Settings' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    paddingTop: Platform.OS === 'android' ? (RNStatusBar.currentHeight || 28) : 0,
-  },
-  body: {
+  screenBody: {
     flex: 1,
   },
   loadingContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Colors.background,
     gap: 12,
   },
   loadingTitle: {
@@ -402,75 +463,51 @@ const styles = StyleSheet.create({
     color: Colors.textMuted,
     fontSize: 13,
   },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: Colors.surface,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
-    paddingVertical: 6,
-    paddingBottom: Platform.OS === 'ios' ? 14 : 8,
-  },
-  tabItem: {
+  hubScreen: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 2,
+    backgroundColor: Colors.background,
   },
-  tabLabel: {
-    color: Colors.textMuted,
-    fontSize: 11,
-    fontWeight: '500',
+  hubContent: {
+    padding: Spacing.lg,
+    paddingBottom: Spacing.xl,
   },
-  sheetOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    justifyContent: 'flex-end',
-  },
-  sheetContainer: {
-    backgroundColor: Colors.surface,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: 32,
-    paddingTop: 10,
-  },
-  sheetHandle: {
-    alignSelf: 'center',
-    width: 44,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: Colors.border,
-    marginBottom: 14,
-  },
-  sheetTitle: {
+  hubHeader: {
     color: Colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 14,
+    fontSize: 22,
+    fontWeight: '800',
+    marginTop: Spacing.sm,
   },
-  sheetGrid: {
+  hubSubheader: {
+    color: Colors.textMuted,
+    fontSize: 13,
+    marginBottom: Spacing.lg,
+  },
+  hubGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
+    gap: Spacing.md,
   },
-  sheetItem: {
-    width: '23%',
-    minWidth: 96,
+  hubCard: {
+    width: '47%',
     flexGrow: 1,
-    backgroundColor: Colors.background,
-    borderRadius: 12,
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.border,
-    paddingVertical: 14,
-    alignItems: 'center',
-    gap: 8,
+    padding: Spacing.md,
+    gap: 6,
   },
-  sheetItemActive: {
-    borderColor: Colors.reframeGold,
+  settingsCard: {
+    borderStyle: 'dashed',
   },
-  sheetItemLabel: {
+  hubCardLabel: {
     color: Colors.textPrimary,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  hubCardSubtitle: {
+    color: Colors.textMuted,
     fontSize: 12,
-    textAlign: 'center',
+    lineHeight: 16,
   },
 });

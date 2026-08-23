@@ -24,9 +24,7 @@
       "package": "com.aetheria.cognitivequest",
       "permissions": [
         "RECEIVE_BOOT_COMPLETED",
-        "VIBRATE",
-        "USE_BIOMETRIC",
-        "USE_FINGERPRINT"
+        "VIBRATE"
       ]
     },
     "plugins": [
@@ -43,16 +41,10 @@
       "favicon": "./assets/favicon.png"
     },
     "updates": {
-      "url": "https://u.expo.dev/aetheria-project-id",
-      "enabled": true,
-      "checkAutomatically": "ON_LOAD",
-      "fallbackToCacheTimeout": 0
+      "enabled": false
     },
     "extra": {
-      "githubRepo": "damessner/aetheria-app",
-      "eas": {
-        "projectId": "aetheria-project-id"
-      }
+      "githubRepo": "damessner/aetheria-app"
     }
   }
 }

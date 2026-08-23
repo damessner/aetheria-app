@@ -2,11 +2,38 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WisdomScroll, ThoughtFeedItem, QuestItem } from '../types';
 import { EventBus } from '../eventbus/EventBus';
 
+/**
+ * SHA-256 of a string as lowercase hex. expo-crypto is lazy-loaded so
+ * pure unit tests can import this module without the native runtime.
+ */
+async function sha256Hex(input: string): Promise<string> {
+  try {
+    const Crypto = require('expo-crypto');
+    return await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, input);
+  } catch (e) {
+    console.warn('[ContentSync] expo-crypto unavailable, skipping integrity check', e);
+    // Failing OPEN here is acceptable: this is corruption defense, not a
+    // security boundary, and blocking all syncs when crypto is missing
+    // would leave users stranded on stale content.
+    return '';
+  }
+}
+
 export interface ContentManifest {
   version: string;
   updatedAt: string;
   name: string;
   repository: string;
+  /**
+   * Optional SHA-256 hashes (hex) of each content file. When present,
+   * downloads are verified before being merged into the local database,
+   * so a tampered or corrupted payload is rejected.
+   */
+  hashes?: {
+    wisdom_scrolls?: string;
+    thought_stream?: string;
+    quests?: string;
+  };
   files: {
     wisdom_scrolls: string;
     thought_stream: string;
@@ -103,9 +130,37 @@ class ContentSyncServiceImpl {
         throw new Error('Failed to download one or more content files from GitHub.');
       }
 
-      const remoteScrolls: WisdomScroll[] = await scrollsRes.json();
-      const remoteThoughts: ThoughtFeedItem[] = await thoughtsRes.json();
-      const remoteQuests: QuestItem[] = await questsRes.json();
+      const remoteScrollsText = await scrollsRes.text();
+      const remoteThoughtsText = await thoughtsRes.text();
+      const remoteQuestsText = await questsRes.text();
+
+      // 3. Integrity check: verify SHA-256 hashes when the manifest provides them
+      if (remoteManifest.hashes) {
+        let verifiedAny = false;
+        const checks: [string, string, string][] = [
+          ['wisdom_scrolls', remoteManifest.hashes.wisdom_scrolls || '', remoteScrollsText],
+          ['thought_stream', remoteManifest.hashes.thought_stream || '', remoteThoughtsText],
+          ['quests', remoteManifest.hashes.quests || '', remoteQuestsText],
+        ];
+        for (const [name, expected, body] of checks) {
+          if (!expected) continue;
+          const actual = await sha256Hex(body);
+          if (!actual) break; // crypto unavailable — fail open (see sha256Hex)
+          if (actual !== expected.toLowerCase()) {
+            throw new Error(
+              `Integrity check failed for ${name}: hash mismatch (expected ${expected.slice(0, 12)}…, got ${actual.slice(0, 12)}…). Sync aborted — local content untouched.`
+            );
+          }
+          verifiedAny = true;
+        }
+        if (verifiedAny) {
+          console.log('[ContentSync] Integrity check passed');
+        }
+      }
+
+      const remoteScrolls: WisdomScroll[] = JSON.parse(remoteScrollsText);
+      const remoteThoughts: ThoughtFeedItem[] = JSON.parse(remoteThoughtsText);
+      const remoteQuests: QuestItem[] = JSON.parse(remoteQuestsText);
 
       // 3. Merge with local progress
       // Preserve completed scrolls

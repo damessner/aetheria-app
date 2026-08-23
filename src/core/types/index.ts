@@ -413,6 +413,8 @@ export interface AchievementBadge {
 export interface UserState {
   schemaVersion: string;
   userId: string;
+  /** True once the user acknowledges the medical disclaimer on first launch */
+  hasAcknowledgedDisclaimer?: boolean;
   createdAt: string;
   campaignWeek: number; // 1 to 8 (4w BA+BI -> 4w CR+PS)
   clinicalPhase: ClinicalPhase;

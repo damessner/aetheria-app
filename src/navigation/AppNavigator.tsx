@@ -26,6 +26,7 @@ import { useAppStore } from '../core/state/appStore';
 import { EventBus, AppEvents } from '../core/eventbus/EventBus';
 import { UpdateBanner } from '../core/ota/UpdateBanner';
 import { ContentSyncService } from '../core/sync/ContentSyncService';
+import { DisclaimerScreen } from '../features/onboarding/DisclaimerScreen';
 
 // Screens
 import { SanctuaryView } from '../features/sanctuary/SanctuaryView';
@@ -363,6 +364,8 @@ const TabNavigator: React.FC = () => {
 export const AppNavigator: React.FC = () => {
   const hydrate = useAppStore((s) => s.hydrate);
   const hydrated = useAppStore((s) => s.hydrated);
+  const userState = useAppStore((s) => s.userState);
+  const setUserState = useAppStore((s) => s.setUserState);
 
   useEffect(() => {
     hydrate();
@@ -387,6 +390,17 @@ export const AppNavigator: React.FC = () => {
   }, [hydrate]);
 
   if (!hydrated) return <Loading />;
+
+  // One-time medical disclaimer before any clinical content is shown
+  if (!userState?.hasAcknowledgedDisclaimer) {
+    return (
+      <DisclaimerScreen
+        onAcknowledge={() =>
+          setUserState((prev) => ({ ...prev, hasAcknowledgedDisclaimer: true }))
+        }
+      />
+    );
+  }
 
   return (
     <NavigationContainer theme={navTheme}>

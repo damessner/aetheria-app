@@ -145,6 +145,14 @@ export const ThoughtStreamScreen: React.FC<ThoughtStreamScreenProps> = ({ userSt
 
   useEffect(() => {
     loadFeed();
+
+    const unsub = EventBus.subscribe('content:synced', () => {
+      loadFeed();
+    });
+
+    return () => {
+      unsub();
+    };
   }, []);
 
   const loadFeed = async () => {

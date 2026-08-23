@@ -12,6 +12,7 @@ import { Colors, Spacing } from '../core/theme';
 import { UserState, QuestItem, TaskItem, EnergyTier } from '../core/types';
 import { Database } from '../core/database/db';
 import { EventBus } from '../core/eventbus/EventBus';
+import { ContentSyncService } from '../core/sync/ContentSyncService';
 
 // Screens & Components
 import { SanctuaryView } from '../features/sanctuary/SanctuaryView';
@@ -68,6 +69,9 @@ export const AppNavigator: React.FC = () => {
   useEffect(() => {
     loadAllData();
 
+    // Quiet background sync from GitHub
+    ContentSyncService.syncContent(false).catch(() => {});
+
     // Listen to global events
     const unsubQuest = EventBus.subscribe('quest:completed', (data) => {
       loadAllData();
@@ -77,9 +81,14 @@ export const AppNavigator: React.FC = () => {
       loadAllData();
     });
 
+    const unsubSync = EventBus.subscribe('content:synced', () => {
+      loadAllData();
+    });
+
     return () => {
       unsubQuest();
       unsubArena();
+      unsubSync();
     };
   }, []);
 

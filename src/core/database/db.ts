@@ -270,183 +270,7 @@ export const INITIAL_TASKS: TaskItem[] = [
   },
 ];
 
-class DatabaseService {
-  async getUserState(): Promise<UserState> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.USER_STATE);
-      if (!data) {
-        await this.saveUserState(INITIAL_USER_STATE);
-        return INITIAL_USER_STATE;
-      }
-      return JSON.parse(data);
-    } catch (e) {
-      console.warn('Error reading UserState, returning fallback', e);
-      return INITIAL_USER_STATE;
-    }
-  }
-
-  async saveUserState(state: UserState): Promise<void> {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEYS.USER_STATE, JSON.stringify(state));
-    } catch (e) {
-      console.error('Failed to save UserState', e);
-    }
-  }
-
-  async getQuests(): Promise<QuestItem[]> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.QUESTS);
-      if (!data) {
-        await this.saveQuests(INITIAL_QUESTS);
-        return INITIAL_QUESTS;
-      }
-      return JSON.parse(data);
-    } catch (e) {
-      return INITIAL_QUESTS;
-    }
-  }
-
-  async saveQuests(quests: QuestItem[]): Promise<void> {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEYS.QUESTS, JSON.stringify(quests));
-    } catch (e) {
-      console.error('Failed to save Quests', e);
-    }
-  }
-
-  async getTasks(): Promise<TaskItem[]> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.TASKS);
-      if (!data) {
-        await this.saveTasks(INITIAL_TASKS);
-        return INITIAL_TASKS;
-      }
-      return JSON.parse(data);
-    } catch (e) {
-      return INITIAL_TASKS;
-    }
-  }
-
-  async saveTasks(tasks: TaskItem[]): Promise<void> {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
-    } catch (e) {
-      console.error('Failed to save Tasks', e);
-    }
-  }
-
-  async getMoodLogs(): Promise<MoodEntry[]> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.MOOD_LOGS);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  async saveMoodLog(entry: MoodEntry): Promise<void> {
-    try {
-      const logs = await this.getMoodLogs();
-      logs.unshift(entry);
-      await AsyncStorage.setItem(STORAGE_KEYS.MOOD_LOGS, JSON.stringify(logs.slice(0, 100)));
-    } catch (e) {
-      console.error('Failed to save MoodLog', e);
-    }
-  }
-
-  async getVictoryCodex(): Promise<Array<{ id: string; bossName: string; thought: string; reframe: string; date: string }>> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.VICTORY_CODEX);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  async addVictoryCodexEntry(entry: { bossName: string; thought: string; reframe: string }): Promise<void> {
-    try {
-      const codex = await this.getVictoryCodex();
-      codex.unshift({
-        id: 'cdx_' + Date.now(),
-        ...entry,
-        date: new Date().toISOString(),
-      });
-      await AsyncStorage.setItem(STORAGE_KEYS.VICTORY_CODEX, JSON.stringify(codex.slice(0, 50)));
-    } catch (e) {
-      console.error('Failed to save Codex entry', e);
-    }
-  }
-
-  async getSleepLogs(): Promise<any[]> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.SLEEP_LOGS);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  async saveSleepLog(entry: any): Promise<void> {
-    try {
-      const logs = await this.getSleepLogs();
-      logs.unshift(entry);
-      await AsyncStorage.setItem(STORAGE_KEYS.SLEEP_LOGS, JSON.stringify(logs.slice(0, 60)));
-    } catch (e) {
-      console.error('Failed to save SleepLog', e);
-    }
-  }
-
-  async getProblemSolvingWorksheets(): Promise<any[]> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.PROBLEM_SOLVING);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  async saveProblemSolvingWorksheet(worksheet: any): Promise<void> {
-    try {
-      const list = await this.getProblemSolvingWorksheets();
-      const existingIdx = list.findIndex((w) => w.id === worksheet.id);
-      if (existingIdx >= 0) {
-        list[existingIdx] = worksheet;
-      } else {
-        list.unshift(worksheet);
-      }
-      await AsyncStorage.setItem(STORAGE_KEYS.PROBLEM_SOLVING, JSON.stringify(list.slice(0, 30)));
-    } catch (e) {
-      console.error('Failed to save ProblemSolvingWorksheet', e);
-    }
-  }
-
-  async getCampfireMessages(companionId: string): Promise<any[]> {
-    try {
-      const data = await AsyncStorage.getItem(`${STORAGE_KEYS.CAMPFIRE_CHATS}_${companionId}`);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  async saveCampfireMessages(companionId: string, messages: any[]): Promise<void> {
-    try {
-      await AsyncStorage.setItem(
-        `${STORAGE_KEYS.CAMPFIRE_CHATS}_${companionId}`,
-        JSON.stringify(messages.slice(-50))
-      );
-    } catch (e) {
-      console.error('Failed to save CampfireMessages', e);
-    }
-  }
-
-  async getThoughtFeed(): Promise<ThoughtFeedItem[]> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.THOUGHT_FEED);
-      if (data) {
-        return JSON.parse(data);
-      }
-      const initial: ThoughtFeedItem[] = [
+export const INITIAL_THOUGHT_FEED: ThoughtFeedItem[] = [
         {
           id: 'thg_parent_1',
           thought: 'My 4-year-old is having a screaming bedtime meltdown. I must be failing as a father because good parents have calm children.',
@@ -767,6 +591,114 @@ class DatabaseService {
               score: 20,
               explanation: 'All-or-nothing spiraling into revenge bedtime procrastination.',
               clinicalFeedback: 'Uses minor deviation as an excuse for reckless avoidance.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_rel_3',
+          thought: 'We haven’t had a quiet date night in 3 weeks because of child sleep battles and grading. We have turned into boring roommates and our romantic spark is dying.',
+          contextDomain: 'PARTNERSHIP_INTIMACY',
+          correctDistortion: 'CATASTROPHIZING',
+          explanation: 'Interpreting a busy parenting season as the permanent death of romantic love.',
+          techniqueOptions: ['CFT_COMPASSION', 'BA_MICRO_ACTION', 'ACT_DEFUSION'],
+          suggestedReframe: 'Seasons of intensive parenting naturally compress romantic time. A 10-minute cup of tea together after bedtime preserves our closeness.',
+          reframeOptions: [
+            {
+              id: 'ref_r3_opt',
+              text: 'Intensive parenting seasons are naturally crowded. We do not need elaborate 4-hour dates to stay close; a 10-minute quiet evening tea together on the couch keeps our romantic pilot light burning.',
+              type: 'OPTIMAL',
+              score: 97,
+              explanation: 'Emphasizes micro-moments of connection during busy family seasons.',
+              clinicalFeedback: 'Protects marital optimism without requiring unrealistic free time.',
+            },
+            {
+              id: 'ref_r3_toxic',
+              text: 'Who needs romance when you have children? Love is totally unnecessary after marriage!',
+              type: 'TOXIC_POSITIVITY',
+              score: 25,
+              explanation: 'Resignation disguised as contentment.',
+              clinicalFeedback: 'Suppresses genuine romantic needs.',
+            },
+            {
+              id: 'ref_r3_rat',
+              text: 'Since we can’t go on expensive weekends away, there is no point in even talking to each other at night.',
+              type: 'RATIONALIZATION',
+              score: 15,
+              explanation: 'All-or-nothing despair that neglects daily connection.',
+              clinicalFeedback: 'Accelerates marital emotional drift.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_rest_2',
+          thought: 'It is 2:00 AM and I have been awake for 45 minutes. If I don’t fall asleep immediately, my entire teaching and parenting tomorrow is ruined and I will fail.',
+          contextDomain: 'SELF_RESTORATION',
+          correctDistortion: 'CATASTROPHIZING',
+          explanation: 'Catastrophic clock-watching panic that triggers adrenaline and keeps the brain awake.',
+          techniqueOptions: ['ACT_DEFUSION', 'SOMATIC_COREGULATION', 'STOIC_CONTROL'],
+          suggestedReframe: 'My body is still resting and rejuvenating lying in bed. One fragmented night does not ruin tomorrow; I have functioned well while tired before.',
+          reframeOptions: [
+            {
+              id: 'ref_s2_opt',
+              text: 'Tossing and turning panic fuels adrenaline. Lying peacefully in the dark is still biological resting. I have taught and parented successfully while tired before; my body will sleep when ready.',
+              type: 'OPTIMAL',
+              score: 98,
+              explanation: 'De-escalates sleep performance anxiety with CBT-I stimulus control and defusion.',
+              clinicalFeedback: 'Gold-standard insomnia reframe. Breaks nocturnal panic spirals.',
+            },
+            {
+              id: 'ref_s2_toxic',
+              text: 'Sleep is for the weak! I should jump out of bed and clean the entire garage at 2 AM!',
+              type: 'TOXIC_POSITIVITY',
+              score: 20,
+              explanation: 'Hyperactive manic response that ruins circadian rhythms.',
+              clinicalFeedback: 'Drives physical exhaustion.',
+            },
+            {
+              id: 'ref_s2_rat',
+              text: 'My sleep is permanently broken. I should take 4 sleeping pills and doomscroll until 6 AM.',
+              type: 'RATIONALIZATION',
+              score: 15,
+              explanation: 'Despair reaction that creates dependency on unhealthy sleep habits.',
+              clinicalFeedback: 'Destroys sleep hygiene and exacerbates insomnia.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_rest_3',
+          thought: 'I planned to exercise for 30 minutes, but was too physically exhausted after grading. I have zero self-discipline and my physical health is going down the drain.',
+          contextDomain: 'SELF_RESTORATION',
+          correctDistortion: 'ALL_OR_NOTHING',
+          explanation: 'Equating biological fatigue with moral weakness or lack of discipline.',
+          techniqueOptions: ['CFT_COMPASSION', 'BA_MICRO_ACTION', 'STOIC_CONTROL'],
+          suggestedReframe: 'Listening to severe fatigue is intelligent body awareness. I will do 3 minutes of gentle stretching on the floor tonight instead.',
+          reframeOptions: [
+            {
+              id: 'ref_s3_opt',
+              text: 'Recognizing genuine somatic exhaustion is wise biological stewardship, not weakness. I will honor my body with 3 minutes of gentle floor stretching and an early bedtime tonight.',
+              type: 'OPTIMAL',
+              score: 97,
+              explanation: 'Replaces all-or-nothing fitness perfectionism with sustainable somatic pacing.',
+              clinicalFeedback: 'Prevents the shame-exhaustion spiral in physical health.',
+            },
+            {
+              id: 'ref_s3_toxic',
+              text: 'No excuses ever! Push through the pain and do 100 burpees even if fainting!',
+              type: 'TOXIC_POSITIVITY',
+              score: 25,
+              explanation: 'Dangerous toxic hustle culture that causes injuries and adrenal burnout.',
+              clinicalFeedback: 'Ignores physical somatic signals.',
+            },
+            {
+              id: 'ref_s3_rat',
+              text: 'Since I missed one workout, my body is a lost cause and I might as well eat junk food on the couch.',
+              type: 'RATIONALIZATION',
+              score: 15,
+              explanation: 'Classic all-or-nothing dietary abandonment.',
+              clinicalFeedback: 'Compounds self-criticism with harmful behaviors.',
             },
           ],
           isSolved: false,
@@ -1212,41 +1144,7 @@ class DatabaseService {
         },
       ];
 
-      await this.saveThoughtFeed(initial);
-      return initial;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  async saveThoughtFeed(items: ThoughtFeedItem[]): Promise<void> {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEYS.THOUGHT_FEED, JSON.stringify(items.slice(0, 50)));
-    } catch (e) {
-      console.error('Failed to save ThoughtFeed', e);
-    }
-  }
-
-  async markThoughtSolved(id: string, score: number, userReframe: string): Promise<void> {
-    try {
-      const feed = await this.getThoughtFeed();
-      const updated = feed.map((item) =>
-        item.id === id ? { ...item, isSolved: true, userScore: score, userReframe } : item
-      );
-      await this.saveThoughtFeed(updated);
-    } catch (e) {
-      console.error('Failed to mark thought solved', e);
-    }
-  }
-
-  async getWisdomScrolls(): Promise<WisdomScroll[]> {
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEYS.ACADEMY_SCROLLS);
-      if (data) {
-        return JSON.parse(data);
-      }
-
-      const initial: WisdomScroll[] = [
+export const INITIAL_SCROLLS: WisdomScroll[] = [
         {
           id: 'scr_stoic_1',
           title: 'The View from Above',
@@ -2143,10 +2041,221 @@ In modern cognitive restructuring, we never attack a catastrophic thought with a
         },
       ];
 
-      await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(initial));
-      return initial;
+
+
+class DatabaseService {
+  async getUserState(): Promise<UserState> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.USER_STATE);
+      if (!data) {
+        await this.saveUserState(INITIAL_USER_STATE);
+        return INITIAL_USER_STATE;
+      }
+      return JSON.parse(data);
+    } catch (e) {
+      console.warn('Error reading UserState, returning fallback', e);
+      return INITIAL_USER_STATE;
+    }
+  }
+
+  async saveUserState(state: UserState): Promise<void> {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.USER_STATE, JSON.stringify(state));
+    } catch (e) {
+      console.error('Failed to save UserState', e);
+    }
+  }
+
+  async getQuests(): Promise<QuestItem[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.QUESTS);
+      if (!data) {
+        await this.saveQuests(INITIAL_QUESTS);
+        return INITIAL_QUESTS;
+      }
+      return JSON.parse(data);
+    } catch (e) {
+      return INITIAL_QUESTS;
+    }
+  }
+
+  async saveQuests(quests: QuestItem[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.QUESTS, JSON.stringify(quests));
+    } catch (e) {
+      console.error('Failed to save Quests', e);
+    }
+  }
+
+  async getTasks(): Promise<TaskItem[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.TASKS);
+      if (!data) {
+        await this.saveTasks(INITIAL_TASKS);
+        return INITIAL_TASKS;
+      }
+      return JSON.parse(data);
+    } catch (e) {
+      return INITIAL_TASKS;
+    }
+  }
+
+  async saveTasks(tasks: TaskItem[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
+    } catch (e) {
+      console.error('Failed to save Tasks', e);
+    }
+  }
+
+  async getMoodLogs(): Promise<MoodEntry[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.MOOD_LOGS);
+      return data ? JSON.parse(data) : [];
     } catch (e) {
       return [];
+    }
+  }
+
+  async saveMoodLog(entry: MoodEntry): Promise<void> {
+    try {
+      const logs = await this.getMoodLogs();
+      logs.unshift(entry);
+      await AsyncStorage.setItem(STORAGE_KEYS.MOOD_LOGS, JSON.stringify(logs.slice(0, 100)));
+    } catch (e) {
+      console.error('Failed to save MoodLog', e);
+    }
+  }
+
+  async getVictoryCodex(): Promise<Array<{ id: string; bossName: string; thought: string; reframe: string; date: string }>> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.VICTORY_CODEX);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async addVictoryCodexEntry(entry: { bossName: string; thought: string; reframe: string }): Promise<void> {
+    try {
+      const codex = await this.getVictoryCodex();
+      codex.unshift({
+        id: 'cdx_' + Date.now(),
+        ...entry,
+        date: new Date().toISOString(),
+      });
+      await AsyncStorage.setItem(STORAGE_KEYS.VICTORY_CODEX, JSON.stringify(codex.slice(0, 50)));
+    } catch (e) {
+      console.error('Failed to save Codex entry', e);
+    }
+  }
+
+  async getSleepLogs(): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.SLEEP_LOGS);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async saveSleepLog(entry: any): Promise<void> {
+    try {
+      const logs = await this.getSleepLogs();
+      logs.unshift(entry);
+      await AsyncStorage.setItem(STORAGE_KEYS.SLEEP_LOGS, JSON.stringify(logs.slice(0, 60)));
+    } catch (e) {
+      console.error('Failed to save SleepLog', e);
+    }
+  }
+
+  async getProblemSolvingWorksheets(): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.PROBLEM_SOLVING);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async saveProblemSolvingWorksheet(worksheet: any): Promise<void> {
+    try {
+      const list = await this.getProblemSolvingWorksheets();
+      const existingIdx = list.findIndex((w) => w.id === worksheet.id);
+      if (existingIdx >= 0) {
+        list[existingIdx] = worksheet;
+      } else {
+        list.unshift(worksheet);
+      }
+      await AsyncStorage.setItem(STORAGE_KEYS.PROBLEM_SOLVING, JSON.stringify(list.slice(0, 30)));
+    } catch (e) {
+      console.error('Failed to save ProblemSolvingWorksheet', e);
+    }
+  }
+
+  async getCampfireMessages(companionId: string): Promise<any[]> {
+    try {
+      const data = await AsyncStorage.getItem(`${STORAGE_KEYS.CAMPFIRE_CHATS}_${companionId}`);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async saveCampfireMessages(companionId: string, messages: any[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(
+        `${STORAGE_KEYS.CAMPFIRE_CHATS}_${companionId}`,
+        JSON.stringify(messages.slice(-50))
+      );
+    } catch (e) {
+      console.error('Failed to save CampfireMessages', e);
+    }
+  }
+
+  async getThoughtFeed(): Promise<ThoughtFeedItem[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.THOUGHT_FEED);
+      if (data) {
+        return JSON.parse(data);
+      }
+      await this.saveThoughtFeed(INITIAL_THOUGHT_FEED);
+      return INITIAL_THOUGHT_FEED;
+    } catch (e) {
+      return INITIAL_THOUGHT_FEED;
+    }
+  }
+
+  async saveThoughtFeed(items: ThoughtFeedItem[]): Promise<void> {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.THOUGHT_FEED, JSON.stringify(items.slice(0, 50)));
+    } catch (e) {
+      console.error('Failed to save ThoughtFeed', e);
+    }
+  }
+
+  async markThoughtSolved(id: string, score: number, userReframe: string): Promise<void> {
+    try {
+      const feed = await this.getThoughtFeed();
+      const updated = feed.map((item) =>
+        item.id === id ? { ...item, isSolved: true, userScore: score, userReframe } : item
+      );
+      await this.saveThoughtFeed(updated);
+    } catch (e) {
+      console.error('Failed to mark thought solved', e);
+    }
+  }
+
+  async getWisdomScrolls(): Promise<WisdomScroll[]> {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEYS.ACADEMY_SCROLLS);
+      if (data) {
+        return JSON.parse(data);
+      }
+      await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(INITIAL_SCROLLS));
+      return INITIAL_SCROLLS;
+    } catch (e) {
+      return INITIAL_SCROLLS;
     }
   }
 

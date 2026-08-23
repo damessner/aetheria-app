@@ -1,0 +1,18 @@
+{
+  "version": "1.2.0",
+  "updatedAt": "2026-08-23T10:07:24.267Z",
+  "name": "Aetheria Remote Content Manifest",
+  "repository": "https://github.com/damessner/aetheria-app",
+  "files": {
+    "wisdom_scrolls": "wisdom_scrolls.json",
+    "thought_stream": "thought_stream.json",
+    "quests": "quests.json",
+    "method_codex": "method_codex.json"
+  },
+  "counts": {
+    "wisdom_scrolls": 24,
+    "thought_stream": 24,
+    "quests": 8,
+    "method_codex": 8
+  }
+}

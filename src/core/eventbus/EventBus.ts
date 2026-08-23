@@ -10,6 +10,7 @@ export interface AppEvents {
   'sanctuary:growth': { newPercentage: number };
   'mood:logged': { valence: number; arousal: number; emotion: string };
   'ota:update_found': { version: string; releaseTag: string };
+  'content:synced': { version: string; updatedAt?: string };
 }
 
 class EventBusService {

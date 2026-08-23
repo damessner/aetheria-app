@@ -12,6 +12,7 @@ import { WisdomScroll, UserState, CombatCard } from '../../core/types';
 import { Colors, Spacing } from '../../core/theme';
 import { Database } from '../../core/database/db';
 import { EventBus } from '../../core/eventbus/EventBus';
+import { ContentSyncService } from '../../core/sync/ContentSyncService';
 import {
   Scroll,
   Sparkles,
@@ -28,6 +29,8 @@ import {
   Zap,
   Moon,
   Flame,
+  CloudDownload,
+  RefreshCw,
 } from 'lucide-react-native';
 
 interface AcademyScreenProps {
@@ -41,6 +44,8 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizPassed, setQuizPassed] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [contentVersion, setContentVersion] = useState('1.2.0');
 
   const categories: { id: WisdomScroll['category'] | 'ALL'; label: string }[] = [
     { id: 'ALL', label: 'All Scrolls' },
@@ -56,11 +61,42 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
 
   useEffect(() => {
     loadScrolls();
+    loadVersion();
+
+    const unsub = EventBus.subscribe('content:synced', () => {
+      loadScrolls();
+      loadVersion();
+    });
+
+    return () => {
+      unsub();
+    };
   }, []);
+
+  const loadVersion = async () => {
+    const info = await ContentSyncService.getLastSyncInfo();
+    setContentVersion(info.version);
+  };
 
   const loadScrolls = async () => {
     const list = await Database.getWisdomScrolls();
     setScrolls(list);
+  };
+
+  const handleManualSync = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await ContentSyncService.syncContent(true);
+      if (res.success) {
+        await loadScrolls();
+        await loadVersion();
+        Alert.alert('☁️ Content Synced', res.message);
+      } else {
+        Alert.alert('Sync Notice', res.message);
+      }
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   const handleOpenScroll = (scroll: WisdomScroll) => {
@@ -133,13 +169,27 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Header Card */}
       <View style={styles.headerCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-          <BookOpen size={22} color={Colors.reframeGold} />
-          <Text style={styles.headerTitle}>The Academy of Inner Alchemy ({scrolls.length} Scrolls)</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+          <View style={{ flex: 1, marginRight: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+              <BookOpen size={20} color={Colors.reframeGold} />
+              <Text style={styles.headerTitle}>The Academy ({scrolls.length} Scrolls)</Text>
+            </View>
+            <Text style={styles.headerSubtitle}>
+              Master evidence-based clinical wisdom scrolls in Fatherhood, Teaching, Stoicism & Neuroscience to unlock exclusive Combat Cards.
+            </Text>
+          </View>
+
+          {/* Cloud Sync Button */}
+          <TouchableOpacity
+            style={[styles.syncBtn, isSyncing && styles.syncBtnDisabled]}
+            onPress={handleManualSync}
+            disabled={isSyncing}
+          >
+            <CloudDownload size={13} color={Colors.clarityMana} />
+            <Text style={styles.syncBtnText}>{isSyncing ? 'Syncing...' : `v${contentVersion}`}</Text>
+          </TouchableOpacity>
         </View>
-        <Text style={styles.headerSubtitle}>
-          Master evidence-based clinical wisdom scrolls in Fatherhood, Teaching, Stoicism & Neuroscience to unlock exclusive Combat Cards for your Mind Arena battle deck.
-        </Text>
       </View>
 
       {/* Category Filter Chips */}
@@ -363,6 +413,25 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 12,
     lineHeight: 16,
+  },
+  syncBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(56, 189, 248, 0.12)',
+    borderWidth: 1,
+    borderColor: Colors.clarityMana,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    gap: 4,
+  },
+  syncBtnDisabled: {
+    opacity: 0.6,
+  },
+  syncBtnText: {
+    color: Colors.clarityMana,
+    fontSize: 10,
+    fontWeight: '700',
   },
   categoriesRow: {
     gap: 6,

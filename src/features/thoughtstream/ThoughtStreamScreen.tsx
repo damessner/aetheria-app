@@ -23,6 +23,7 @@ import { Database } from '../../core/database/db';
 import { Gemini } from '../../core/ai/gemini';
 import { EventBus } from '../../core/eventbus/EventBus';
 import { MethodCodexModal, METHOD_CODEX_REGISTRY } from '../methods/MethodCodexModal';
+import { ScreenHeader } from '../../components';
 import {
   BrainCircuit,
   Sparkles,
@@ -253,19 +254,11 @@ export const ThoughtStreamScreen: React.FC<ThoughtStreamScreenProps> = ({ userSt
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Top Stream Header */}
-      <View style={styles.headerCard}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <View style={{ flex: 1, marginRight: 8 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-              <BrainCircuit size={18} color={Colors.clarityMana} />
-              <Text style={styles.headerTitle}>The Cognitive Stream</Text>
-            </View>
-            <Text style={styles.headerSubtitle}>
-              Streamlined quiz challenges in Fatherhood, Teaching & Relationships. Diagnose thinking traps, explore why methods work, and pick optimal reframes.
-            </Text>
-          </View>
-
-          {/* Open Method Codex Button */}
+      <ScreenHeader
+        icon={BrainCircuit}
+        title="The Cognitive Stream"
+        subtitle="Streamlined quiz challenges in Fatherhood, Teaching & Relationships. Diagnose thinking traps, explore why methods work, and pick optimal reframes."
+        rightAction={
           <TouchableOpacity
             style={styles.codexTopBtn}
             onPress={() => {
@@ -276,24 +269,24 @@ export const ThoughtStreamScreen: React.FC<ThoughtStreamScreenProps> = ({ userSt
             <BookOpen size={14} color={Colors.reframeGold} />
             <Text style={styles.codexTopBtnText}>Method Codex</Text>
           </TouchableOpacity>
-        </View>
+        }
+      />
 
-        {/* AI Generator Button */}
-        <TouchableOpacity
-          style={[styles.summonBtn, isGenerating && styles.summonBtnDisabled]}
-          onPress={handleSummonAiThoughts}
-          disabled={isGenerating}
-        >
-          {isGenerating ? (
-            <ActivityIndicator size="small" color="#0A0A0E" />
-          ) : (
-            <>
-              <Sparkles size={14} color="#0A0A0E" />
-              <Text style={styles.summonBtnText}>Summon New AI Challenges</Text>
-            </>
-          )}
-        </TouchableOpacity>
-      </View>
+      {/* AI Generator Button */}
+      <TouchableOpacity
+        style={[styles.summonBtn, isGenerating && styles.summonBtnDisabled]}
+        onPress={handleSummonAiThoughts}
+        disabled={isGenerating}
+      >
+        {isGenerating ? (
+          <ActivityIndicator size="small" color="#0A0A0E" />
+        ) : (
+          <>
+            <Sparkles size={14} color="#0A0A0E" />
+            <Text style={styles.summonBtnText}>Summon New AI Challenges</Text>
+          </>
+        )}
+      </TouchableOpacity>
 
       {/* Domains Filter Chips */}
       <ScrollView

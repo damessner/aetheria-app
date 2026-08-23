@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { ProblemSolvingWorksheet, UserState } from '../../core/types';
 import { Colors, Spacing } from '../../core/theme';
+import { ScreenHeader } from '../../components';
 import { Database } from '../../core/database/db';
 import { Gemini } from '../../core/ai/gemini';
 import {
@@ -101,15 +102,11 @@ export const ProblemSolvingScreen: React.FC<ProblemSolvingScreenProps> = ({ user
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Header Banner */}
-      <View style={styles.headerCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-          <Hammer size={18} color={Colors.reframeGold} />
-          <Text style={styles.headerTitle}>7-Step Structured Problem-Solving (PS)</Text>
-        </View>
-        <Text style={styles.headerSubtitle}>
-          Phase 2 Clinical Skill (Arean et al. / Furukawa et al.): Deconstruct complex blockers into concrete, actionable steps.
-        </Text>
-      </View>
+      <ScreenHeader
+        icon={Hammer}
+        title="7-Step Structured Problem-Solving (PS)"
+        subtitle="Phase 2 Clinical Skill (Arean et al. / Furukawa et al.): Deconstruct complex blockers into concrete, actionable steps."
+      />
 
       {/* Step Indicator */}
       <View style={styles.stepIndicatorRow}>

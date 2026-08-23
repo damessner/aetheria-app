@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SleepEfficiencyEntry, UserState } from '../../core/types';
 import { Colors, Spacing } from '../../core/theme';
-import { Database } from '../../core/database/db';
+import { ScreenHeader } from '../../components';import { Database } from '../../core/database/db';
 import {
   Moon,
   BedDouble,
@@ -110,15 +110,11 @@ export const SleepTherapyScreen: React.FC<SleepTherapyScreenProps> = ({ userStat
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Header Banner */}
-      <View style={styles.headerCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-          <Moon size={18} color={Colors.gloomPurple} />
-          <Text style={styles.headerTitle}>Behavior Therapy for Insomnia (BI)</Text>
-        </View>
-        <Text style={styles.headerSubtitle}>
-          Phase 1 Clinical Skill: Stabilize sleep efficiency, restore stimulus control, and sync circadian rhythms.
-        </Text>
-      </View>
+      <ScreenHeader
+        icon={Moon}
+        title="Behavior Therapy for Insomnia (BI)"
+        subtitle="Phase 1 Clinical Skill: Stabilize sleep efficiency, restore stimulus control, and sync circadian rhythms."
+      />
 
       {/* Sleep Efficiency Calculator */}
       <View style={styles.card}>

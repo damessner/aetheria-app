@@ -265,6 +265,72 @@ export const ShadowCrucibleScreen: React.FC<ShadowCrucibleScreenProps> = ({ user
                   </View>
 
                   {/* 5. Acute Emergency Protocol */}
+                  <View style={styles.sectionBox}>
+                    <Text style={styles.sectionHeader}>5. Acute Emergency Protocol</Text>
+                    <Text style={styles.emergencyText}>{selectedDossier.acuteEmergencyProtocol}</Text>
+                  </View>
+
+                  {/* 6. DEEP DIVE: Origin Story */}
+                  {selectedDossier.deepDive && (
+                    <>
+                      <View style={[styles.sectionBox, { borderLeftColor: selectedDossier.color }]}>
+                        <Text style={styles.sectionHeader}>6. Developmental Origin Story</Text>
+                        <Text style={styles.sectionBodyText}>{selectedDossier.deepDive.originStory}</Text>
+                      </View>
+
+                      <View style={[styles.sectionBox, { borderLeftColor: selectedDossier.color }]}>
+                        <Text style={styles.sectionHeader}>7. The Seductive Payoff (Why It Persists)</Text>
+                        <Text style={styles.sectionBodyText}>{selectedDossier.deepDive.seductivePayoff}</Text>
+                      </View>
+
+                      <View style={[styles.sectionBox, { borderLeftColor: selectedDossier.color }]}>
+                        <Text style={styles.sectionHeader}>8. Somatic Body Signature</Text>
+                        <Text style={styles.sectionBodyText}>{selectedDossier.deepDive.bodySignature}</Text>
+                      </View>
+
+                      <View style={[styles.sectionBox, { borderLeftColor: selectedDossier.color }]}>
+                        <Text style={styles.sectionHeader}>9. Relational Replay (Home & Work)</Text>
+                        <Text style={styles.sectionBodyText}>{selectedDossier.deepDive.relationalReplay}</Text>
+                      </View>
+
+                      <View style={[styles.sectionBox, { borderLeftColor: selectedDossier.color }]}>
+                        <Text style={styles.sectionHeader}>10. Daily Starvation Practices</Text>
+                        <View style={{ gap: 8, marginTop: 4 }}>
+                          {selectedDossier.deepDive.dailyMicroPractices.map((p, idx) => (
+                            <View key={idx} style={styles.probeBox}>
+                              <HelpCircle size={14} color={Colors.vitalityGreen} />
+                              <Text key={`pt${idx}`} style={styles.probeText}>{p}</Text>
+                            </View>
+                          ))}
+                        </View>
+                      </View>
+
+                      <View style={[styles.sectionBox, { borderLeftColor: selectedDossier.color }]}>
+                        <Text style={styles.sectionHeader}>11. Disconfirmation Experiments</Text>
+                        <View style={{ gap: 8, marginTop: 4 }}>
+                          {selectedDossier.deepDive.disconfirmationExercises.map((ex, idx) => (
+                            <View key={idx} style={styles.probeBox}>
+                              <Zap size={14} color={Colors.reframeGold} />
+                              <Text key={`et${idx}`} style={styles.probeText}>{ex}</Text>
+                            </View>
+                          ))}
+                        </View>
+                      </View>
+                    </>
+                  )}
+                  <View style={styles.sectionBox}>
+                    <Text style={styles.sectionHeader}>4. Socratic Razor Probes (Self-Inquiry)</Text>
+                    <View style={{ gap: 8, marginTop: 4 }}>
+                      {selectedDossier.razorProbes.map((probe, pIdx) => (
+                        <View key={pIdx} style={styles.probeBox}>
+                          <HelpCircle size={14} color={Colors.reframeGold} />
+                          <Text style={styles.probeText}>{probe}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+
+                  {/* 5. Acute Emergency Protocol */}
                   <View style={styles.emergencyBox}>
                     <Zap size={16} color={Colors.reframeGold} />
                     <View style={{ flex: 1 }}>

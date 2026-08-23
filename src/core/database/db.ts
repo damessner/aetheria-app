@@ -38,6 +38,7 @@ import {
   INITIAL_THOUGHT_FEED,
 } from '../../content';
 import { INITIAL_SCROLLS_RICH } from '../../content/wisdomScrollsRich';
+import { SHADOW_DEEP_DIVES } from '../../content/shadowDeepDives';
 
 /** Canonical bundled scroll seed: the FULL rich content set (L2, routines, recall) */
 const INITIAL_SCROLLS = INITIAL_SCROLLS_RICH;
@@ -405,7 +406,12 @@ class DatabaseService {
     try {
       const data = await AsyncStorage.getItem(STORAGE_KEYS.SHADOW_CRUCIBLE);
       if (data) {
-        return JSON.parse(data);
+        const saved: ShadowDossier[] = JSON.parse(data);
+        // Merge deep-dive expansions (added post-launch) into persisted dossiers
+        return saved.map((d) => ({
+          ...d,
+          deepDive: SHADOW_DEEP_DIVES[d.id] || d.deepDive,
+        }));
       }
 
       const initial: ShadowDossier[] = [
@@ -671,8 +677,14 @@ class DatabaseService {
         },
       ];
 
-      await AsyncStorage.setItem(STORAGE_KEYS.SHADOW_CRUCIBLE, JSON.stringify(initial));
-      return initial;
+      // Attach rich deep-dive expansions from the content module
+      const enriched = initial.map((d) => ({
+        ...d,
+        deepDive: SHADOW_DEEP_DIVES[d.id],
+      }));
+
+      await AsyncStorage.setItem(STORAGE_KEYS.SHADOW_CRUCIBLE, JSON.stringify(enriched));
+      return enriched;
     } catch (e) {
       return [];
     }

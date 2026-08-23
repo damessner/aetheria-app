@@ -344,6 +344,21 @@ export type ShadowFlawType =
   | 'SCARCITY_HOARDER'
   | 'HYPOCRITICAL_MORALIST';
 
+export interface ShadowDeepDive {
+  /** Developmental origin story: where this pattern was learned */
+  originStory: string;
+  /** The hidden psychological payoff that keeps the pattern alive */
+  seductivePayoff: string;
+  /** Somatic/bodily signature: how the pattern feels physically when active */
+  bodySignature: string;
+  /** How the flaw specifically replays in parenting, partnership & work */
+  relationalReplay: string;
+  /** Three concrete daily micro-practices that starve the pattern */
+  dailyMicroPractices: string[];
+  /** Behavioral experiments that generate disconfirming evidence */
+  disconfirmationExercises: string[];
+}
+
 export interface ShadowDossier {
   id: ShadowFlawType;
   name: string;
@@ -359,6 +374,8 @@ export interface ShadowDossier {
   crucibleVowText: string;
   associatedVirtue: 'COURAGE' | 'INTEGRITY' | 'TEMPERANCE' | 'HUMILITY';
   virtueForgedName: string;
+  /** Optional rich expansion bundled from src/content/shadowDeepDives.ts */
+  deepDive?: ShadowDeepDive;
   isVowActive?: boolean;
   isVowCompleted?: boolean;
 }

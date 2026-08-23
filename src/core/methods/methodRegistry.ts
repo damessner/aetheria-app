@@ -1,0 +1,141 @@
+import { TherapeuticTechnique, MethodCodexItem } from '../types';
+
+export const METHOD_CODEX_REGISTRY: Record<TherapeuticTechnique, MethodCodexItem> = {
+  CBT_REALITY_CHECK: {
+    id: 'CBT_REALITY_CHECK',
+    name: 'CBT Evidence Vault',
+    tagline: 'Test automatic thoughts against observable, verifiable facts.',
+    founderTradition: 'Cognitive Behavioral Therapy (Dr. Aaron T. Beck & Dr. David Burns)',
+    neurobiologicalMechanism:
+      'Activates the Dorsolateral Prefrontal Cortex (dlPFC) to send inhibitory GABAergic signals to the amygdala, reducing acute panic and catastrophic emotional spirals.',
+    parentingAndTeachingBenefit:
+      'When your child has a meltdown or students act out, CBT reality-checks whether this is a temporary developmental spike vs an intentional personal attack, preventing reactive anger.',
+    whenToUse: 'When experiencing catastrophic "what-ifs", mind-reading partner/colleagues, or all-or-nothing thinking.',
+    commonPitfalls: 'Engaging in circular intellectual debate rather than checking concrete, observable facts.',
+    algorithmSteps: [
+      '1. Capture the exact hot automatic thought (e.g. "I am failing as a father/teacher").',
+      '2. Identify the active cognitive distortion (All-or-Nothing, Catastrophizing).',
+      '3. Search for objective proof FOR and counter-evidence AGAINST.',
+      '4. Formulate a balanced, fact-grounded synthesis.',
+    ],
+  },
+  STOIC_CONTROL: {
+    id: 'STOIC_CONTROL',
+    name: 'Stoic Dichotomy of Control',
+    tagline: 'Divide everything into what is up to you, and what is not.',
+    founderTradition: 'Classical Stoic Philosophy (Epictetus, Marcus Aurelius, Seneca)',
+    neurobiologicalMechanism:
+      'Conserves Anterior Cingulate Cortex (ACC) cognitive bandwidth by eliminating executive alarm over uncontrollable external factors.',
+    parentingAndTeachingBenefit:
+      'You cannot control a toddler’s mood, a student’s home environment, or school board politics. You can 100% control your own calm tone, consistency, and preparation.',
+    whenToUse: 'Chaotic classrooms, bedtime battles, traffic jams, institutional politics, unexpected schedule changes.',
+    commonPitfalls: 'Confusing Stoicism with emotional apathy or cold neglect. Stoicism is deep devotion to your duty while releasing anxiety about external outcomes.',
+    algorithmSteps: [
+      '1. Draw a circle: inside is your effort, attitude, and words; outside is everything else.',
+      '2. Name the uncontrollable element and consciously whisper: "This is not mine to command."',
+      '3. Redirect 100% of your current focus to your immediate next noble action.',
+    ],
+  },
+  CFT_COMPASSION: {
+    id: 'CFT_COMPASSION',
+    name: 'Compassionate Friend (CFT)',
+    tagline: 'Disarm toxic shame by activating the soothing-affiliative system.',
+    founderTradition: 'Compassion-Focused Therapy (Dr. Paul Gilbert)',
+    neurobiologicalMechanism:
+      'Stimulates oxytocin and endorphin pathways, downregulating the Threat-Defense system (fight-or-flight) into physiological safety and receptivity.',
+    parentingAndTeachingBenefit:
+      'When you lose your temper or feel depleted, harsh self-criticism ("I am a terrible dad") paralyzes you with shame. Self-compassion treats you with warmth so you can quickly apologize and repair with your family.',
+    whenToUse: 'Post-meltdown parent guilt, teacher imposter syndrome, fatigue exhaustion, feeling unappreciated.',
+    commonPitfalls: 'Mistaking self-compassion for making excuses. Compassion gives you the emotional safety to take authentic responsibility without drowning in shame.',
+    algorithmSteps: [
+      '1. Acknowledge the pain: "This is a moment of real struggle."',
+      '2. Recognize common humanity: "Millions of loving fathers and teachers feel this exact exhaustion."',
+      '3. Speak the supportive words you would give to your dearest friend in this spot.',
+    ],
+  },
+  ACT_DEFUSION: {
+    id: 'ACT_DEFUSION',
+    name: 'ACT Cognitive Defusion & Values',
+    tagline: 'Step back from sticky thoughts and steer by your values.',
+    founderTradition: 'Acceptance and Commitment Therapy (Dr. Steven C. Hayes)',
+    neurobiologicalMechanism:
+      'Decouples linguistic stimuli in the Default Mode Network (DMN) from motor-cortex behavioral lock, creating psychological flexibility.',
+    parentingAndTeachingBenefit:
+      'When the thought arises: "I cannot take one more minute of this whining," you don’t have to fight the thought. You notice: "I am having the thought of exhaustion," and choose to act like the loving guide you value being.',
+    whenToUse: 'Repetitive intrusive worries, chronic fatigue, feeling trapped in mental loops.',
+    commonPitfalls: 'Trying to force negative thoughts to disappear. ACT is about taking thoughts for a walk while doing what matters.',
+    algorithmSteps: [
+      '1. Add the prefix: "I notice I am having the thought that..."',
+      '2. Thank your mind for trying to protect you.',
+      '3. Reconnect to your core value (e.g. Love, Patience, Growth) and take one step.',
+    ],
+  },
+  BA_MICRO_ACTION: {
+    id: 'BA_MICRO_ACTION',
+    name: 'Behavioral Spark (BA)',
+    tagline: 'Action precedes motivation. Break inertia with 30-second kinetic steps.',
+    founderTradition: 'Empirical Behavioral Activation (Dr. Neil Jacobson)',
+    neurobiologicalMechanism:
+      'Stimulates striatal dopamine and noradrenaline through small physical mastery loops, bypassing prefrontal resistance.',
+    parentingAndTeachingBenefit:
+      'On Sunday nights facing endless lesson planning or feeling too drained to play with your kids: start with a 30-second micro-action (sit on the floor, open 1 slide). Motivation arrives after momentum.',
+    whenToUse: 'Burnout paralysis, procrastination, Sunday night dread, physical lethargy.',
+    commonPitfalls: 'Waiting to "feel inspired" before acting.',
+    algorithmSteps: [
+      '1. Shrink the task until resistance drops to zero (e.g. write 1 sentence, put on shoes).',
+      '2. Execute immediately without opening a mental debate.',
+      '3. Ride the kinetic momentum into the next micro-step.',
+    ],
+  },
+  SOMATIC_COREGULATION: {
+    id: 'SOMATIC_COREGULATION',
+    name: 'Polyvagal Somatic Co-Regulation',
+    tagline: 'Calm your nervous system first so your children & students can borrow your peace.',
+    founderTradition: 'Polyvagal Theory (Dr. Stephen Porges & Dr. Peter Levine)',
+    neurobiologicalMechanism:
+      'Engages the myelinated Ventral Vagal complex through prolonged exhalations, signalling neuroceptive safety across Mirror Neurons.',
+    parentingAndTeachingBenefit:
+      'Children and students don’t listen to words during stress; they read autonomic safety in your face, voice pitch, and breathing. If you stay anchored, they settle.',
+    whenToUse: 'Classroom tension, sibling fighting, bedtime meltdowns, personal somatic panic.',
+    commonPitfalls: 'Attempting to reason logically with an emotionally dysregulated child before regulating physiology.',
+    algorithmSteps: [
+      '1. Take 2 quick nasal inhales followed by 1 long, slow mouth sigh (The Physiological Sigh).',
+      '2. Drop your shoulders and soften your jaw.',
+      '3. Lower your vocal pitch and speak at half-speed.',
+    ],
+  },
+  REBT_DISPUTE: {
+    id: 'REBT_DISPUTE',
+    name: 'REBT Disputing Demands',
+    tagline: 'Transform rigid "musts" and "shoulds" into flexible preferences.',
+    founderTradition: 'Rational Emotive Behavior Therapy (Dr. Albert Ellis)',
+    neurobiologicalMechanism:
+      'Restructures rigid cognitive schemas in the ventromedial prefrontal cortex (vmPFC), abolishing rage spikes caused by perceived rule violations.',
+    parentingAndTeachingBenefit:
+      'Replaces rage-inducing demands ("They MUST behave perfectly!") with rational preferences ("I prefer they listen quickly, but they are developing humans and I can guide them calmly").',
+    whenToUse: 'Anger outbursts, frustration with students/partner, feeling disrespected.',
+    commonPitfalls: 'Demanding that reality obey your expectations.',
+    algorithmSteps: [
+      '1. Locate the hidden "MUST" or "SHOULD" in your thought.',
+      '2. Ask: "Where is it written in universal law that this must go my way?"',
+      '3. Convert it: "I strongly prefer X, but if Y happens, it is inconvenient, not catastrophic."',
+    ],
+  },
+  SCHEMA_HEALTHY_ADULT: {
+    id: 'SCHEMA_HEALTHY_ADULT',
+    name: 'Schema Healthy Adult Mode',
+    tagline: 'Step into the Healthy Adult to protect and nurture your inner child.',
+    founderTradition: 'Schema Therapy (Dr. Jeffrey Young)',
+    neurobiologicalMechanism:
+      'Strengthens integrative executive ego networks, soothing childhood emotional memory engrams in the basolateral amygdala.',
+    parentingAndTeachingBenefit:
+      'Prevents your partner’s criticism or a student’s rebellion from triggering old childhood feelings of inadequacy, keeping you in your mature parental power.',
+    whenToUse: 'Deep emotional triggers, feeling unappreciated, relationship conflict.',
+    commonPitfalls: 'Reacting from the wounded child (pouting, screaming) or demanding critic.',
+    algorithmSteps: [
+      '1. Recognize the trigger: "My inner perfectionist/abandoned child feels attacked right now."',
+      '2. Place a hand on your heart: "I am safe now; I am an adult capable of handling this."',
+      '3. Respond with calm boundaries from your Healthy Adult.',
+    ],
+  },
+};

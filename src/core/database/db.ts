@@ -408,40 +408,335 @@ class DatabaseService {
       if (data) {
         return JSON.parse(data);
       }
-      const initial = [
+      const initial: ThoughtFeedItem[] = [
         {
-          id: 'thg_seed_1',
-          thought: 'I didn’t finish all 5 goals today, so the entire weekend was a complete waste.',
-          contextDomain: 'PERFECTIONISM',
+          id: 'thg_parent_1',
+          thought: 'My 4-year-old is having a screaming bedtime meltdown. I must be failing as a father because good parents have calm children.',
+          contextDomain: 'FATHERHOOD_PARENTING',
           correctDistortion: 'ALL_OR_NOTHING',
-          explanation: 'Evaluating an entire day as either 100% successful or a total failure.',
-          techniqueOptions: ['CBT_REALITY_CHECK', 'CFT_COMPASSION', 'BA_MICRO_ACTION'],
-          suggestedReframe: 'Finishing 3 out of 5 goals is still meaningful progress. Rest and partial completion have value.',
+          explanation: 'Equating a child’s normal developmental emotional dysregulation with complete parental failure.',
+          techniqueOptions: ['SOMATIC_COREGULATION', 'CFT_COMPASSION', 'CBT_REALITY_CHECK'],
+          suggestedReframe: 'Toddler tantrums are neurological overwhelm, not a referendum on my parenting. My job is to be the calm anchor.',
+          reframeOptions: [
+            {
+              id: 'ref_p1_opt',
+              text: 'Toddler meltdowns are a normal part of nervous system development, not proof of bad parenting. My role is to stay calm and co-regulate.',
+              type: 'OPTIMAL',
+              score: 98,
+              explanation: 'Applies Somatic Co-Regulation and CBT evidence testing; removes shame.',
+              clinicalFeedback: 'Masterful reframe. Decouples your worth from toddler dysregulation.',
+            },
+            {
+              id: 'ref_p1_toxic',
+              text: 'Everything is fine! Children are a blessing and I should feel lucky and smile through every scream!',
+              type: 'TOXIC_POSITIVITY',
+              score: 45,
+              explanation: 'Invalidates genuine exhaustion with superficial positivity.',
+              clinicalFeedback: 'Toxic positivity suppresses real emotional strain and leads to sudden snapping.',
+            },
+            {
+              id: 'ref_p1_rat',
+              text: 'Other kids never scream like this. My child is just defiant and I am doomed to have a chaotic home.',
+              type: 'RATIONALIZATION',
+              score: 25,
+              explanation: 'Maintains all-or-nothing thinking and learned helplessness.',
+              clinicalFeedback: 'Reinforces helplessness and creates adversarial tension with your child.',
+            },
+          ],
           isSolved: false,
         },
         {
-          id: 'thg_seed_2',
-          thought: 'My heart is beating faster before this meeting. I am definitely going to have a panic attack and embarrass myself.',
-          contextDomain: 'HEALTH_ANXIETY',
+          id: 'thg_parent_2',
+          thought: 'I snapped and raised my voice at the kids during the morning rush. I have permanently damaged our bond and their trust in me.',
+          contextDomain: 'FATHERHOOD_PARENTING',
           correctDistortion: 'CATASTROPHIZING',
-          explanation: 'Interpreting normal physiological arousal as an imminent catastrophe.',
-          techniqueOptions: ['CBT_REALITY_CHECK', 'CFT_COMPASSION', 'ACT_DEFUSION'],
-          suggestedReframe: 'A fast heart rate is simply my body preparing energy for focus. It is uncomfortable, but not dangerous.',
+          explanation: 'Blowing a moment of morning frustration into irreversible psychological trauma.',
+          techniqueOptions: ['CFT_COMPASSION', 'CBT_REALITY_CHECK', 'SCHEMA_HEALTHY_ADULT'],
+          suggestedReframe: 'Losing my temper is human under stress. What builds secure attachment is humble, swift repair and apology.',
+          reframeOptions: [
+            {
+              id: 'ref_p2_opt',
+              text: 'Raising my voice was a mistake born of stress, but attachment research proves swift, humble repair and apology actually strengthens trust.',
+              type: 'OPTIMAL',
+              score: 96,
+              explanation: 'Emphasizes repair over perfection, backed by developmental science.',
+              clinicalFeedback: 'Excellent. Demonstrates that authentic repair models emotional maturity for your children.',
+            },
+            {
+              id: 'ref_p2_toxic',
+              text: 'They won’t even remember it when they grow up, so there is no point in apologizing or dwelling on it.',
+              type: 'TOXIC_POSITIVITY',
+              score: 40,
+              explanation: 'Dismisses accountability to avoid temporary discomfort.',
+              clinicalFeedback: 'Bypassing repair prevents children from learning how healthy adults take ownership.',
+            },
+            {
+              id: 'ref_p2_rat',
+              text: 'If they just put their shoes on the first time I asked, I wouldn’t have had to yell. It’s entirely their fault.',
+              type: 'RATIONALIZATION',
+              score: 20,
+              explanation: 'Projects adult emotional dysregulation onto young children.',
+              clinicalFeedback: 'Blaming children for adult reactivity keeps you stuck in reactive parenting loops.',
+            },
+          ],
           isSolved: false,
         },
         {
-          id: 'thg_seed_3',
-          thought: 'My manager sent a calendar invite without a description. I must be getting fired or demoted.',
-          contextDomain: 'WORK_BURNOUT',
+          id: 'thg_parent_3',
+          thought: 'I worked late and missed family dinner. A good father should never prioritize work over family time.',
+          contextDomain: 'FATHERHOOD_PARENTING',
+          correctDistortion: 'SHOULD_STATEMENTS',
+          explanation: 'Applying an impossible, rigid moral standard that ignores realistic professional constraints.',
+          techniqueOptions: ['REBT_DISPUTE', 'CFT_COMPASSION', 'ACT_DEFUSION'],
+          suggestedReframe: 'I prefer to be at every dinner, but providing for my family requires flexibility. I can be fully present at bedtime.',
+          reframeOptions: [
+            {
+              id: 'ref_p3_opt',
+              text: 'I prefer to make every dinner, but working late to provide is also an act of care. I will make our bedtime reading 100% focused.',
+              type: 'OPTIMAL',
+              score: 95,
+              explanation: 'Converts a rigid "should" into a healthy preference and pivots to quality connection.',
+              clinicalFeedback: 'Balances realistic career duty with warm, intentional presence.',
+            },
+            {
+              id: 'ref_p3_toxic',
+              text: 'Work is all that matters because money buys happiness for the family anyway!',
+              type: 'TOXIC_POSITIVITY',
+              score: 35,
+              explanation: 'Overcompensates with materialism to avoid emotional guilt.',
+              clinicalFeedback: 'Avoids addressing the core desire for meaningful family connection.',
+            },
+            {
+              id: 'ref_p3_rat',
+              text: 'I might as well give up on being present during the week since my career completely owns my life.',
+              type: 'RATIONALIZATION',
+              score: 25,
+              explanation: 'All-or-nothing defeatism that abandons micro-moments of evening connection.',
+              clinicalFeedback: 'Treats binary trade-offs as absolute, ignoring micro-moments of genuine bonding.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_teach_1',
+          thought: 'Half the students were restless and talking during my lesson today. I am a terrible teacher and have lost all classroom control.',
+          contextDomain: 'TEACHING_EDUCATOR',
+          correctDistortion: 'ALL_OR_NOTHING',
+          explanation: 'Interpreting a single restless period as total pedagogical incompetence.',
+          techniqueOptions: ['STOIC_CONTROL', 'CBT_REALITY_CHECK', 'SOMATIC_COREGULATION'],
+          suggestedReframe: 'Student energy fluctuates due to time of day and attention spans. One noisy period is feedback for pacing, not a verdict on my skill.',
+          reframeOptions: [
+            {
+              id: 'ref_t1_opt',
+              text: 'Classroom energy fluctuates with weather, time of day, and fatigue. One restless session is diagnostic feedback to adjust pacing, not a referendum on my competence.',
+              type: 'OPTIMAL',
+              score: 97,
+              explanation: 'Separates pedagogical data from personal identity and applies Stoic control.',
+              clinicalFeedback: 'Pivots from shame to reflective practitioner mindset.',
+            },
+            {
+              id: 'ref_t1_toxic',
+              text: 'It was the best lesson ever, the kids were just expressing their vibrant creative spirits!',
+              type: 'TOXIC_POSITIVITY',
+              score: 40,
+              explanation: 'Ignores actual classroom management needs with romanticized delusion.',
+              clinicalFeedback: 'Prevents effective boundary setting and classroom management adjustments.',
+            },
+            {
+              id: 'ref_t1_rat',
+              text: 'This generation of students is completely unteachable and there is no point in trying creative lessons.',
+              type: 'RATIONALIZATION',
+              score: 20,
+              explanation: 'Bitter cynicism that relieves the educator from trying.',
+              clinicalFeedback: 'Cynical surrender that leads directly to educator burnout.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_teach_2',
+          thought: 'It is Sunday 8 PM and I still have 35 essays left to grade. If I don’t finish them all tonight with detailed comments, I am failing my students.',
+          contextDomain: 'TEACHING_EDUCATOR',
+          correctDistortion: 'SHOULD_STATEMENTS',
+          explanation: 'Sacrificing essential sleep and health to meet an unsustainable standard of perfectionism.',
+          techniqueOptions: ['REBT_DISPUTE', 'BA_MICRO_ACTION', 'CFT_COMPASSION'],
+          suggestedReframe: 'A rested, emotionally patient teacher in the morning benefits students far more than exhaustive midnight grading.',
+          reframeOptions: [
+            {
+              id: 'ref_t2_opt',
+              text: 'A rested, emotionally grounded teacher in the morning is more impactful than midnight feedback. I will grade 10 essays focused on key criteria, then sleep.',
+              type: 'OPTIMAL',
+              score: 96,
+              explanation: 'Balances teacher sustainability with student utility.',
+              clinicalFeedback: 'Protects circadian health and models healthy boundaries.',
+            },
+            {
+              id: 'ref_t2_toxic',
+              text: 'I will just stay up until 3 AM with 4 energy drinks! Sleep is for the weak when students depend on me!',
+              type: 'TOXIC_POSITIVITY',
+              score: 30,
+              explanation: 'Hero/martyr syndrome that guarantees severe burnout.',
+              clinicalFeedback: 'Martyrdom leads directly to Monday irritability and morning classroom snap.',
+            },
+            {
+              id: 'ref_t2_rat',
+              text: 'Students don’t even read feedback anyway, so I should just give everyone an A and stop grading.',
+              type: 'RATIONALIZATION',
+              score: 25,
+              explanation: 'Defensive dismissiveness that erodes professional pride.',
+              clinicalFeedback: 'Devalues your own craft rather than managing workload strategically.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_teach_3',
+          thought: 'A parent sent an email saying "We need to talk about my son’s grade." They definitely think I am incompetent and are trying to get me reprimanded.',
+          contextDomain: 'TEACHING_EDUCATOR',
           correctDistortion: 'MIND_READING',
-          explanation: 'Assuming the worst possible motivation without factual data.',
+          explanation: 'Projecting acute catastrophic intentions onto a neutral, standard communication.',
           techniqueOptions: ['CBT_REALITY_CHECK', 'STOIC_CONTROL', 'ACT_DEFUSION'],
-          suggestedReframe: 'Most calendar invites are standard check-ins or project syncs. I will wait for actual facts before stressing.',
+          suggestedReframe: 'Parents inquire because they are anxious about their child. I have clear rubrics and can have a collaborative, professional conversation.',
+          reframeOptions: [
+            {
+              id: 'ref_t3_opt',
+              text: 'Parents reach out out of anxiety for their child. I have clear rubrics and objective data. I will approach the call as a collaborative team meeting.',
+              type: 'OPTIMAL',
+              score: 95,
+              explanation: 'Tests the mind-reading assumption and approaches the meeting with professional equanimity.',
+              clinicalFeedback: 'Defuses threat-defense alarm and establishes collaborative educator boundaries.',
+            },
+            {
+              id: 'ref_t3_toxic',
+              text: 'Every parent interaction is a wonderful joy! I will just agree to change the grade immediately to make everyone smile!',
+              type: 'TOXIC_POSITIVITY',
+              score: 35,
+              explanation: 'People-pleasing that compromises educational integrity.',
+              clinicalFeedback: 'Sacrifices professional standards to avoid mild conflict.',
+            },
+            {
+              id: 'ref_t3_rat',
+              text: 'Entitled parents always ruin education. I will write a harsh defensive email right now before they attack me.',
+              type: 'RATIONALIZATION',
+              score: 20,
+              explanation: 'Pre-emptive attack driven by defensive fear.',
+              clinicalFeedback: 'Escalates conflict unnecessarily before establishing basic facts.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_rel_1',
+          thought: 'My partner came home exhausted and barely looked up when I spoke. They must be growing distant and falling out of love with me.',
+          contextDomain: 'PARTNERSHIP_INTIMACY',
+          correctDistortion: 'MIND_READING',
+          explanation: 'Interpreting another adult’s workplace exhaustion as personal emotional rejection.',
+          techniqueOptions: ['CBT_REALITY_CHECK', 'CFT_COMPASSION', 'SCHEMA_HEALTHY_ADULT'],
+          suggestedReframe: 'Their quietness is depletion from a grueling day, not a lack of love. I can offer a glass of water and space rather than taking it personally.',
+          reframeOptions: [
+            {
+              id: 'ref_r1_opt',
+              text: 'Their flat affect is physiological fatigue from a long day, not an indictment of our relationship. I will offer warmth and give them 20 minutes to decompress.',
+              type: 'OPTIMAL',
+              score: 96,
+              explanation: 'Separates fatigue from relational bond and offers low-pressure connection.',
+              clinicalFeedback: 'Deeply empathic. Breaks the cycle of demand-withdrawal in relationships.',
+            },
+            {
+              id: 'ref_r1_toxic',
+              text: 'True soulmates never feel tired around each other! Everything is perfect in our paradise!',
+              type: 'TOXIC_POSITIVITY',
+              score: 35,
+              explanation: 'Unrealistic fairy-tale standard that breeds dissatisfaction.',
+              clinicalFeedback: 'Denies normal human biology and creates artificial pressure.',
+            },
+            {
+              id: 'ref_r1_rat',
+              text: 'If they can’t even say hello, I will give them the silent treatment for the rest of the evening.',
+              type: 'RATIONALIZATION',
+              score: 15,
+              explanation: 'Punitive retaliation that accelerates marital estrangement.',
+              clinicalFeedback: 'Weaponizes passive-aggressive silence, escalating distance.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_rel_2',
+          thought: 'I did the dishes, packed school lunches, and put the kids to bed while my partner sat on the couch. I do EVERYTHING in this house.',
+          contextDomain: 'PARTNERSHIP_INTIMACY',
+          correctDistortion: 'ALL_OR_NOTHING',
+          explanation: 'Using absolute terms ("everything / nothing") that erase the partner’s invisible or daily contributions.',
+          techniqueOptions: ['CBT_REALITY_CHECK', 'REBT_DISPUTE', 'CFT_COMPASSION'],
+          suggestedReframe: 'I carried a heavy load tonight and feel tired. That doesn’t mean they do nothing. I can make a clear, gentle request for help tomorrow.',
+          reframeOptions: [
+            {
+              id: 'ref_r2_opt',
+              text: 'I carried a heavy load tonight and feel depleted. Instead of stewing in silent resentment ("I do everything"), I will clearly and kindly ask for specific help tomorrow.',
+              type: 'OPTIMAL',
+              score: 97,
+              explanation: 'Validates real fatigue while dropping binary blame in favor of assertive communication.',
+              clinicalFeedback: 'Replaces passive resentment with constructive, collaborative partnership.',
+            },
+            {
+              id: 'ref_r2_toxic',
+              text: 'I love doing all the chores by myself! It’s my secret superpower and I will never complain!',
+              type: 'TOXIC_POSITIVITY',
+              score: 40,
+              explanation: 'Martyr posture that inevitably leads to an explosive blowout.',
+              clinicalFeedback: 'Masks burnout with false cheer until emotional exhaustion hits.',
+            },
+            {
+              id: 'ref_r2_rat',
+              text: 'My partner is completely useless and I have to accept being a single parent in a marriage.',
+              type: 'RATIONALIZATION',
+              score: 20,
+              explanation: 'Contemptuous schema that permanently poisons marital goodwill.',
+              clinicalFeedback: 'Contempt is the #1 predictor of relational decay; traps you in victimhood.',
+            },
+          ],
+          isSolved: false,
+        },
+        {
+          id: 'thg_rest_1',
+          thought: 'I took a 45-minute nap on Sunday afternoon while there was laundry to fold. I am so lazy and wasting precious life.',
+          contextDomain: 'SELF_RESTORATION',
+          correctDistortion: 'ALL_OR_NOTHING',
+          explanation: 'Equating essential biological restoration with moral defectiveness or laziness.',
+          techniqueOptions: ['CFT_COMPASSION', 'CBT_REALITY_CHECK', 'ACT_DEFUSION'],
+          suggestedReframe: 'Rest is not a reward you earn only after total exhaustion; it is biological maintenance required to be a patient father and teacher.',
+          reframeOptions: [
+            {
+              id: 'ref_s1_opt',
+              text: 'Rest is not laziness; it is biological maintenance. Resting 45 minutes restores my prefrontal patience so I can show up with warmth for my family.',
+              type: 'OPTIMAL',
+              score: 98,
+              explanation: 'Reframes rest as essential fuel for parental and pedagogical presence.',
+              clinicalFeedback: 'Flawless reframe. Dissolves capitalist hustle guilt with biological reality.',
+            },
+            {
+              id: 'ref_s1_toxic',
+              text: 'I must never stop moving! High achievers only sleep 4 hours a night and hustle 24/7!',
+              type: 'TOXIC_POSITIVITY',
+              score: 25,
+              explanation: 'Toxic hustle mythology that leads directly to adrenal collapse.',
+              clinicalFeedback: 'Glorifies sleep deprivation, accelerating cognitive and somatic breakdown.',
+            },
+            {
+              id: 'ref_s1_rat',
+              text: 'Since I took a nap, the whole afternoon is ruined so I might as well scroll on my phone until midnight.',
+              type: 'RATIONALIZATION',
+              score: 20,
+              explanation: 'All-or-nothing spiraling into revenge bedtime procrastination.',
+              clinicalFeedback: 'Uses minor deviation as an excuse for reckless avoidance.',
+            },
+          ],
           isSolved: false,
         },
       ];
-      await this.saveThoughtFeed(initial as any);
-      return initial as any;
+
+      await this.saveThoughtFeed(initial);
+      return initial;
     } catch (e) {
       return [];
     }
@@ -478,34 +773,26 @@ class DatabaseService {
         {
           id: 'scr_stoic_1',
           title: 'The View from Above',
-          subtitle: 'Marcus Aurelius & Psychological Decentering',
+          subtitle: 'Marcus Aurelius & Cosmic Decentering',
           authorOrTradition: 'Stoic Philosophy',
           readingMinutes: 2,
           category: 'STOICISM',
-          contentMarkdown: `When entangled in anxiety or frustration, our field of vision shrinks to the immediate threat. Marcus Aurelius practiced zooming out mentally: looking down at your city, your continent, and the vast span of centuries.
+          contentMarkdown: `When acute stress narrows your vision—a crying child, a pile of ungraded exams, or a sharp comment—your amygdala perceives an immediate existential threat.
 
-From this cosmic altitude, what feels like a catastrophic crisis shrinks to its true size: a fleeting momentary occurrence. You gain the psychological breathing room to act with calm virtue rather than panic.`,
-          keyTakeaway: 'Zooming out to a cosmic perspective shrinks acute anxiety and restores rational agency.',
+The ancient Stoics practiced "The View from Above": closing your eyes and mentally zooming out. Rise above your room, above your city, above the continent, and into the cosmic expanse of time. Zoom forward 10 years: will this specific spilled milk or missed deadline matter?
+
+Decentering shrinks acute catastrophic anxiety to its true proportions, restoring the calm vantage point of reason.`,
+          keyTakeaway: 'Zooming out to a cosmic and temporal perspective shrinks catastrophic anxiety instantly.',
           quiz: [
             {
-              question: 'What is the primary psychological purpose of "The View from Above"?',
+              question: 'When is "The View from Above" most clinically helpful?',
               options: [
-                'To make yourself feel small and helpless',
-                'To gain psychological distance and calm perspective',
-                'To avoid taking responsibility for problems',
-              ],
-              correctIndex: 1,
-              explanation: 'Decentering creates cognitive distance, helping you respond with clarity rather than reactive emotion.',
-            },
-            {
-              question: 'When is this technique most clinically helpful?',
-              options: [
-                'During acute catastrophic spiral or social anxiety',
+                'During acute catastrophic panic, parental overwhelm, or workplace stress',
                 'Only when you are asleep',
-                'Never in real situations',
+                'Never in real life',
               ],
               correctIndex: 0,
-              explanation: 'It acts as an immediate cognitive defusion tool when catastrophic thoughts arise.',
+              explanation: 'It acts as an immediate cognitive defusion tool when acute emotional stress narrows your vision.',
             },
           ],
           unlockedCardReward: {
@@ -522,25 +809,27 @@ From this cosmic altitude, what feels like a catastrophic crisis shrinks to its 
         },
         {
           id: 'scr_neuro_2',
-          title: 'The Amygdala Hijack',
-          subtitle: 'Polyvagal Science & The Somatic Reset',
+          title: 'The Amygdala Hijack & Vagal Brake',
+          subtitle: 'Polyvagal Somatics & The Physiological Reset',
           authorOrTradition: 'Clinical Neuroscience',
           readingMinutes: 2,
           category: 'NEUROSCIENCE',
-          contentMarkdown: `Before your rational prefrontal cortex can process an event, your amygdala scans for threats in 12 milliseconds. If it detects danger, it triggers the sympathetic nervous system: heart racing, tunnel vision, and racing thoughts.
+          contentMarkdown: `Before your rational prefrontal cortex can evaluate a situation, your amygdala scans for threats in 12 milliseconds. If triggered, it throttles cognitive control: heart pounding, shallow breathing, and racing anger.
 
-You cannot logic your way out of a physiological alarm state. You must speak the body's language first: a physiological sigh (two quick inhales through the nose, one long slow exhale through the mouth) engages the vagal brake, lowering heart rate in under 30 seconds.`,
-          keyTakeaway: 'Regulate the nervous system somatically before attempting cognitive restructuring.',
+You cannot logic your way out of autonomic panic. You must speak the nervous system’s somatic language first: The Physiological Sigh (two rapid inhales through the nose, one long slow unforced exhale through the mouth).
+
+This simple breath pattern re-engages the Vagal Brake on the sinoatrial node of the heart, slowing heart rate and lowering blood pressure in under 30 seconds.`,
+          keyTakeaway: 'Regulate the nervous system somatically before attempting complex cognitive problem-solving.',
           quiz: [
             {
-              question: 'Why does rational logic often fail during intense anxiety?',
+              question: 'Why does pure logical reasoning often fail when you are overwhelmed or furious?',
               options: [
-                'Because the amygdala has throttled prefrontal cognitive control',
-                'Because you lack intelligence',
-                'Because thoughts are always 100% true',
+                'Because the amygdala has throttled prefrontal executive resources',
+                'Because you are not smart enough',
+                'Because all negative thoughts are completely true',
               ],
               correctIndex: 0,
-              explanation: 'Sympathetic arousal shifts brain resources away from the prefrontal cortex toward survival reflexes.',
+              explanation: 'Sympathetic arousal redirects metabolic brain energy toward fight-or-flight survival circuits.',
             },
           ],
           unlockedCardReward: {
@@ -562,13 +851,15 @@ You cannot logic your way out of a physiological alarm state. You must speak the
           authorOrTradition: 'REBT / CBT',
           readingMinutes: 2,
           category: 'CBT_REBT',
-          contentMarkdown: `Albert Ellis coined the term "Musterbation"—the irrational belief that things MUST, SHOULD, or OUGHT to be a certain way ("I must never make mistakes", "People must always treat me fairly").
+          contentMarkdown: `Albert Ellis identified "Musterbation"—the irrational belief that life, our children, our students, or ourselves MUST, SHOULD, or OUGHT to conform to our expectations.
 
-When reality clashes with a dogmatic "should", rage, shame, and depression follow. The antidote is converting rigid demands into flexible preferences: "I would strongly PREFER to succeed, but if I do not, it is merely inconvenient, not catastrophic."`,
-          keyTakeaway: 'Replace rigid dogmatic demands ("musts") with flexible, compassionate preferences.',
+When reality clashes with a dogmatic "should", rage, shame, and burnout follow. The antidote is converting demands into flexible preferences:
+
+"I strongly PREFER that my children listen on the first try and that my lesson goes smoothly. But if they don't, it is merely inconvenient and human—not catastrophic."`,
+          keyTakeaway: 'Transform dogmatic "musts" and "shoulds" into flexible, realistic preferences.',
           quiz: [
             {
-              question: 'What is the emotional consequence of rigid "should" statements?',
+              question: 'What is the psychological consequence of rigid "should" statements?',
               options: [
                 'Guaranteed perfection in all areas of life',
                 'Chronic shame, guilt, and emotional rigidity',
@@ -593,49 +884,275 @@ When reality clashes with a dogmatic "should", rage, shame, and depression follo
         {
           id: 'scr_ba_4',
           title: 'The Momentum Paradox',
-          subtitle: 'Action Precedes Motivation',
+          subtitle: 'Action Precedes Motivation in Burnout',
           authorOrTradition: 'Behavioral Activation',
           readingMinutes: 2,
           category: 'BEHAVIORAL_ACTIVATION',
-          contentMarkdown: `A universal human cognitive trap is waiting to "feel like doing it" before taking action. Depression and fatigue create an illusion of inertia.
+          contentMarkdown: `A universal human trap is waiting to "feel like doing it" before starting an uncomfortable duty. Fatigue creates an illusion of impossible inertia.
 
-In behavioral activation science, motivation is not the cause of action—it is the byproduct. By committing to just 30 seconds of physical motion (opening the book, putting on sneakers), dopamine circuits activate, and kinetic momentum takes over.`,
-          keyTakeaway: 'Action sparks motivation, never the reverse. Lower the activation hurdle to 30 seconds.',
+Behavioral Activation proves that motivation is an emotional byproduct of action, not its prerequisite. By shrinking the task to an absurdly small 30-second kinetic spark (opening 1 book, sitting on the floor with your kids), striatal dopamine is released.
+
+Once momentum begins, cognitive friction drops by over 80%.`,
+          keyTakeaway: 'Never wait for motivation. Take a 30-second micro-step to generate dopamine momentum.',
           quiz: [
             {
-              question: 'According to Behavioral Activation, how does genuine motivation arise?',
+              question: 'According to Behavioral Activation, what generates genuine motivation?',
               options: [
-                'By waiting until inspiration strikes',
-                'As a neurochemical byproduct of taking the first micro-action',
-                'By scolding yourself into action',
+                'Waiting passively until energy naturally returns',
+                'Taking a small physical action that initiates momentum',
+                'Feeling guilty about procrastination',
               ],
               correctIndex: 1,
-              explanation: 'Action triggers dopamine release, which generates subsequent motivation and reduces friction.',
+              explanation: 'Action triggers positive reinforcement and striatal dopamine loops that create subsequent motivation.',
             },
           ],
           unlockedCardReward: {
-            id: 'crd_kinetic_spark',
+            id: 'crd_kinetic_momentum',
             name: 'Kinetic Momentum',
-            category: 'ACTION_SPARK',
+            category: 'ACTION',
             manaCost: 1,
             baseDamage: 38,
             shieldValue: 12,
-            promptText: 'Take the single smallest 30-second physical step right now.',
+            promptText: 'Just 30 seconds of physical action. Momentum will carry the rest.',
             targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.6 },
           },
           isCompleted: false,
         },
         {
-          id: 'scr_sleep_5',
+          id: 'scr_parent_5',
+          title: 'The Father’s Co-Regulation Mirror',
+          subtitle: 'Polyvagal Co-Regulation in Family Storms',
+          authorOrTradition: 'Parenting & Polyvagal Science',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Young children do not possess fully myelinated prefrontal cortexes. When dysregulated, they cannot self-soothe with internal logic.
+
+Through mirror neurons and neuroception, a child's nervous system literally "borrows" the autonomic state of the adult in the room. If a father meets a screaming tantrum with clenched jaws and sharp commands, the child’s threat-defense system escalates.
+
+When you drop your shoulders, soften your gaze, lower your vocal pitch, and breathe slowly, your regulated physiology serves as an external nervous system for your child to anchor to.`,
+          keyTakeaway: 'You cannot calm a storm by shouting into it. Regulate your own nervous system to let your child borrow your calm.',
+          quiz: [
+            {
+              question: 'How do children primarily absorb emotional regulation during meltdowns?',
+              options: [
+                'Through long lectures on logic and rules',
+                'Through neuroceptive mirroring of the parent’s calm physiological state',
+                'By being left in isolation',
+              ],
+              correctIndex: 1,
+              explanation: 'Co-regulation precedes self-regulation in child development.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_coregulation_mirror',
+            name: 'Co-Regulation Mirror',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 28,
+            shieldValue: 30,
+            promptText: 'I am the calm anchor. My child borrows my peace.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_teach_6',
+          title: 'The Educator’s Sovereign Citadel',
+          subtitle: 'Stoic Pedagogy & Managing Classroom Chaos',
+          authorOrTradition: 'Stoicism for Educators',
+          readingMinutes: 2,
+          category: 'STOICISM',
+          contentMarkdown: `Teaching is an occupation filled with uncontrollable variables: student mood swings, socioeconomic stressors, sudden policy shifts, and administrative burdens.
+
+Epictetus taught that suffering arises not from events, but from demanding that external variables obey our desires. In the classroom, your Sovereign Citadel consists of three things: your preparation, your calm demeanor, and your unwavering fairness.
+
+Everything else—whether a student listens today, how a parent reacts, or what the committee decides—lies outside your citadel. Do your duty with excellence, and release the rest.`,
+          keyTakeaway: 'Focus 100% of your energy on your preparation and demeanor; release attachment to uncontrollable student moods.',
+          quiz: [
+            {
+              question: 'What belongs inside the educator’s circle of control?',
+              options: [
+                'Every student’s home life and emotional mood',
+                'Your own emotional stability, clarity of instruction, and fairness',
+                'External school district standardized test outcomes',
+              ],
+              correctIndex: 1,
+              explanation: 'Mastery over your own actions and attitude is the foundation of sustainable teaching.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_sovereign_citadel',
+            name: 'Sovereign Citadel',
+            category: 'FACT_CHECK',
+            manaCost: 2,
+            baseDamage: 42,
+            shieldValue: 25,
+            promptText: 'My inner citadel is unshakable. I command my calm and perform my duty.',
+            targetDistortionBonus: { distortion: 'MIND_READING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_cft_7',
+          title: 'The Gentle Inner Dialogue',
+          subtitle: 'Paul Gilbert’s Compassion in Overwhelm & Exhaustion',
+          authorOrTradition: 'Compassion-Focused Therapy',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `When exhausted fathers and educators make mistakes, the inner critic attacks: "You are inadequate, you can’t handle this."
+
+Neuroimaging reveals that self-criticism activates the exact same brain areas as physical pain and external hostility (the insula and amygdala). Self-attack paralyzes you with shame, reducing your capacity for warmth.
+
+Compassion-Focused Therapy replaces the harsh inner tyrant with the voice of a wise, deeply kind mentor: "You are carrying a massive load today. It is completely understandable that you feel strained. Take a breath; you are doing your best."`,
+          keyTakeaway: 'Self-criticism creates neurological threat; self-compassion releases oxytocin to restore executive resilience.',
+          quiz: [
+            {
+              question: 'What is the biological effect of self-compassion during moments of failure?',
+              options: [
+                'It leads to laziness and zero ambition',
+                'It downregulates cortisol and activates the soothing-safety oxytocin system',
+                'It guarantees that you make more mistakes',
+              ],
+              correctIndex: 1,
+              explanation: 'Self-compassion provides psychological safety, which enables faster recovery and constructive problem-solving.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_self_kindness_aegis',
+            name: 'Self-Kindness Aegis',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 24,
+            shieldValue: 38,
+            promptText: 'I meet my exhaustion with kindness. I am a devoted human doing my best.',
+            targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_act_8',
+          title: 'Leaves on a Stream',
+          subtitle: 'ACT Cognitive Defusion & Unfusing from Thoughts',
+          authorOrTradition: 'Acceptance & Commitment Therapy',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `When you are fused with a thought ("I am failing at everything"), the thought acts as tinted sunglasses: you cannot see the world except through the lens of failure.
+
+Cognitive defusion is the practice of stepping back and seeing thoughts as passing mental weather rather than literal truth.
+
+Visualize sitting by a gentle, flowing forest stream with autumn leaves floating on the surface. Whenever an anxious thought arises, place it on a leaf and watch it float downstream without arguing with it, clinging to it, or trying to push it away.`,
+          keyTakeaway: 'Thoughts are mental events, not facts or commands. Observe them and let them pass like leaves on water.',
+          quiz: [
+            {
+              question: 'What is the goal of cognitive defusion in ACT?',
+              options: [
+                'To permanently destroy all negative thoughts forever',
+                'To change your relationship with thoughts so they no longer control your actions',
+                'To obsessively analyze every single thought for hours',
+              ],
+              correctIndex: 1,
+              explanation: 'Defusion creates psychological distance so you can take values-aligned action despite uncomfortable thoughts.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_defusion_current',
+            name: 'Defusion Current',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 30,
+            shieldValue: 22,
+            promptText: 'I notice I am having the thought that I am overwhelmed. It is just passing weather.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.5 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_shadow_9',
+          title: 'The Disowned Shadow & Family Projections',
+          subtitle: 'Carl Jung’s Shadow Integration in Close Relationships',
+          authorOrTradition: 'Jungian Depth Psychology',
+          readingMinutes: 2,
+          category: 'SHADOW_INTEGRATION',
+          contentMarkdown: `Carl Jung observed: "Everything that irritates us about others can lead us to an understanding of ourselves."
+
+When a father feels disproportionate rage when his child is messy or lazy, it is often because the father disowned his own need for spontaneous rest in childhood to earn approval. When we disown an impulse, we violently attack it when we see it in our children or partners.
+
+Integrating the shadow means recognizing your own disowned vulnerabilities, removing the projection, and responding to your loved ones with conscious empathy rather than triggered rage.`,
+          keyTakeaway: 'Intense irritation toward loved ones is often a mirror of our own repressed childhood shadow.',
+          quiz: [
+            {
+              question: 'According to Jung, what is psychological projection in family life?',
+              options: [
+                'A movie shown in the living room',
+                'Attributing our own disowned impulses or fears onto our children and partners',
+                'A flawless assessment of someone else’s character',
+              ],
+              correctIndex: 1,
+              explanation: 'Projection happens when we disown a trait in ourselves and react with disproportionate emotion when others exhibit it.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_shadow_integration',
+            name: 'Shadow Integration',
+            category: 'COMPASSION',
+            manaCost: 2,
+            baseDamage: 34,
+            shieldValue: 28,
+            promptText: 'I withdraw my projection. What irritates me points to a part of me needing healing.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_frankl_10',
+          title: 'The Meaning in the Burden',
+          subtitle: 'Viktor Frankl’s Logotherapy for Tired Caregivers',
+          authorOrTradition: 'Existential Logotherapy',
+          readingMinutes: 2,
+          category: 'LOGOTHERAPY',
+          contentMarkdown: `Viktor Frankl wrote: "He who has a why to live can bear almost any how."
+
+Caregiving, parenting, and teaching are inherently demanding. When viewed purely as exhausting chores (cleaning dishes, grading stacks of papers, managing tantrums), the soul burns out under perceived meaningless labor.
+
+When reframed through Logotherapy, these exact moments are transformed into sacred acts of devotion: you are shaping young minds, providing shelter, and modeling resilience. The exhaustion is the price of deeply meaningful love.`,
+          keyTakeaway: 'Suffering ceases to be suffering the moment it finds a transcendent meaning and purpose.',
+          quiz: [
+            {
+              question: 'How does Logotherapy transform caregiving and teaching fatigue?',
+              options: [
+                'By denying that fatigue exists',
+                'By connecting the daily burden to a deep transcendent purpose and love',
+                'By quitting all responsibilities',
+              ],
+              correctIndex: 1,
+              explanation: 'When daily duties are anchored in deep personal values, stamina and fulfillment replace burnout.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_will_to_meaning',
+            name: 'Will to Meaning',
+            category: 'ACTION',
+            manaCost: 2,
+            baseDamage: 45,
+            shieldValue: 20,
+            promptText: 'This burden is my honor. I pour my energy into the lives of those I love.',
+            targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.9 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_sleep_11',
           title: 'The 90-Minute Ultradian Rhythm',
-          subtitle: 'Sleep Architecture & Adenosine Clearance',
-          authorOrTradition: 'Sleep Medicine / BI',
+          subtitle: 'Circadian Biology & Stimulus Control',
+          authorOrTradition: 'Circadian Sleep Medicine',
           readingMinutes: 2,
           category: 'CIRCADIAN_SLEEP',
-          contentMarkdown: `Sleep is not an on/off switch; it is an orchestrated 90-minute wave of light NREM, deep slow-wave repair, and REM cognitive integration.
+          contentMarkdown: `Human sleep operates in ultradian cycles of ~90 minutes. Sleep drive builds through adenosine accumulation during wakefulness.
 
-If you toss and turn in bed for more than 20 minutes, your brain forms a conditioned arousal association between your mattress and frustration. Getting out of bed to read in dim light breaks this cycle and allows adenosine sleep pressure to rebuild naturally.`,
-          keyTakeaway: 'Protect the bed as a sanctuary for sleep only; break conditioned arousal after 20 minutes.',
+When you lie awake tossing and turning for over 20 minutes, your brain forms a conditioned pavlovian association: "Bed = Frustration & Worry."
+
+Stimulus control breaks this loop: if awake after 20 minutes, leave the bed, sit in dim light with a physical book, and return ONLY when the next wave of adenosine sleepiness arrives.`,
+          keyTakeaway: 'Break the conditioned bed-anxiety loop by getting up after 20 minutes of wakefulness.',
           quiz: [
             {
               question: 'Why should you leave bed if awake for longer than 20 minutes?',
@@ -657,6 +1174,41 @@ If you toss and turn in bed for more than 20 minutes, your brain forms a conditi
             shieldValue: 30,
             promptText: 'My body knows how to rest. I release the struggle and allow sleep to arrive.',
             targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.5 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_circadian_12',
+          title: 'The Cortisol Awakening Reset',
+          subtitle: 'Morning Sunlight & Circadian Photobiology',
+          authorOrTradition: 'Photobiology & Neurobiology',
+          readingMinutes: 2,
+          category: 'CIRCADIAN_SLEEP',
+          contentMarkdown: `Your master circadian clock (the Suprachiasmatic Nucleus in the hypothalamus) synchronizes all metabolic and cognitive functions.
+
+Getting 10–15 minutes of outdoor sunlight within 45 minutes of waking stimulates intrinsically photosensitive Retinal Ganglion Cells (ipRGCs). This triggers a healthy morning cortisol awakening surge for daytime focus, and starts a biological countdown timer for nighttime melatonin release 14–16 hours later.`,
+          keyTakeaway: 'Early morning sunlight anchors daytime focus and sets the circadian timer for deep evening sleep.',
+          quiz: [
+            {
+              question: 'What is the primary benefit of viewing morning sunlight within 45 minutes of waking?',
+              options: [
+                'It sets the master circadian clock for daytime alertness and evening melatonin timing',
+                'It cures all illnesses permanently',
+                'It replaces the need to eat food',
+              ],
+              correctIndex: 0,
+              explanation: 'Morning photic stimulation anchors the master circadian rhythm and optimizes cortisol/melatonin phasing.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_dawn_light_anchor',
+            name: 'Dawn Light Anchor',
+            category: 'ACTION',
+            manaCost: 1,
+            baseDamage: 32,
+            shieldValue: 20,
+            promptText: 'Morning light anchors my circadian clock. I align my energy with the sun.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.5 },
           },
           isCompleted: false,
         },

@@ -95,22 +95,42 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
   * **💧 Liora the Water-Nymph:** Compassion-focused therapy, somatic soothing, and radical self-kindness.
 * **Insight Extraction:** 1-tap extraction of conversation breakthroughs into the **Codex of Wisdom** with $+25\text{ VP}$ and $+1\text{ Mana}$.
 
-### 🌊 The Cognitive Stream & Thought Alchemy Dojo
-* Endless interactive feed of realistic everyday thoughts across **Work & Focus**, **Perfectionism**, **Relationships**, and **Health & Calm**.
-* **3-Step Cognitive Alchemy:**
-  1. **Diagnose Thinking Trap:** Identify the active distortion (*All-or-Nothing, Catastrophizing, Mind Reading, Emotional Reasoning, Shoulds, Personalization*).
-  2. **Select Therapeutic Technique:** Apply **CBT Evidence Vault**, **Compassionate Friend (CFT)**, **Behavioral Spark (BA)**, **Stoic Dichotomy of Control**, or **ACT Cognitive Defusion**.
-  3. **Inscribe Reframe:** Formulate a balanced perspective and receive instant **AI Clarity Scoring (1–100)** with clinical insights from Gemini 3.7 Flash.
-* **Summon AI:** Dynamically synthesizes fresh scenario batches on demand.
+### 🌊 The Cognitive Stream (Streamlined Quiz & Family/Teaching Focus)
+* Endless interactive feed of realistic everyday thoughts focused on:
+  * **👨‍👧 Fatherhood & Parenting:** Bedtime tantrums, father guilt, losing patience, screen time vs presence.
+  * **🏫 Teaching & Educator Mind:** Classroom chaos, grading exhaustion on Sunday night, parent inquiries, curriculum overwhelm.
+  * **💑 Partnership & Marriage:** Unspoken resentment, division of household tasks, emotional withdrawal, rekindling warmth.
+  * **🔋 Self-Restoration & Rest:** Dismantling rest guilt, sleep anxiety, chronic hurry sickness.
+* **3-Tap Frictionless Quiz Architecture (Zero Mandatory Typing):**
+  1. **Diagnose Thinking Trap (Quiz):** 6 interactive cards with instant color feedback & clinical explanation.
+  2. **Select Therapeutic Technique & Method Codex:** Instant access to *why* and *how* the method works neurobiologically.
+  3. **Select Optimal Reframe (Quiz):** Compare **Balanced Therapeutic Reframe** ($+30\text{ VP}$) vs **Toxic Positivity / Bypassing** vs **Defeatist Rationalization** with instant clinical scoring. *(Optional write-in toggle for advanced custom entry).*
 
-### 📜 The Academy of Inner Alchemy
-* Bite-sized 2-minute illustrated masterclasses on Stoicism, Polyvagal Neuroscience, REBT, and Behavioral Activation:
-  1. *The View from Above (Marcus Aurelius & Decentering)*
-  2. *The Amygdala Hijack & Vagal Brake (Polyvagal Somatics)*
-  3. *Dismantling the "Should" Monster (Albert Ellis's REBT)*
-  4. *The Momentum Paradox (Behavioral Activation & Dopamine)*
-  5. *The 90-Minute Ultradian Rhythm (Circadian Sleep Medicine)*
-* **Socratic Mastery Quizzes:** Test understanding to forge exclusive Combat Cards directly into your Mind Arena battle deck (+50 VP, +2 Mana).
+### 📖 The Method Codex (Deep Theory & Neurobiology Guide)
+* In-depth clinical guide covering **8 core therapeutic frameworks**:
+  1. **CBT Evidence Vault (Aaron Beck):** dlPFC prefrontal down-regulation of amygdala panic.
+  2. **Stoic Control (Epictetus & Marcus Aurelius):** Conserving ACC bandwidth; releasing external classroom/tantrum chaos.
+  3. **Compassionate Friend (CFT - Paul Gilbert):** Oxytocin soothing-system activation against fatherhood/educator shame.
+  4. **ACT Defusion Stream (Steven Hayes):** Decoupling linguistic default mode loops; values-driven action.
+  5. **Behavioral Spark (Neil Jacobson):** Striatal dopamine momentum; 30-second kinetic activation.
+  6. **Polyvagal Somatic Co-Regulation (Porges & Levine):** Ventral vagal brake & physiological sighs so children/students borrow your calm.
+  7. **REBT Demand Disputer (Albert Ellis):** Converting dogmatic "musts/shoulds" into flexible preferences.
+  8. **Schema Healthy Adult (Jeffrey Young):** Strengthening mature executive presence to protect vulnerable inner child.
+
+### 📜 The Academy of Inner Alchemy (12 Masterclass Scrolls)
+* Bite-sized 2-minute illustrated masterclasses that forge exclusive Combat Cards upon passing Socratic quizzes:
+  1. *The View from Above (Stoic Decentering)* $\rightarrow$ `View from Above`
+  2. *The Amygdala Hijack & Vagal Brake (Polyvagal Somatics)* $\rightarrow$ `Vagal Brake`
+  3. *Dismantling the "Should" Monster (REBT Preferences)* $\rightarrow$ `Preferential Shield`
+  4. *The Momentum Paradox (Behavioral Activation)* $\rightarrow$ `Kinetic Momentum`
+  5. *The Father’s Co-Regulation Mirror (Parenting Somatics)* $\rightarrow$ `Co-Regulation Mirror`
+  6. *The Educator’s Sovereign Citadel (Teaching Stoicism)* $\rightarrow$ `Sovereign Citadel`
+  7. *The Gentle Inner Dialogue (Gilbert's Compassion)* $\rightarrow$ `Self-Kindness Aegis`
+  8. *Leaves on a Stream (ACT Cognitive Defusion)* $\rightarrow$ `Defusion Current`
+  9. *The Disowned Shadow (Jungian Projection in Family)* $\rightarrow$ `Shadow Integration`
+  10. *The Meaning in the Burden (Viktor Frankl’s Logotherapy)* $\rightarrow$ `Will to Meaning`
+  11. *The 90-Minute Ultradian Rhythm (Circadian Sleep)* $\rightarrow$ `Adenosine Tide`
+  12. *The Cortisol Awakening Reset (Circadian Morning Anchor)* $\rightarrow$ `Dawn Light Anchor`
 
 ### 🪞 The Mind Mirror (Psychological Analytics & Self-Understanding)
 * **Distortion Heatmap:** Visual breakdown of your personal cognitive distortion traps and total thoughts reframed.

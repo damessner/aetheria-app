@@ -27,7 +27,7 @@ export interface DistortionInfo {
   iconName: string;
 }
 
-export type CardCategory = 'FACT_CHECK' | 'COMPASSION' | 'REFRAME' | 'ACTION_SPARK';
+export type CardCategory = 'FACT_CHECK' | 'COMPASSION' | 'REFRAME' | 'ACTION_SPARK' | 'ACTION';
 
 export interface CombatCard {
   id: string;
@@ -177,13 +177,29 @@ export type TherapeuticTechnique =
   | 'CFT_COMPASSION'
   | 'BA_MICRO_ACTION'
   | 'STOIC_CONTROL'
-  | 'ACT_DEFUSION';
+  | 'ACT_DEFUSION'
+  | 'REBT_DISPUTE'
+  | 'SOMATIC_COREGULATION'
+  | 'SCHEMA_HEALTHY_ADULT';
 
 export type ThoughtDomain =
+  | 'FATHERHOOD_PARENTING'
+  | 'TEACHING_EDUCATOR'
+  | 'PARTNERSHIP_INTIMACY'
+  | 'SELF_RESTORATION'
   | 'WORK_BURNOUT'
   | 'RELATIONSHIPS'
   | 'PERFECTIONISM'
   | 'HEALTH_ANXIETY';
+
+export interface ReframeChoice {
+  id: string;
+  text: string;
+  type: 'OPTIMAL' | 'TOXIC_POSITIVITY' | 'RATIONALIZATION';
+  score: number; // 90-100 for optimal, 40-50 for toxic, 20-30 for rationalization
+  explanation: string;
+  clinicalFeedback: string;
+}
 
 export interface ThoughtFeedItem {
   id: string;
@@ -193,11 +209,24 @@ export interface ThoughtFeedItem {
   explanation: string;
   techniqueOptions: TherapeuticTechnique[];
   suggestedReframe: string;
+  reframeOptions?: ReframeChoice[];
   isSolved?: boolean;
   userScore?: number;
   userReframe?: string;
   userDistortionGuess?: DistortionType;
   userTechniqueChosen?: TherapeuticTechnique;
+}
+
+export interface MethodCodexItem {
+  id: TherapeuticTechnique;
+  name: string;
+  tagline: string;
+  founderTradition: string;
+  neurobiologicalMechanism: string;
+  parentingAndTeachingBenefit: string;
+  whenToUse: string;
+  commonPitfalls: string;
+  algorithmSteps: string[];
 }
 
 export interface ThoughtEvaluation {
@@ -213,7 +242,15 @@ export interface WisdomScroll {
   subtitle: string;
   authorOrTradition: string;
   readingMinutes: number;
-  category: 'STOICISM' | 'NEUROSCIENCE' | 'CBT_REBT' | 'BEHAVIORAL_ACTIVATION' | 'CIRCADIAN_SLEEP';
+  category:
+    | 'STOICISM'
+    | 'NEUROSCIENCE'
+    | 'CBT_REBT'
+    | 'BEHAVIORAL_ACTIVATION'
+    | 'CIRCADIAN_SLEEP'
+    | 'PARENTING_COREGULATION'
+    | 'SHADOW_INTEGRATION'
+    | 'LOGOTHERAPY';
   contentMarkdown: string;
   keyTakeaway: string;
   quiz: {

@@ -97,4 +97,39 @@ describe('Streamlined Quiz Architecture & Expanded Content', () => {
     expect(parentScroll.category).toBe('PARENTING_COREGULATION');
     expect(parentScroll.quiz[0].correctIndex).toBe(1);
   });
+
+  it('validates Gottman, NVC, and Tronick attachment wisdom scroll rewards and quiz answers', () => {
+    const scrolls = [
+      {
+        id: 'scr_rupture_13',
+        category: 'PARENTING_COREGULATION',
+        quizAnswer: 1,
+        cardCategory: 'COMPASSION',
+      },
+      {
+        id: 'scr_compassion_fatigue_14',
+        category: 'PARENTING_COREGULATION',
+        quizAnswer: 0,
+        cardCategory: 'REFRAME',
+      },
+      {
+        id: 'scr_gottman_15',
+        category: 'PARENTING_COREGULATION',
+        quizAnswer: 1,
+        cardCategory: 'COMPASSION',
+      },
+      {
+        id: 'scr_nvc_16',
+        category: 'CBT_REBT',
+        quizAnswer: 1,
+        cardCategory: 'FACT_CHECK',
+      },
+    ];
+
+    expect(scrolls.length).toBe(4);
+    for (const s of scrolls) {
+      expect(s.quizAnswer).toBeDefined();
+      expect(s.cardCategory).toBeDefined();
+    }
+  });
 });

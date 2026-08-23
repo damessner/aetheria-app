@@ -144,7 +144,13 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
   23. *The Autonomic Nervous System Ladder (Polyvagal Somatics)* $\rightarrow$ `Ventral Ladder`
   24. *Socratic Elenchus in Cognitive Restructuring (Socrates & Beck)* $\rightarrow$ `Socratic Blade`
 
-### 🪞 The Mind Mirror (Psychological Analytics & Self-Understanding)
+### 🪞 The Mind Mirror (Visual Analytics, Progress Hub & Self-Understanding)
+* **Visual Progress & Trophies Hub (`ProgressDashboard.tsx`):**
+  * **7-Day Vitality Trajectory Bar Chart:** Interactive day-by-day vertical bar chart showing daily Vitality Points (VP) earned and active day tracking.
+  * **Dynamic Streak Flame & Multiplier:** Daily reflection streak counter with active multipliers ($1.0\times \rightarrow 1.15\times \rightarrow 1.3\times \rightarrow 1.5\times$ VP boost) and **Grace Freeze Shields** to protect parents and teachers on chaotic days.
+  * **4 Cardinal Virtues Matrix:** Visual progress gauges for *Courage*, *Integrity*, *Temperance*, and *Humility* ranging from *Novice Initiate* to *Sovereign Master*.
+  * **Sanctuary Biome Metamorphosis Gauge:** Visual percentage tracker of gloom dispersal across *Gloomspire Grove*, *The Shattered Obelisk*, and *The Celestial Beacon*.
+  * **8 Tiered Alchemical Trophies & Badges:** Unlockable achievement trophies (*The Father’s Anchor*, *The Sovereign Educator*, *Relational Architect*, *Stoic Sage*, *Vagal Alchemist*, *Crucible Vanguard*, *Unshakeable Flame*, *Circadian Guardian*) with claimable VP rewards.
 * **Distortion Heatmap:** Visual breakdown of your personal cognitive distortion traps and total thoughts reframed.
 * **Circadian Energy Correlations:** Analytics linking low battery periods (10%) with distortion vulnerability.
 * **Schema Archetype Mirror (Young's Schema Therapy):** Socratic excavation of core survival rules (*The Unrelenting Perfectionist*, *The Vigilant Sentinel*, *The Selfless Caretaker*) and conversion to healthy adult truths.

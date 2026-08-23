@@ -320,6 +320,46 @@ export interface CardinalVirtues {
   humility: number; // 0 to 100 (Transcending ego defense & vanity)
 }
 
+export interface StreakData {
+  currentStreak: number;
+  bestStreak: number;
+  lastActiveDate: string; // YYYY-MM-DD
+  freezeShieldsAvailable: number; // e.g. 2
+  multiplier: number; // 1.0 to 1.5
+  weeklyActivity: {
+    dayOfWeek: string; // Mon, Tue, etc.
+    dateStr: string;
+    vpEarned: number;
+    thoughtsReframed: number;
+    questsCompleted: number;
+  }[];
+}
+
+export type AchievementCategory =
+  | 'FATHERHOOD'
+  | 'TEACHING'
+  | 'RELATIONSHIP'
+  | 'STOICISM'
+  | 'SOMATIC'
+  | 'SHADOW'
+  | 'STREAK'
+  | 'SLEEP';
+
+export interface AchievementBadge {
+  id: string;
+  title: string;
+  category: AchievementCategory;
+  tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM';
+  description: string;
+  iconName: string;
+  color: string;
+  currentProgress: number;
+  maxProgress: number;
+  isUnlocked: boolean;
+  unlockedAt?: string;
+  rewardVp: number;
+}
+
 export interface UserState {
   schemaVersion: string;
   userId: string;
@@ -338,6 +378,8 @@ export interface UserState {
   valuesAlignment?: Record<'CONNECTION' | 'CRAFT' | 'VITALITY' | 'WONDER', number>;
   cardinalVirtues?: CardinalVirtues;
   activeCrucibleVows?: ShadowFlawType[];
+  streakData?: StreakData;
+  unlockedAchievementIds?: string[];
   sanctuary: SanctuaryState;
   stats: {
     mindShield: number;
@@ -374,3 +416,4 @@ export interface OTAReleaseInfo {
   downloadUrl?: string;
   isUpdateAvailable: boolean;
 }
+

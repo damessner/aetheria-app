@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { SanctuaryState, UserState } from '../../core/types';
 import { Colors, Spacing } from '../../core/theme';
-import { Trees, Shield, Sparkles, Zap, Heart, Moon, Sun, Feather, Eye } from 'lucide-react-native';
+import { Trees, Shield, Sparkles, Zap, Heart, Moon, Sun, Feather, Eye, Flame } from 'lucide-react-native';
 
 interface SanctuaryViewProps {
   userState: UserState;
@@ -68,6 +68,12 @@ export const SanctuaryView: React.FC<SanctuaryViewProps> = ({ userState, onCompa
 
         {/* Sanctuary Quick Stats */}
         <View style={styles.statsRow}>
+          <View style={[styles.statPill, { borderColor: 'rgba(251, 191, 36, 0.4)' }]}>
+            <Flame size={14} color={Colors.reframeGold} />
+            <Text style={[styles.statPillText, { color: Colors.reframeGold, fontWeight: '700' }]}>
+              {userState.streakData?.currentStreak || 1}d Flame ({userState.streakData?.multiplier || 1.0}x)
+            </Text>
+          </View>
           <View style={styles.statPill}>
             <Heart size={14} color={Colors.vitalityGreen} />
             <Text style={styles.statPillText}>{userState.vitalityPoints} VP</Text>
@@ -78,11 +84,7 @@ export const SanctuaryView: React.FC<SanctuaryViewProps> = ({ userState, onCompa
           </View>
           <View style={styles.statPill}>
             <Shield size={14} color={Colors.shieldCyan} />
-            <Text style={styles.statPillText}>{userState.restShields} Rest Shields</Text>
-          </View>
-          <View style={styles.statPill}>
-            <Trees size={14} color={Colors.gloomPurple} />
-            <Text style={styles.statPillText}>{sanctuary.vitalityFloraCount} Flora</Text>
+            <Text style={styles.statPillText}>{userState.restShields} Shields</Text>
           </View>
         </View>
       </View>

@@ -11,6 +11,7 @@ import { DistortionType, UserState, SchemaArchetype, LifeValuePillar } from '../
 import { Colors, Spacing } from '../../core/theme';
 import { Database } from '../../core/database/db';
 import { EventBus } from '../../core/eventbus/EventBus';
+import { ProgressDashboard } from './ProgressDashboard';
 import {
   Sparkles,
   Eye,
@@ -22,6 +23,8 @@ import {
   Star,
   Zap,
   CheckCircle2,
+  TrendingUp,
+  Award,
 } from 'lucide-react-native';
 
 interface MindMirrorScreenProps {
@@ -35,7 +38,7 @@ export const MindMirrorScreen: React.FC<MindMirrorScreenProps> = ({ userState })
     topDistortion: DistortionType;
   } | null>(null);
 
-  const [activeTab, setActiveTab] = useState<'DISTORTIONS' | 'SCHEMAS' | 'VALUES'>('DISTORTIONS');
+  const [activeTab, setActiveTab] = useState<'PROGRESS' | 'DISTORTIONS' | 'SCHEMAS' | 'VALUES'>('PROGRESS');
 
   const schemas: SchemaArchetype[] = [
     {
@@ -135,12 +138,22 @@ export const MindMirrorScreen: React.FC<MindMirrorScreenProps> = ({ userState })
         {/* Sub-Tab Switcher */}
         <View style={styles.tabRow}>
           <TouchableOpacity
+            style={[styles.tabBtn, activeTab === 'PROGRESS' && styles.tabBtnActive]}
+            onPress={() => setActiveTab('PROGRESS')}
+          >
+            <TrendingUp size={14} color={activeTab === 'PROGRESS' ? Colors.reframeGold : Colors.textMuted} />
+            <Text style={[styles.tabBtnText, activeTab === 'PROGRESS' && { color: Colors.reframeGold, fontWeight: '700' }]}>
+              Charts & Trophies
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             style={[styles.tabBtn, activeTab === 'DISTORTIONS' && styles.tabBtnActive]}
             onPress={() => setActiveTab('DISTORTIONS')}
           >
             <BarChart3 size={14} color={activeTab === 'DISTORTIONS' ? Colors.clarityMana : Colors.textMuted} />
             <Text style={[styles.tabBtnText, activeTab === 'DISTORTIONS' && { color: Colors.clarityMana, fontWeight: '700' }]}>
-              Distortions
+              Traps
             </Text>
           </TouchableOpacity>
 
@@ -148,8 +161,8 @@ export const MindMirrorScreen: React.FC<MindMirrorScreenProps> = ({ userState })
             style={[styles.tabBtn, activeTab === 'SCHEMAS' && styles.tabBtnActive]}
             onPress={() => setActiveTab('SCHEMAS')}
           >
-            <Layers size={14} color={activeTab === 'SCHEMAS' ? Colors.reframeGold : Colors.textMuted} />
-            <Text style={[styles.tabBtnText, activeTab === 'SCHEMAS' && { color: Colors.reframeGold, fontWeight: '700' }]}>
+            <Layers size={14} color={activeTab === 'SCHEMAS' ? Colors.shieldCyan : Colors.textMuted} />
+            <Text style={[styles.tabBtnText, activeTab === 'SCHEMAS' && { color: Colors.shieldCyan, fontWeight: '700' }]}>
               Schemas
             </Text>
           </TouchableOpacity>
@@ -165,6 +178,11 @@ export const MindMirrorScreen: React.FC<MindMirrorScreenProps> = ({ userState })
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* 0. VISUAL PROGRESS, CHARTS & ALCHEMICAL TROPHIES */}
+      {activeTab === 'PROGRESS' && (
+        <ProgressDashboard userState={userState} />
+      )}
 
       {/* 1. DISTORTION FINGERPRINT & HEATMAP */}
       {activeTab === 'DISTORTIONS' && analytics && (

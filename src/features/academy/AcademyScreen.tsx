@@ -36,10 +36,23 @@ interface AcademyScreenProps {
 
 export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
   const [scrolls, setScrolls] = useState<WisdomScroll[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<WisdomScroll['category'] | 'ALL'>('ALL');
   const [selectedScroll, setSelectedScroll] = useState<WisdomScroll | null>(null);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizPassed, setQuizPassed] = useState(false);
+
+  const categories: { id: WisdomScroll['category'] | 'ALL'; label: string }[] = [
+    { id: 'ALL', label: 'All Scrolls' },
+    { id: 'PARENTING_COREGULATION', label: '👨‍👧 Parenting & Co-Regulation' },
+    { id: 'STOICISM', label: '🏛️ Stoic Wisdom' },
+    { id: 'NEUROSCIENCE', label: '🧠 Polyvagal & Brain' },
+    { id: 'CBT_REBT', label: '⚡ CBT, ACT & REBT' },
+    { id: 'CIRCADIAN_SLEEP', label: '🌙 Circadian & Sleep' },
+    { id: 'BEHAVIORAL_ACTIVATION', label: '🏃 Kinetic Action' },
+    { id: 'LOGOTHERAPY', label: '🏔️ Logotherapy' },
+    { id: 'SHADOW_INTEGRATION', label: '🌑 Shadow Integration' },
+  ];
 
   useEffect(() => {
     loadScrolls();
@@ -100,10 +113,21 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
         return Zap;
       case 'CIRCADIAN_SLEEP':
         return Moon;
+      case 'PARENTING_COREGULATION':
+        return Shield;
+      case 'LOGOTHERAPY':
+        return BookOpen;
+      case 'SHADOW_INTEGRATION':
+        return Swords;
       default:
         return Scroll;
     }
   };
+
+  const filteredScrolls =
+    selectedCategory === 'ALL'
+      ? scrolls
+      : scrolls.filter((s) => s.category === selectedCategory);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -111,16 +135,38 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
       <View style={styles.headerCard}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
           <BookOpen size={22} color={Colors.reframeGold} />
-          <Text style={styles.headerTitle}>The Academy of Inner Alchemy</Text>
+          <Text style={styles.headerTitle}>The Academy of Inner Alchemy ({scrolls.length} Scrolls)</Text>
         </View>
         <Text style={styles.headerSubtitle}>
-          Master evidence-based clinical wisdom scrolls to unlock exclusive Combat Cards for your Mind Arena battle deck.
+          Master evidence-based clinical wisdom scrolls in Fatherhood, Teaching, Stoicism & Neuroscience to unlock exclusive Combat Cards for your Mind Arena battle deck.
         </Text>
       </View>
 
+      {/* Category Filter Chips */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.categoriesRow}
+      >
+        {categories.map((c) => {
+          const isSelected = selectedCategory === c.id;
+          return (
+            <TouchableOpacity
+              key={c.id}
+              style={[styles.categoryChip, isSelected && styles.categoryChipActive]}
+              onPress={() => setSelectedCategory(c.id)}
+            >
+              <Text style={[styles.categoryChipText, isSelected && styles.categoryChipTextActive]}>
+                {c.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+
       {/* Scrolls List */}
-      <View style={{ gap: Spacing.md }}>
-        {scrolls.map((scroll) => {
+      <View style={{ gap: Spacing.md, marginTop: Spacing.sm }}>
+        {filteredScrolls.map((scroll) => {
           const CategoryIcon = getCategoryIcon(scroll.category);
           return (
             <TouchableOpacity
@@ -132,7 +178,7 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
               <View style={styles.cardHeaderRow}>
                 <View style={styles.categoryBadge}>
                   <CategoryIcon size={12} color={Colors.reframeGold} />
-                  <Text style={styles.categoryText}>{scroll.category.replace('_', ' ')}</Text>
+                  <Text style={styles.categoryText}>{scroll.category.replace(/_/g, ' ')}</Text>
                 </View>
                 {scroll.isCompleted ? (
                   <View style={styles.completedBadge}>
@@ -317,6 +363,31 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: 12,
     lineHeight: 16,
+  },
+  categoriesRow: {
+    gap: 6,
+    paddingVertical: Spacing.xs,
+  },
+  categoryChip: {
+    backgroundColor: Colors.surfaceLight,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  categoryChipActive: {
+    backgroundColor: 'rgba(251, 191, 36, 0.15)',
+    borderColor: Colors.reframeGold,
+  },
+  categoryChipText: {
+    color: Colors.textSecondary,
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  categoryChipTextActive: {
+    color: Colors.reframeGold,
+    fontWeight: '700',
   },
   scrollCard: {
     backgroundColor: Colors.surface,

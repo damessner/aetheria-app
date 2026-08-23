@@ -1839,6 +1839,308 @@ NVC provides a 4-step algorithm that connects directly with heart and reason:
           },
           isCompleted: false,
         },
+        {
+          id: 'scr_window_tolerance_17',
+          title: 'The Window of Tolerance',
+          subtitle: 'Navigating Hyperarousal and Hypoarousal in Family Storms',
+          authorOrTradition: 'Interpersonal Neurobiology (Dr. Dan Siegel & Pat Ogden)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `The Window of Tolerance describes the optimal autonomic arousal zone in which you can process information, connect with empathy, and respond with executive wisdom.
+
+When life pushes you **above the window (Hyperarousal)**, sympathetic fight-or-flight spikes: you feel sudden rage, racing heartbeat, or the urge to scream. When pushed **below the window (Hypoarousal)**, dorsal vagal shutdown takes over: you feel emotionally numb, disconnected, and exhausted.
+
+Learning your body's early warning signs (tight jaw, shallow breathing) allows you to use somatic interventions (cold water, physiological sighs) *before* snapping at your children or students.`,
+          keyTakeaway: 'Monitor your nervous system zone; regulate physiology before attempting cognitive reasoning.',
+          quiz: [
+            {
+              question: 'What characterizes the hyperarousal state above the Window of Tolerance?',
+              options: [
+                'Emotional numbness, dissociation, and heavy lethargy',
+                'Sympathetic spikes: racing heart, sudden irritability, and defensive urges to yell',
+                'Deep calm, philosophical clarity, and relaxed muscles',
+              ],
+              correctIndex: 1,
+              explanation: 'Hyperarousal represents sympathetic fight-or-flight activation requiring immediate somatic down-regulation.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_tolerance_anchor',
+            name: 'Tolerance Anchor',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 32,
+            shieldValue: 28,
+            promptText: 'I sense my autonomic state. I anchor my nervous system in the zone of safety.',
+            targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_pygmalion_18',
+          title: 'The Pygmalion Effect in Education',
+          subtitle: 'How Teacher Expectations Shape Student Neurological Potential',
+          authorOrTradition: 'Educational Psychology (Dr. Robert Rosenthal)',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Dr. Robert Rosenthal's Harvard experiments proved that teacher expectations act as unconscious self-fulfilling prophecies. When teachers were led to believe random students had high academic potential, those students demonstrated statistically significant IQ and performance gains over the school year.
+
+Students constantly read subtle micro-cues: vocal tone, wait-time when answering questions, and body language. When a teacher or father holds an unwavering belief in a child's dignity and growth capacity, it creates a neurological canopy of psychological safety that allows the child to flourish.`,
+          keyTakeaway: 'Your belief in a student or child is an active catalyst for their developmental blossoming.',
+          quiz: [
+            {
+              question: 'How do high teacher and parental expectations positively influence student performance?',
+              options: [
+                'By communicating unconscious warmth, patience, and encouraging cues that build neurological confidence',
+                'By enforcing harsh punishments whenever errors occur',
+                'Expectations have zero measurable effect on human learning',
+              ],
+              correctIndex: 0,
+              explanation: 'Warm, positive expectancies provide the emotional safety required for neuroplastic learning and risk-taking.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_pygmalion_catalyst',
+            name: 'Pygmalion Catalyst',
+            category: 'FACT_CHECK',
+            manaCost: 2,
+            baseDamage: 45,
+            shieldValue: 20,
+            promptText: 'I see your potential and dignity. My belief calls forth your highest capability.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_zpd_scaffold_19',
+          title: 'Scaffolding the Zone of Proximal Development',
+          subtitle: 'Fostering Autonomy Without Overwhelm in Children & Students',
+          authorOrTradition: 'Constructivist Psychology (Lev Vygotsky & Jerome Bruner)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Lev Vygotsky defined the **Zone of Proximal Development (ZPD)** as the sweet spot between what a learner can do independently and what they cannot do even with assistance.
+
+If a task is too easy, children experience boredom; if too hard, they experience dysregulated panic. The role of the father and teacher is **Scaffolding**: providing temporary structural supports (breaking steps down, modeling the first move, offering supportive presence) and systematically removing the support as the child achieves mastery.`,
+          keyTakeaway: 'Support the struggle with scaffolding; do not rob children of the victory of independent mastery.',
+          quiz: [
+            {
+              question: 'What is the purpose of pedagogical scaffolding in parenting and teaching?',
+              options: [
+                'Doing the entire assignment for the child so they never make a mistake',
+                'Providing temporary supportive structures that are gradually removed as competence develops',
+                'Leaving the child completely alone with zero guidance on complex tasks',
+              ],
+              correctIndex: 1,
+              explanation: 'Scaffolding bridges the gap between current ability and emerging potential.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_scaffold_aegis',
+            name: 'Scaffold Aegis',
+            category: 'REFRAME',
+            manaCost: 1,
+            baseDamage: 28,
+            shieldValue: 34,
+            promptText: 'I build the scaffold of support. I celebrate the emergence of independent strength.',
+            targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.6 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_four_tendencies_20',
+          title: 'The Four Tendencies Motivation Matrix',
+          subtitle: 'Decoding Inner & Outer Accountability in Yourself and Others',
+          authorOrTradition: 'Behavioral Science (Gretchen Rubin)',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Every human responds differently to inner expectations (personal vows, self-improvement) and outer expectations (work deadlines, parental requests):
+
+1. **Upholders:** Readily meet both outer and inner expectations without needing reminders.
+2. **Questioners:** Only meet expectations if they make logical sense; they resist arbitrary rules.
+3. **Obligers:** Readily meet outer expectations for others, but struggle to meet self-imposed promises (needs external accountability).
+4. **Rebels:** Resist both outer and inner rules; motivated strictly by authentic identity and choice ("I choose to because this is who I am").
+
+Understanding your tendency—and your partner's or student's—ends frustrating arguments over motivation.`,
+          keyTakeaway: 'Align the motivation strategy with the person’s accountability style rather than demanding they change.',
+          quiz: [
+            {
+              question: 'What is the most effective strategy to help an "Obliger" follow through on personal health or rest habits?',
+              options: [
+                'Tell them to rely solely on willpower',
+                'Create positive external accountability structures (e.g. workout partner, coach, or check-in system)',
+                'Shame them for lacking internal discipline',
+              ],
+              correctIndex: 1,
+              explanation: 'Obligers require external accountability structures to protect their personal commitments.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_accountability_matrix',
+            name: 'Accountability Matrix',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 35,
+            shieldValue: 22,
+            promptText: 'I understand the architecture of human motivation. I design systems that honor human nature.',
+            targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_positivity_resonance_21',
+          title: 'Positivity Resonance & Micro-Connections',
+          subtitle: 'The Biology of Love and Vagal Tone in Everyday Family Life',
+          authorOrTradition: 'Positive Neurobiology (Dr. Barbara Fredrickson)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Dr. Barbara Fredrickson demonstrated that love is not a static romantic ideal; biologically, love is **Positivity Resonance**—a transient micro-moment of shared positive emotion, bio-behavioral synchrony, and mutual care.
+
+During a 5-second moment of genuine eye contact and shared laughter with your child or partner:
+- Oxytocin surges in both brains simultaneously.
+- Heart rate variability synchronizes.
+- The vagus nerve strengthens, elevating cardiovascular resilience.
+
+Accumulating dozens of these 5-second micro-connections throughout a chaotic day buffers family health more than grand once-a-year vacations.`,
+          keyTakeaway: 'Love is a biological micro-moment of connection. Sprinkle micro-moments throughout your everyday routine.',
+          quiz: [
+            {
+              question: 'According to neurobiological research, what physiological event occurs during micro-moments of positivity resonance?',
+              options: [
+                'Immediate surge in stress hormones and cortisol',
+                'Simultaneous oxytocin release, synchronized heart variability, and vagal tone strengthening',
+                'No measurable physiological change occurs',
+              ],
+              correctIndex: 1,
+              explanation: 'Micro-connections create real-time bio-behavioral synchrony that fortifies somatic health.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_resonance_pulse',
+            name: 'Resonance Pulse',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 25,
+            shieldValue: 40,
+            promptText: 'In this micro-moment, I connect with presence. Our shared warmth heals the nervous system.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_stoic_archer_22',
+          title: 'The Archer’s Arrow in Family & Classroom',
+          subtitle: 'Stoic Duty and Total Outcome Detachment',
+          authorOrTradition: 'Classical Stoic Philosophy (Musonius Rufus & Epictetus)',
+          readingMinutes: 2,
+          category: 'STOICISM',
+          contentMarkdown: `The Stoic philosopher Antipater used the metaphor of the Archer to explain how to live with profound peace:
+
+The Archer selects the straightest arrow, oils the bow, draws the string with precise muscular focus, and aligns the crosshair. Up until the instant of release, everything is under his sovereign control (Effort).
+
+The moment the arrow leaves the bow, the Archer is at peace. A sudden gust of wind, a leaping deer, or an unexpected shield may deflect the arrow. The true Stoic father and educator finds 100% of his honor in how cleanly he released the arrow, not in whether external circumstances produced the target hit.`,
+          keyTakeaway: 'Your duty is the flawless release of the arrow (effort, virtue, love); release anxiety over where it lands.',
+          quiz: [
+            {
+              question: 'In the Stoic archer metaphor, where does the father or educator find true honor and peace?',
+              options: [
+                'Only when the arrow hits the bullseye 100% of the time without exception',
+                'In the virtuous, dedicated effort of drawing and releasing the bow cleanly, regardless of external wind or outcomes',
+                'By blaming the bow whenever things go wrong',
+              ],
+              correctIndex: 1,
+              explanation: 'Stoic virtue resides entirely in your intent and effort, completely unhooked from uncontrollable external outcomes.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_archers_virtue',
+            name: 'Archer’s Virtue',
+            category: 'REFRAME',
+            manaCost: 2,
+            baseDamage: 48,
+            shieldValue: 15,
+            promptText: 'I loose the arrow of effort with noble focus. I remain unshakeable whatever the wind brings.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.9 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_polyvagal_ladder_23',
+          title: 'The Autonomic Nervous System Ladder',
+          subtitle: 'Ventral Vagal Safety, Sympathetic Fight/Flight & Dorsal Vagal Shutdown',
+          authorOrTradition: 'Polyvagal Somatics (Dr. Stephen Porges & Deb Dana)',
+          readingMinutes: 2,
+          category: 'NEUROSCIENCE',
+          contentMarkdown: `Deb Dana conceptualized the human autonomic nervous system as a 3-rung biological ladder:
+
+1. **Top Rung: Ventral Vagal (Safe & Social):** Heart rate is calm, eye contact is warm, the prefrontal cortex is online. You can learn, parent, teach, and listen.
+2. **Middle Rung: Sympathetic (Fight or Flight):** Senses narrow, heart races, urgency and frustration dominate.
+3. **Bottom Rung: Dorsal Vagal (Freeze & Collapse):** Energy plummets into heavy despair, hopeless "I can't", and emotional numbness.
+
+Crucial somatic law: You cannot jump straight from dorsal freeze to ventral joy. You must gently mobilize through mild physical movement (walking, stretching) to reach safety.`,
+          keyTakeaway: 'Identify which rung of the ladder you and your family are standing on before communicating.',
+          quiz: [
+            {
+              question: 'What is the biological rule for climbing out of a dorsal vagal "freeze" or emotional shutdown state?',
+              options: [
+                'Demand that the person instantly smile and perform complex intellectual work',
+                'Engage in gentle physical mobilization (mild movement, walking, stretching) to safely climb through sympathetic arousal back to ventral safety',
+                'Shout loudly to shock the nervous system',
+              ],
+              correctIndex: 1,
+              explanation: 'Movement unlocks dorsal immobilization, transitioning physiology back toward safe connection.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_ventral_ladder',
+            name: 'Ventral Ladder',
+            category: 'COMPASSION',
+            manaCost: 2,
+            baseDamage: 36,
+            shieldValue: 36,
+            promptText: 'I climb the ladder of safety step by step. My body finds its way back to connection.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_socratic_elenchus_24',
+          title: 'Socratic Elenchus in Modern Cognitive Restructuring',
+          subtitle: 'Questioning Automatic Thoughts Without Intellectual Violence',
+          authorOrTradition: 'Classical Philosophy & CBT (Socrates & Dr. Aaron Beck)',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Socrates revolutionized human understanding with *Elenchus*—a form of cooperative, cross-examining inquiry that reveals hidden inconsistencies in rigid dogmas.
+
+In modern cognitive restructuring, we never attack a catastrophic thought with aggressive denial ("That's stupid!"). Instead, we apply gentle, surgical Socratic questions:
+1. **Evidence Check:** "What concrete facts support this thought, and what facts contradict it?"
+2. **Alternative View:** "If a loving friend were in this exact situation, what would I tell them?"
+3. **Worst-Case & Coping:** "If the worst happened, what concrete actions would I take to survive and adapt?"
+4. **Utility:** "Does holding onto this thought help me protect what I love today?"`,
+          keyTakeaway: 'Cross-examine automatic distortions with loving, surgical inquiry rather than bitter self-criticism.',
+          quiz: [
+            {
+              question: 'Why is gentle Socratic inquiry more therapeutically effective than harsh intellectual self-criticism?',
+              options: [
+                'Because it non-defensively unpacks cognitive errors and opens up psychological flexibility',
+                'Because thoughts should never be examined under any circumstances',
+                'Because it proves that all logic is useless',
+              ],
+              correctIndex: 0,
+              explanation: 'Socratic questioning bypasses ego defensiveness and illuminates objective reality.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_socratic_blade',
+            name: 'Socratic Blade',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 40,
+            shieldValue: 15,
+            promptText: 'I question every assumption with gentle reason. Truth is my unshakeable armor.',
+            targetDistortionBonus: { distortion: 'MIND_READING', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
       ];
 
       await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(initial));

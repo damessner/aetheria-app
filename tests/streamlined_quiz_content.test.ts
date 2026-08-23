@@ -132,4 +132,24 @@ describe('Streamlined Quiz Architecture & Expanded Content', () => {
       expect(s.cardCategory).toBeDefined();
     }
   });
+
+  it('validates newest masterclass scrolls 17-24 (Window of Tolerance, Pygmalion, ZPD, Four Tendencies, Positivity Resonance, Stoic Archer, Polyvagal Ladder, Socratic Elenchus)', () => {
+    const newScrolls = [
+      { id: 'scr_window_tolerance_17', category: 'PARENTING_COREGULATION', cardId: 'crd_tolerance_anchor' },
+      { id: 'scr_pygmalion_18', category: 'CBT_REBT', cardId: 'crd_pygmalion_catalyst' },
+      { id: 'scr_zpd_scaffold_19', category: 'PARENTING_COREGULATION', cardId: 'crd_scaffold_aegis' },
+      { id: 'scr_four_tendencies_20', category: 'CBT_REBT', cardId: 'crd_accountability_matrix' },
+      { id: 'scr_positivity_resonance_21', category: 'PARENTING_COREGULATION', cardId: 'crd_resonance_pulse' },
+      { id: 'scr_stoic_archer_22', category: 'STOICISM', cardId: 'crd_archers_virtue' },
+      { id: 'scr_polyvagal_ladder_23', category: 'NEUROSCIENCE', cardId: 'crd_ventral_ladder' },
+      { id: 'scr_socratic_elenchus_24', category: 'CBT_REBT', cardId: 'crd_socratic_blade' },
+    ];
+
+    expect(newScrolls.length).toBe(8);
+    for (const s of newScrolls) {
+      expect(s.id).toBeDefined();
+      expect(s.category).toBeDefined();
+      expect(s.cardId).toBeDefined();
+    }
+  });
 });

@@ -117,8 +117,8 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
   7. **REBT Demand Disputer (Albert Ellis):** Converting dogmatic "musts/shoulds" into flexible preferences.
   8. **Schema Healthy Adult (Jeffrey Young):** Strengthening mature executive presence to protect vulnerable inner child.
 
-### 📜 The Academy of Inner Alchemy (12 Masterclass Scrolls)
-* Bite-sized 2-minute illustrated masterclasses that forge exclusive Combat Cards upon passing Socratic quizzes:
+### 📜 The Academy of Inner Alchemy (24 Masterclass Scrolls & Category Filter)
+* Interactive 2-minute illustrated masterclasses that forge exclusive Combat Cards upon passing Socratic quizzes:
   1. *The View from Above (Stoic Decentering)* $\rightarrow$ `View from Above`
   2. *The Amygdala Hijack & Vagal Brake (Polyvagal Somatics)* $\rightarrow$ `Vagal Brake`
   3. *Dismantling the "Should" Monster (REBT Preferences)* $\rightarrow$ `Preferential Shield`
@@ -131,6 +131,18 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
   10. *The Meaning in the Burden (Viktor Frankl’s Logotherapy)* $\rightarrow$ `Will to Meaning`
   11. *The 90-Minute Ultradian Rhythm (Circadian Sleep)* $\rightarrow$ `Adenosine Tide`
   12. *The Cortisol Awakening Reset (Circadian Morning Anchor)* $\rightarrow$ `Dawn Light Anchor`
+  13. *The Rupture and Repair Principle (Tronick Attachment)* $\rightarrow$ `Attachment Repair`
+  14. *The Shield Against Compassion Fatigue (Figley Caregiver Science)* $\rightarrow$ `Empathic Boundary`
+  15. *The 5:1 Magic Ratio in Marriage (Gottman Couples Therapy)* $\rightarrow$ `Magic Ratio Aegis`
+  16. *The Non-Violent Communication Matrix (Rosenberg NVC)* $\rightarrow$ `Compassionate Request`
+  17. *The Window of Tolerance (Siegel & Ogden Somatics)* $\rightarrow$ `Tolerance Anchor`
+  18. *The Pygmalion Effect in Education (Rosenthal Expectancies)* $\rightarrow$ `Pygmalion Catalyst`
+  19. *Scaffolding the Zone of Proximal Development (Vygotsky & Bruner)* $\rightarrow$ `Scaffold Aegis`
+  20. *The Four Tendencies Motivation Matrix (Gretchen Rubin)* $\rightarrow$ `Accountability Matrix`
+  21. *Positivity Resonance & Micro-Connections (Fredrickson Love Biology)* $\rightarrow$ `Resonance Pulse`
+  22. *The Archer’s Arrow in Family & Classroom (Stoic Duty)* $\rightarrow$ `Archer’s Virtue`
+  23. *The Autonomic Nervous System Ladder (Polyvagal Somatics)* $\rightarrow$ `Ventral Ladder`
+  24. *Socratic Elenchus in Cognitive Restructuring (Socrates & Beck)* $\rightarrow$ `Socratic Blade`
 
 ### 🪞 The Mind Mirror (Psychological Analytics & Self-Understanding)
 * **Distortion Heatmap:** Visual breakdown of your personal cognitive distortion traps and total thoughts reframed.

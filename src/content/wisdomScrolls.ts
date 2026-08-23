@@ -1,0 +1,899 @@
+// Auto-extracted seed content from core/database/db.ts (Phase 3 refactor)
+import { WisdomScroll } from '../core/types';
+
+export const INITIAL_SCROLLS: WisdomScroll[] = [
+        {
+          id: 'scr_stoic_1',
+          title: 'The View from Above',
+          subtitle: 'Marcus Aurelius & Cosmic Decentering',
+          authorOrTradition: 'Stoic Philosophy',
+          readingMinutes: 2,
+          category: 'STOICISM',
+          contentMarkdown: `When acute stress narrows your vision—a crying child, a pile of ungraded exams, or a sharp comment—your amygdala perceives an immediate existential threat.
+
+The ancient Stoics practiced "The View from Above": closing your eyes and mentally zooming out. Rise above your room, above your city, above the continent, and into the cosmic expanse of time. Zoom forward 10 years: will this specific spilled milk or missed deadline matter?
+
+Decentering shrinks acute catastrophic anxiety to its true proportions, restoring the calm vantage point of reason.`,
+          keyTakeaway: 'Zooming out to a cosmic and temporal perspective shrinks catastrophic anxiety instantly.',
+          quiz: [
+            {
+              question: 'When is "The View from Above" most clinically helpful?',
+              options: [
+                'During acute catastrophic panic, parental overwhelm, or workplace stress',
+                'Only when you are asleep',
+                'Never in real life',
+              ],
+              correctIndex: 0,
+              explanation: 'It acts as an immediate cognitive defusion tool when acute emotional stress narrows your vision.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_stoic_view_above',
+            name: 'View from Above',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 36,
+            shieldValue: 20,
+            promptText: 'Zoom out 10 years into the future. How much will this moment actually matter?',
+            targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.6 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_neuro_2',
+          title: 'The Amygdala Hijack & Vagal Brake',
+          subtitle: 'Polyvagal Somatics & The Physiological Reset',
+          authorOrTradition: 'Clinical Neuroscience',
+          readingMinutes: 2,
+          category: 'NEUROSCIENCE',
+          contentMarkdown: `Before your rational prefrontal cortex can evaluate a situation, your amygdala scans for threats in 12 milliseconds. If triggered, it throttles cognitive control: heart pounding, shallow breathing, and racing anger.
+
+You cannot logic your way out of autonomic panic. You must speak the nervous system’s somatic language first: The Physiological Sigh (two rapid inhales through the nose, one long slow unforced exhale through the mouth).
+
+This simple breath pattern re-engages the Vagal Brake on the sinoatrial node of the heart, slowing heart rate and lowering blood pressure in under 30 seconds.`,
+          keyTakeaway: 'Regulate the nervous system somatically before attempting complex cognitive problem-solving.',
+          quiz: [
+            {
+              question: 'Why does pure logical reasoning often fail when you are overwhelmed or furious?',
+              options: [
+                'Because the amygdala has throttled prefrontal executive resources',
+                'Because you are not smart enough',
+                'Because all negative thoughts are completely true',
+              ],
+              correctIndex: 0,
+              explanation: 'Sympathetic arousal redirects metabolic brain energy toward fight-or-flight survival circuits.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_vagal_brake',
+            name: 'Vagal Brake',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 22,
+            shieldValue: 35,
+            promptText: 'Double inhale through the nose, long slow exhale. My body is safe right now.',
+            targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_rebt_3',
+          title: 'Dismantling the "Should" Monster',
+          subtitle: 'Albert Ellis & Rational Emotive Behavior Therapy',
+          authorOrTradition: 'REBT / CBT',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Albert Ellis identified "Musterbation"—the irrational belief that life, our children, our students, or ourselves MUST, SHOULD, or OUGHT to conform to our expectations.
+
+When reality clashes with a dogmatic "should", rage, shame, and burnout follow. The antidote is converting demands into flexible preferences:
+
+"I strongly PREFER that my children listen on the first try and that my lesson goes smoothly. But if they don't, it is merely inconvenient and human—not catastrophic."`,
+          keyTakeaway: 'Transform dogmatic "musts" and "shoulds" into flexible, realistic preferences.',
+          quiz: [
+            {
+              question: 'What is the psychological consequence of rigid "should" statements?',
+              options: [
+                'Guaranteed perfection in all areas of life',
+                'Chronic shame, guilt, and emotional rigidity',
+                'Permanent peace of mind',
+              ],
+              correctIndex: 1,
+              explanation: 'Rigid demands create inevitable dissonance whenever reality does not match ideal expectations.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_preferential_choice',
+            name: 'Preferential Shield',
+            category: 'FACT_CHECK',
+            manaCost: 2,
+            baseDamage: 40,
+            shieldValue: 15,
+            promptText: 'I would prefer perfection, but I can navigate human imperfection with grace.',
+            targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_ba_4',
+          title: 'The Momentum Paradox',
+          subtitle: 'Action Precedes Motivation in Burnout',
+          authorOrTradition: 'Behavioral Activation',
+          readingMinutes: 2,
+          category: 'BEHAVIORAL_ACTIVATION',
+          contentMarkdown: `A universal human trap is waiting to "feel like doing it" before starting an uncomfortable duty. Fatigue creates an illusion of impossible inertia.
+
+Behavioral Activation proves that motivation is an emotional byproduct of action, not its prerequisite. By shrinking the task to an absurdly small 30-second kinetic spark (opening 1 book, sitting on the floor with your kids), striatal dopamine is released.
+
+Once momentum begins, cognitive friction drops by over 80%.`,
+          keyTakeaway: 'Never wait for motivation. Take a 30-second micro-step to generate dopamine momentum.',
+          quiz: [
+            {
+              question: 'According to Behavioral Activation, what generates genuine motivation?',
+              options: [
+                'Waiting passively until energy naturally returns',
+                'Taking a small physical action that initiates momentum',
+                'Feeling guilty about procrastination',
+              ],
+              correctIndex: 1,
+              explanation: 'Action triggers positive reinforcement and striatal dopamine loops that create subsequent motivation.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_kinetic_momentum',
+            name: 'Kinetic Momentum',
+            category: 'ACTION',
+            manaCost: 1,
+            baseDamage: 38,
+            shieldValue: 12,
+            promptText: 'Just 30 seconds of physical action. Momentum will carry the rest.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.6 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_parent_5',
+          title: 'The Father’s Co-Regulation Mirror',
+          subtitle: 'Polyvagal Co-Regulation in Family Storms',
+          authorOrTradition: 'Parenting & Polyvagal Science',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Young children do not possess fully myelinated prefrontal cortexes. When dysregulated, they cannot self-soothe with internal logic.
+
+Through mirror neurons and neuroception, a child's nervous system literally "borrows" the autonomic state of the adult in the room. If a father meets a screaming tantrum with clenched jaws and sharp commands, the child’s threat-defense system escalates.
+
+When you drop your shoulders, soften your gaze, lower your vocal pitch, and breathe slowly, your regulated physiology serves as an external nervous system for your child to anchor to.`,
+          keyTakeaway: 'You cannot calm a storm by shouting into it. Regulate your own nervous system to let your child borrow your calm.',
+          quiz: [
+            {
+              question: 'How do children primarily absorb emotional regulation during meltdowns?',
+              options: [
+                'Through long lectures on logic and rules',
+                'Through neuroceptive mirroring of the parent’s calm physiological state',
+                'By being left in isolation',
+              ],
+              correctIndex: 1,
+              explanation: 'Co-regulation precedes self-regulation in child development.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_coregulation_mirror',
+            name: 'Co-Regulation Mirror',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 28,
+            shieldValue: 30,
+            promptText: 'I am the calm anchor. My child borrows my peace.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_teach_6',
+          title: 'The Educator’s Sovereign Citadel',
+          subtitle: 'Stoic Pedagogy & Managing Classroom Chaos',
+          authorOrTradition: 'Stoicism for Educators',
+          readingMinutes: 2,
+          category: 'STOICISM',
+          contentMarkdown: `Teaching is an occupation filled with uncontrollable variables: student mood swings, socioeconomic stressors, sudden policy shifts, and administrative burdens.
+
+Epictetus taught that suffering arises not from events, but from demanding that external variables obey our desires. In the classroom, your Sovereign Citadel consists of three things: your preparation, your calm demeanor, and your unwavering fairness.
+
+Everything else—whether a student listens today, how a parent reacts, or what the committee decides—lies outside your citadel. Do your duty with excellence, and release the rest.`,
+          keyTakeaway: 'Focus 100% of your energy on your preparation and demeanor; release attachment to uncontrollable student moods.',
+          quiz: [
+            {
+              question: 'What belongs inside the educator’s circle of control?',
+              options: [
+                'Every student’s home life and emotional mood',
+                'Your own emotional stability, clarity of instruction, and fairness',
+                'External school district standardized test outcomes',
+              ],
+              correctIndex: 1,
+              explanation: 'Mastery over your own actions and attitude is the foundation of sustainable teaching.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_sovereign_citadel',
+            name: 'Sovereign Citadel',
+            category: 'FACT_CHECK',
+            manaCost: 2,
+            baseDamage: 42,
+            shieldValue: 25,
+            promptText: 'My inner citadel is unshakable. I command my calm and perform my duty.',
+            targetDistortionBonus: { distortion: 'MIND_READING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_cft_7',
+          title: 'The Gentle Inner Dialogue',
+          subtitle: 'Paul Gilbert’s Compassion in Overwhelm & Exhaustion',
+          authorOrTradition: 'Compassion-Focused Therapy',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `When exhausted fathers and educators make mistakes, the inner critic attacks: "You are inadequate, you can’t handle this."
+
+Neuroimaging reveals that self-criticism activates the exact same brain areas as physical pain and external hostility (the insula and amygdala). Self-attack paralyzes you with shame, reducing your capacity for warmth.
+
+Compassion-Focused Therapy replaces the harsh inner tyrant with the voice of a wise, deeply kind mentor: "You are carrying a massive load today. It is completely understandable that you feel strained. Take a breath; you are doing your best."`,
+          keyTakeaway: 'Self-criticism creates neurological threat; self-compassion releases oxytocin to restore executive resilience.',
+          quiz: [
+            {
+              question: 'What is the biological effect of self-compassion during moments of failure?',
+              options: [
+                'It leads to laziness and zero ambition',
+                'It downregulates cortisol and activates the soothing-safety oxytocin system',
+                'It guarantees that you make more mistakes',
+              ],
+              correctIndex: 1,
+              explanation: 'Self-compassion provides psychological safety, which enables faster recovery and constructive problem-solving.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_self_kindness_aegis',
+            name: 'Self-Kindness Aegis',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 24,
+            shieldValue: 38,
+            promptText: 'I meet my exhaustion with kindness. I am a devoted human doing my best.',
+            targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_act_8',
+          title: 'Leaves on a Stream',
+          subtitle: 'ACT Cognitive Defusion & Unfusing from Thoughts',
+          authorOrTradition: 'Acceptance & Commitment Therapy',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `When you are fused with a thought ("I am failing at everything"), the thought acts as tinted sunglasses: you cannot see the world except through the lens of failure.
+
+Cognitive defusion is the practice of stepping back and seeing thoughts as passing mental weather rather than literal truth.
+
+Visualize sitting by a gentle, flowing forest stream with autumn leaves floating on the surface. Whenever an anxious thought arises, place it on a leaf and watch it float downstream without arguing with it, clinging to it, or trying to push it away.`,
+          keyTakeaway: 'Thoughts are mental events, not facts or commands. Observe them and let them pass like leaves on water.',
+          quiz: [
+            {
+              question: 'What is the goal of cognitive defusion in ACT?',
+              options: [
+                'To permanently destroy all negative thoughts forever',
+                'To change your relationship with thoughts so they no longer control your actions',
+                'To obsessively analyze every single thought for hours',
+              ],
+              correctIndex: 1,
+              explanation: 'Defusion creates psychological distance so you can take values-aligned action despite uncomfortable thoughts.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_defusion_current',
+            name: 'Defusion Current',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 30,
+            shieldValue: 22,
+            promptText: 'I notice I am having the thought that I am overwhelmed. It is just passing weather.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.5 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_shadow_9',
+          title: 'The Disowned Shadow & Family Projections',
+          subtitle: 'Carl Jung’s Shadow Integration in Close Relationships',
+          authorOrTradition: 'Jungian Depth Psychology',
+          readingMinutes: 2,
+          category: 'SHADOW_INTEGRATION',
+          contentMarkdown: `Carl Jung observed: "Everything that irritates us about others can lead us to an understanding of ourselves."
+
+When a father feels disproportionate rage when his child is messy or lazy, it is often because the father disowned his own need for spontaneous rest in childhood to earn approval. When we disown an impulse, we violently attack it when we see it in our children or partners.
+
+Integrating the shadow means recognizing your own disowned vulnerabilities, removing the projection, and responding to your loved ones with conscious empathy rather than triggered rage.`,
+          keyTakeaway: 'Intense irritation toward loved ones is often a mirror of our own repressed childhood shadow.',
+          quiz: [
+            {
+              question: 'According to Jung, what is psychological projection in family life?',
+              options: [
+                'A movie shown in the living room',
+                'Attributing our own disowned impulses or fears onto our children and partners',
+                'A flawless assessment of someone else’s character',
+              ],
+              correctIndex: 1,
+              explanation: 'Projection happens when we disown a trait in ourselves and react with disproportionate emotion when others exhibit it.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_shadow_integration',
+            name: 'Shadow Integration',
+            category: 'COMPASSION',
+            manaCost: 2,
+            baseDamage: 34,
+            shieldValue: 28,
+            promptText: 'I withdraw my projection. What irritates me points to a part of me needing healing.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_frankl_10',
+          title: 'The Meaning in the Burden',
+          subtitle: 'Viktor Frankl’s Logotherapy for Tired Caregivers',
+          authorOrTradition: 'Existential Logotherapy',
+          readingMinutes: 2,
+          category: 'LOGOTHERAPY',
+          contentMarkdown: `Viktor Frankl wrote: "He who has a why to live can bear almost any how."
+
+Caregiving, parenting, and teaching are inherently demanding. When viewed purely as exhausting chores (cleaning dishes, grading stacks of papers, managing tantrums), the soul burns out under perceived meaningless labor.
+
+When reframed through Logotherapy, these exact moments are transformed into sacred acts of devotion: you are shaping young minds, providing shelter, and modeling resilience. The exhaustion is the price of deeply meaningful love.`,
+          keyTakeaway: 'Suffering ceases to be suffering the moment it finds a transcendent meaning and purpose.',
+          quiz: [
+            {
+              question: 'How does Logotherapy transform caregiving and teaching fatigue?',
+              options: [
+                'By denying that fatigue exists',
+                'By connecting the daily burden to a deep transcendent purpose and love',
+                'By quitting all responsibilities',
+              ],
+              correctIndex: 1,
+              explanation: 'When daily duties are anchored in deep personal values, stamina and fulfillment replace burnout.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_will_to_meaning',
+            name: 'Will to Meaning',
+            category: 'ACTION',
+            manaCost: 2,
+            baseDamage: 45,
+            shieldValue: 20,
+            promptText: 'This burden is my honor. I pour my energy into the lives of those I love.',
+            targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.9 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_sleep_11',
+          title: 'The 90-Minute Ultradian Rhythm',
+          subtitle: 'Circadian Biology & Stimulus Control',
+          authorOrTradition: 'Circadian Sleep Medicine',
+          readingMinutes: 2,
+          category: 'CIRCADIAN_SLEEP',
+          contentMarkdown: `Human sleep operates in ultradian cycles of ~90 minutes. Sleep drive builds through adenosine accumulation during wakefulness.
+
+When you lie awake tossing and turning for over 20 minutes, your brain forms a conditioned pavlovian association: "Bed = Frustration & Worry."
+
+Stimulus control breaks this loop: if awake after 20 minutes, leave the bed, sit in dim light with a physical book, and return ONLY when the next wave of adenosine sleepiness arrives.`,
+          keyTakeaway: 'Break the conditioned bed-anxiety loop by getting up after 20 minutes of wakefulness.',
+          quiz: [
+            {
+              question: 'Why should you leave bed if awake for longer than 20 minutes?',
+              options: [
+                'To punish your body',
+                'To prevent conditioned association between bed and mental frustration',
+                'Because sleep is unnecessary',
+              ],
+              correctIndex: 1,
+              explanation: 'Stimulus control preserves the brain association of bed with effortless sleepiness.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_adenosine_wave',
+            name: 'Adenosine Tide',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 25,
+            shieldValue: 30,
+            promptText: 'My body knows how to rest. I release the struggle and allow sleep to arrive.',
+            targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.5 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_circadian_12',
+          title: 'The Cortisol Awakening Reset',
+          subtitle: 'Morning Sunlight & Circadian Photobiology',
+          authorOrTradition: 'Photobiology & Neurobiology',
+          readingMinutes: 2,
+          category: 'CIRCADIAN_SLEEP',
+          contentMarkdown: `Your master circadian clock (the Suprachiasmatic Nucleus in the hypothalamus) synchronizes all metabolic and cognitive functions.
+
+Getting 10–15 minutes of outdoor sunlight within 45 minutes of waking stimulates intrinsically photosensitive Retinal Ganglion Cells (ipRGCs). This triggers a healthy morning cortisol awakening surge for daytime focus, and starts a biological countdown timer for nighttime melatonin release 14–16 hours later.`,
+          keyTakeaway: 'Early morning sunlight anchors daytime focus and sets the circadian timer for deep evening sleep.',
+          quiz: [
+            {
+              question: 'What is the primary benefit of viewing morning sunlight within 45 minutes of waking?',
+              options: [
+                'It sets the master circadian clock for daytime alertness and evening melatonin timing',
+                'It cures all illnesses permanently',
+                'It replaces the need to eat food',
+              ],
+              correctIndex: 0,
+              explanation: 'Morning photic stimulation anchors the master circadian rhythm and optimizes cortisol/melatonin phasing.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_dawn_light_anchor',
+            name: 'Dawn Light Anchor',
+            category: 'ACTION',
+            manaCost: 1,
+            baseDamage: 32,
+            shieldValue: 20,
+            promptText: 'Morning light anchors my circadian clock. I align my energy with the sun.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.5 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_rupture_13',
+          title: 'The Rupture and Repair Principle',
+          subtitle: 'Building Secure Attachment in Imperfect Parenting',
+          authorOrTradition: 'Developmental Attachment Theory (Dr. Ed Tronick)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Dr. Edward Tronick's landmark attachment research revealed that even the most securely attached parents are out of sync with their children up to 70% of the time.
+
+What creates deep psychological security is not perfection—it is the consistency and humility of the **REPAIR**. When a father loses his temper or misinterprets a child, coming back with a humble, heartfelt apology ("I was frustrated earlier and spoke too loudly. It was not your fault. I love you") teaches the child that relationships survive conflict and that love is unbreakable.`,
+          keyTakeaway: 'Secure attachment is forged in the humility of repair, not in the illusion of perfect parenting.',
+          quiz: [
+            {
+              question: 'According to developmental attachment science, what builds true resilience and security in children?',
+              options: [
+                'Never making a mistake or showing any emotion',
+                'Humble, consistent rupture repair after moments of disconnect or conflict',
+                'Strict punishment for any display of tears',
+              ],
+              correctIndex: 1,
+              explanation: 'Repairing ruptures teaches children that relationships can withstand distress and restores autonomic safety.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_attachment_repair',
+            name: 'Attachment Repair',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 30,
+            shieldValue: 25,
+            promptText: 'I repair with humility and love. Our connection is stronger than any momentary storm.',
+            targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_compassion_fatigue_14',
+          title: 'The Shield Against Compassion Fatigue',
+          subtitle: 'Sustainable Empathy for Educators and Caregivers',
+          authorOrTradition: 'Educator Traumatology (Dr. Charles Figley)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Teachers and devoted fathers often suffer from secondary traumatic stress or 'compassion fatigue'—the biological exhaustion caused by absorbing the emotional pain, chaos, and needs of students and family without replenishment.
+
+To maintain sustainable empathy, you must distinguish between **Empathic Distress** (feeling overwhelmed and drowning in another's suffering) and **Compassionate Presence** (standing firmly on the riverbank holding out a steady hand). Your calm stability is the greatest gift you offer.`,
+          keyTakeaway: 'Stand on the riverbank with open compassion; do not jump into the rapids of secondary panic.',
+          quiz: [
+            {
+              question: 'What is the crucial difference between empathic distress and compassionate presence?',
+              options: [
+                'Compassionate presence maintains an anchored, grounded boundary while offering warmth and support',
+                'Empathic distress is the only way to prove you care',
+                'There is no difference; caring always destroys your physical health',
+              ],
+              correctIndex: 0,
+              explanation: 'Grounded presence prevents caregiver burnout and models true psychological stability.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_empathic_boundary',
+            name: 'Empathic Boundary',
+            category: 'REFRAME',
+            manaCost: 2,
+            baseDamage: 38,
+            shieldValue: 30,
+            promptText: 'I hold space with warmth and firm boundaries. My peace is an anchor for others.',
+            targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_gottman_15',
+          title: 'The 5:1 Magic Ratio in Marriage',
+          subtitle: 'Disarming Relational Decay and The Four Horsemen',
+          authorOrTradition: 'Gottman Institute Couples Science (Dr. John & Julie Gottman)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Over 40 years of empirical research by Dr. John Gottman demonstrated that stable, thriving marriages maintain a ratio of at least **5 positive interactions for every 1 negative interaction** during moments of conflict (and 20:1 during everyday peace).
+
+The four predictors of divorce (The Four Horsemen) are:
+1. **Criticism:** Attacking character rather than behavior.
+2. **Defensiveness:** Making excuses or counter-attacking.
+3. **Contempt:** Sneering, sarcasm, eye-rolling (the #1 predictor of decay).
+4. **Stonewalling:** Physiological shutdown and withdrawal.
+
+The antidote: Softened startup, taking responsibility, daily micro-appreciation, and somatic self-soothing.`,
+          keyTakeaway: 'Deposit daily micro-appreciations into your marital bank account to withstand inevitable conflict.',
+          quiz: [
+            {
+              question: 'What is the empirical positive-to-negative interaction ratio required for relationship stability during conflict?',
+              options: [
+                '1:1',
+                '5:1',
+                '100:1',
+              ],
+              correctIndex: 1,
+              explanation: 'The Gottman 5:1 ratio buffers relationships and protects goodwill during difficult conversations.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_magic_ratio',
+            name: 'Magic Ratio Aegis',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 26,
+            shieldValue: 36,
+            promptText: 'I choose appreciation over contempt. I build up our emotional bank account with kindness.',
+            targetDistortionBonus: { distortion: 'MIND_READING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_nvc_16',
+          title: 'The Non-Violent Communication Matrix',
+          subtitle: 'Expressing Needs Without Blame or Demands',
+          authorOrTradition: 'Non-Violent Communication (Dr. Marshall Rosenberg)',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `When exhausted, human communication often defaults to blame and demands: "You never help!" or "You must obey me right now!" This immediately triggers the listener's defensive fight-or-flight circuits.
+
+NVC provides a 4-step algorithm that connects directly with heart and reason:
+1. **Observation (Fact):** "When I see the dishes in the sink after a 9-hour teaching day..."
+2. **Feeling (Somatic state):** "I feel deeply exhausted and overwhelmed..."
+3. **Need (Universal value):** "Because I need shared teamwork and rest tonight..."
+4. **Request (Concrete & actionable):** "Would you be willing to wash these while I put the kids to bed?"`,
+          keyTakeaway: 'State clear observable facts, somatic feelings, underlying needs, and actionable requests.',
+          quiz: [
+            {
+              question: 'Which of the following is a clean NVC observation free of evaluation or blame?',
+              options: [
+                '"You are always lazy and ignoring me."',
+                '"When the toys were left across the hallway at 9 PM..."',
+                '"You deliberately tried to make me trip."',
+              ],
+              correctIndex: 1,
+              explanation: 'A clean observation describes sensory facts that a video camera could capture, without moral judgment.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_nvc_request',
+            name: 'Compassionate Request',
+            category: 'FACT_CHECK',
+            manaCost: 2,
+            baseDamage: 44,
+            shieldValue: 18,
+            promptText: 'I state my needs with clear facts and warmth. I invite cooperation without coercion.',
+            targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_window_tolerance_17',
+          title: 'The Window of Tolerance',
+          subtitle: 'Navigating Hyperarousal and Hypoarousal in Family Storms',
+          authorOrTradition: 'Interpersonal Neurobiology (Dr. Dan Siegel & Pat Ogden)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `The Window of Tolerance describes the optimal autonomic arousal zone in which you can process information, connect with empathy, and respond with executive wisdom.
+
+When life pushes you **above the window (Hyperarousal)**, sympathetic fight-or-flight spikes: you feel sudden rage, racing heartbeat, or the urge to scream. When pushed **below the window (Hypoarousal)**, dorsal vagal shutdown takes over: you feel emotionally numb, disconnected, and exhausted.
+
+Learning your body's early warning signs (tight jaw, shallow breathing) allows you to use somatic interventions (cold water, physiological sighs) *before* snapping at your children or students.`,
+          keyTakeaway: 'Monitor your nervous system zone; regulate physiology before attempting cognitive reasoning.',
+          quiz: [
+            {
+              question: 'What characterizes the hyperarousal state above the Window of Tolerance?',
+              options: [
+                'Emotional numbness, dissociation, and heavy lethargy',
+                'Sympathetic spikes: racing heart, sudden irritability, and defensive urges to yell',
+                'Deep calm, philosophical clarity, and relaxed muscles',
+              ],
+              correctIndex: 1,
+              explanation: 'Hyperarousal represents sympathetic fight-or-flight activation requiring immediate somatic down-regulation.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_tolerance_anchor',
+            name: 'Tolerance Anchor',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 32,
+            shieldValue: 28,
+            promptText: 'I sense my autonomic state. I anchor my nervous system in the zone of safety.',
+            targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_pygmalion_18',
+          title: 'The Pygmalion Effect in Education',
+          subtitle: 'How Teacher Expectations Shape Student Neurological Potential',
+          authorOrTradition: 'Educational Psychology (Dr. Robert Rosenthal)',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Dr. Robert Rosenthal's Harvard experiments proved that teacher expectations act as unconscious self-fulfilling prophecies. When teachers were led to believe random students had high academic potential, those students demonstrated statistically significant IQ and performance gains over the school year.
+
+Students constantly read subtle micro-cues: vocal tone, wait-time when answering questions, and body language. When a teacher or father holds an unwavering belief in a child's dignity and growth capacity, it creates a neurological canopy of psychological safety that allows the child to flourish.`,
+          keyTakeaway: 'Your belief in a student or child is an active catalyst for their developmental blossoming.',
+          quiz: [
+            {
+              question: 'How do high teacher and parental expectations positively influence student performance?',
+              options: [
+                'By communicating unconscious warmth, patience, and encouraging cues that build neurological confidence',
+                'By enforcing harsh punishments whenever errors occur',
+                'Expectations have zero measurable effect on human learning',
+              ],
+              correctIndex: 0,
+              explanation: 'Warm, positive expectancies provide the emotional safety required for neuroplastic learning and risk-taking.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_pygmalion_catalyst',
+            name: 'Pygmalion Catalyst',
+            category: 'FACT_CHECK',
+            manaCost: 2,
+            baseDamage: 45,
+            shieldValue: 20,
+            promptText: 'I see your potential and dignity. My belief calls forth your highest capability.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_zpd_scaffold_19',
+          title: 'Scaffolding the Zone of Proximal Development',
+          subtitle: 'Fostering Autonomy Without Overwhelm in Children & Students',
+          authorOrTradition: 'Constructivist Psychology (Lev Vygotsky & Jerome Bruner)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Lev Vygotsky defined the **Zone of Proximal Development (ZPD)** as the sweet spot between what a learner can do independently and what they cannot do even with assistance.
+
+If a task is too easy, children experience boredom; if too hard, they experience dysregulated panic. The role of the father and teacher is **Scaffolding**: providing temporary structural supports (breaking steps down, modeling the first move, offering supportive presence) and systematically removing the support as the child achieves mastery.`,
+          keyTakeaway: 'Support the struggle with scaffolding; do not rob children of the victory of independent mastery.',
+          quiz: [
+            {
+              question: 'What is the purpose of pedagogical scaffolding in parenting and teaching?',
+              options: [
+                'Doing the entire assignment for the child so they never make a mistake',
+                'Providing temporary supportive structures that are gradually removed as competence develops',
+                'Leaving the child completely alone with zero guidance on complex tasks',
+              ],
+              correctIndex: 1,
+              explanation: 'Scaffolding bridges the gap between current ability and emerging potential.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_scaffold_aegis',
+            name: 'Scaffold Aegis',
+            category: 'REFRAME',
+            manaCost: 1,
+            baseDamage: 28,
+            shieldValue: 34,
+            promptText: 'I build the scaffold of support. I celebrate the emergence of independent strength.',
+            targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.6 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_four_tendencies_20',
+          title: 'The Four Tendencies Motivation Matrix',
+          subtitle: 'Decoding Inner & Outer Accountability in Yourself and Others',
+          authorOrTradition: 'Behavioral Science (Gretchen Rubin)',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Every human responds differently to inner expectations (personal vows, self-improvement) and outer expectations (work deadlines, parental requests):
+
+1. **Upholders:** Readily meet both outer and inner expectations without needing reminders.
+2. **Questioners:** Only meet expectations if they make logical sense; they resist arbitrary rules.
+3. **Obligers:** Readily meet outer expectations for others, but struggle to meet self-imposed promises (needs external accountability).
+4. **Rebels:** Resist both outer and inner rules; motivated strictly by authentic identity and choice ("I choose to because this is who I am").
+
+Understanding your tendency—and your partner's or student's—ends frustrating arguments over motivation.`,
+          keyTakeaway: 'Align the motivation strategy with the person’s accountability style rather than demanding they change.',
+          quiz: [
+            {
+              question: 'What is the most effective strategy to help an "Obliger" follow through on personal health or rest habits?',
+              options: [
+                'Tell them to rely solely on willpower',
+                'Create positive external accountability structures (e.g. workout partner, coach, or check-in system)',
+                'Shame them for lacking internal discipline',
+              ],
+              correctIndex: 1,
+              explanation: 'Obligers require external accountability structures to protect their personal commitments.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_accountability_matrix',
+            name: 'Accountability Matrix',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 35,
+            shieldValue: 22,
+            promptText: 'I understand the architecture of human motivation. I design systems that honor human nature.',
+            targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_positivity_resonance_21',
+          title: 'Positivity Resonance & Micro-Connections',
+          subtitle: 'The Biology of Love and Vagal Tone in Everyday Family Life',
+          authorOrTradition: 'Positive Neurobiology (Dr. Barbara Fredrickson)',
+          readingMinutes: 2,
+          category: 'PARENTING_COREGULATION',
+          contentMarkdown: `Dr. Barbara Fredrickson demonstrated that love is not a static romantic ideal; biologically, love is **Positivity Resonance**—a transient micro-moment of shared positive emotion, bio-behavioral synchrony, and mutual care.
+
+During a 5-second moment of genuine eye contact and shared laughter with your child or partner:
+- Oxytocin surges in both brains simultaneously.
+- Heart rate variability synchronizes.
+- The vagus nerve strengthens, elevating cardiovascular resilience.
+
+Accumulating dozens of these 5-second micro-connections throughout a chaotic day buffers family health more than grand once-a-year vacations.`,
+          keyTakeaway: 'Love is a biological micro-moment of connection. Sprinkle micro-moments throughout your everyday routine.',
+          quiz: [
+            {
+              question: 'According to neurobiological research, what physiological event occurs during micro-moments of positivity resonance?',
+              options: [
+                'Immediate surge in stress hormones and cortisol',
+                'Simultaneous oxytocin release, synchronized heart variability, and vagal tone strengthening',
+                'No measurable physiological change occurs',
+              ],
+              correctIndex: 1,
+              explanation: 'Micro-connections create real-time bio-behavioral synchrony that fortifies somatic health.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_resonance_pulse',
+            name: 'Resonance Pulse',
+            category: 'COMPASSION',
+            manaCost: 1,
+            baseDamage: 25,
+            shieldValue: 40,
+            promptText: 'In this micro-moment, I connect with presence. Our shared warmth heals the nervous system.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_stoic_archer_22',
+          title: 'The Archer’s Arrow in Family & Classroom',
+          subtitle: 'Stoic Duty and Total Outcome Detachment',
+          authorOrTradition: 'Classical Stoic Philosophy (Musonius Rufus & Epictetus)',
+          readingMinutes: 2,
+          category: 'STOICISM',
+          contentMarkdown: `The Stoic philosopher Antipater used the metaphor of the Archer to explain how to live with profound peace:
+
+The Archer selects the straightest arrow, oils the bow, draws the string with precise muscular focus, and aligns the crosshair. Up until the instant of release, everything is under his sovereign control (Effort).
+
+The moment the arrow leaves the bow, the Archer is at peace. A sudden gust of wind, a leaping deer, or an unexpected shield may deflect the arrow. The true Stoic father and educator finds 100% of his honor in how cleanly he released the arrow, not in whether external circumstances produced the target hit.`,
+          keyTakeaway: 'Your duty is the flawless release of the arrow (effort, virtue, love); release anxiety over where it lands.',
+          quiz: [
+            {
+              question: 'In the Stoic archer metaphor, where does the father or educator find true honor and peace?',
+              options: [
+                'Only when the arrow hits the bullseye 100% of the time without exception',
+                'In the virtuous, dedicated effort of drawing and releasing the bow cleanly, regardless of external wind or outcomes',
+                'By blaming the bow whenever things go wrong',
+              ],
+              correctIndex: 1,
+              explanation: 'Stoic virtue resides entirely in your intent and effort, completely unhooked from uncontrollable external outcomes.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_archers_virtue',
+            name: 'Archer’s Virtue',
+            category: 'REFRAME',
+            manaCost: 2,
+            baseDamage: 48,
+            shieldValue: 15,
+            promptText: 'I loose the arrow of effort with noble focus. I remain unshakeable whatever the wind brings.',
+            targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.9 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_polyvagal_ladder_23',
+          title: 'The Autonomic Nervous System Ladder',
+          subtitle: 'Ventral Vagal Safety, Sympathetic Fight/Flight & Dorsal Vagal Shutdown',
+          authorOrTradition: 'Polyvagal Somatics (Dr. Stephen Porges & Deb Dana)',
+          readingMinutes: 2,
+          category: 'NEUROSCIENCE',
+          contentMarkdown: `Deb Dana conceptualized the human autonomic nervous system as a 3-rung biological ladder:
+
+1. **Top Rung: Ventral Vagal (Safe & Social):** Heart rate is calm, eye contact is warm, the prefrontal cortex is online. You can learn, parent, teach, and listen.
+2. **Middle Rung: Sympathetic (Fight or Flight):** Senses narrow, heart races, urgency and frustration dominate.
+3. **Bottom Rung: Dorsal Vagal (Freeze & Collapse):** Energy plummets into heavy despair, hopeless "I can't", and emotional numbness.
+
+Crucial somatic law: You cannot jump straight from dorsal freeze to ventral joy. You must gently mobilize through mild physical movement (walking, stretching) to reach safety.`,
+          keyTakeaway: 'Identify which rung of the ladder you and your family are standing on before communicating.',
+          quiz: [
+            {
+              question: 'What is the biological rule for climbing out of a dorsal vagal "freeze" or emotional shutdown state?',
+              options: [
+                'Demand that the person instantly smile and perform complex intellectual work',
+                'Engage in gentle physical mobilization (mild movement, walking, stretching) to safely climb through sympathetic arousal back to ventral safety',
+                'Shout loudly to shock the nervous system',
+              ],
+              correctIndex: 1,
+              explanation: 'Movement unlocks dorsal immobilization, transitioning physiology back toward safe connection.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_ventral_ladder',
+            name: 'Ventral Ladder',
+            category: 'COMPASSION',
+            manaCost: 2,
+            baseDamage: 36,
+            shieldValue: 36,
+            promptText: 'I climb the ladder of safety step by step. My body finds its way back to connection.',
+            targetDistortionBonus: { distortion: 'ALL_OR_NOTHING', multiplier: 1.7 },
+          },
+          isCompleted: false,
+        },
+        {
+          id: 'scr_socratic_elenchus_24',
+          title: 'Socratic Elenchus in Modern Cognitive Restructuring',
+          subtitle: 'Questioning Automatic Thoughts Without Intellectual Violence',
+          authorOrTradition: 'Classical Philosophy & CBT (Socrates & Dr. Aaron Beck)',
+          readingMinutes: 2,
+          category: 'CBT_REBT',
+          contentMarkdown: `Socrates revolutionized human understanding with *Elenchus*—a form of cooperative, cross-examining inquiry that reveals hidden inconsistencies in rigid dogmas.
+
+In modern cognitive restructuring, we never attack a catastrophic thought with aggressive denial ("That's stupid!"). Instead, we apply gentle, surgical Socratic questions:
+1. **Evidence Check:** "What concrete facts support this thought, and what facts contradict it?"
+2. **Alternative View:** "If a loving friend were in this exact situation, what would I tell them?"
+3. **Worst-Case & Coping:** "If the worst happened, what concrete actions would I take to survive and adapt?"
+4. **Utility:** "Does holding onto this thought help me protect what I love today?"`,
+          keyTakeaway: 'Cross-examine automatic distortions with loving, surgical inquiry rather than bitter self-criticism.',
+          quiz: [
+            {
+              question: 'Why is gentle Socratic inquiry more therapeutically effective than harsh intellectual self-criticism?',
+              options: [
+                'Because it non-defensively unpacks cognitive errors and opens up psychological flexibility',
+                'Because thoughts should never be examined under any circumstances',
+                'Because it proves that all logic is useless',
+              ],
+              correctIndex: 0,
+              explanation: 'Socratic questioning bypasses ego defensiveness and illuminates objective reality.',
+            },
+          ],
+          unlockedCardReward: {
+            id: 'crd_socratic_blade',
+            name: 'Socratic Blade',
+            category: 'FACT_CHECK',
+            manaCost: 1,
+            baseDamage: 40,
+            shieldValue: 15,
+            promptText: 'I question every assumption with gentle reason. Truth is my unshakeable armor.',
+            targetDistortionBonus: { distortion: 'MIND_READING', multiplier: 1.8 },
+          },
+          isCompleted: false,
+        },
+      ];

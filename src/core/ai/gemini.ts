@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import * as SecureStore from 'expo-secure-store';
 import {
   DistortionType,
   CombatCard,
@@ -11,18 +12,135 @@ import {
   ShadowFlawType,
 } from '../types';
 import { Database } from '../database/db';
+import { SECURE_KEY_STORAGE } from '../security/secureKeys';
+
+/**
+ * Extracts a JSON value from raw LLM output. Handles markdown fences,
+ * leading prose, and truncated trailing output. Returns null when no
+ * parseable JSON is found — callers must provide a fallback path.
+ */
+function parseLlmJson<T>(raw: string): T | null {
+  if (!raw) return null;
+  let text = raw.trim();
+  // Strip markdown code fences if present
+  text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+
+  // Direct parse
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    /* fall through to recovery strategies */
+  }
+
+  // Trim to outermost JSON braces/brackets
+  const firstObj = text.indexOf('{');
+  const firstArr = text.indexOf('[');
+  const start =
+    firstObj === -1 ? firstArr : firstArr === -1 ? firstObj : Math.min(firstObj, firstArr);
+  if (start === -1) return null;
+  const openChar = text[start];
+  const closeChar = openChar === '{' ? '}' : ']';
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  let lastComplete = -1;
+
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (ch === '\\') escaped = true;
+      else if (ch === '"') inString = false;
+      continue;
+    }
+    if (ch === '"') inString = true;
+    else if (ch === openChar) depth++;
+    else if (ch === closeChar) {
+      depth--;
+      if (depth === 0) {
+        lastComplete = i;
+        break;
+      }
+    }
+  }
+
+  if (lastComplete > start) {
+    try {
+      return JSON.parse(text.slice(start, lastComplete + 1)) as T;
+    } catch {
+      /* ignore */
+    }
+  }
+
+  // Last resort: attempt to repair a truncated array/object by closing it
+  const fragment = text.slice(start);
+  if (openChar === '[' && !inString) {
+    const repaired = fragment.replace(/,\s*$/, '') + ']';
+    try {
+      return JSON.parse(repaired) as T;
+    } catch {
+      /* ignore */
+    }
+  }
+
+  return null;
+}
+
+/** Validates a Gemini-generated combat card, returning null when unusable */
+function sanitizeCombatCard(c: any, index: number, distortion: DistortionType): CombatCard | null {
+  if (!c || typeof c.name !== 'string' || typeof c.promptText !== 'string') return null;
+  const category = ['FACT_CHECK', 'COMPASSION', 'ACTION_SPARK'].includes(c.category)
+    ? c.category
+    : 'FACT_CHECK';
+  return {
+    id: `crd_gemini_${Date.now()}_${index}`,
+    name: c.name.slice(0, 60),
+    category,
+    manaCost: index === 0 ? 1 : 2,
+    baseDamage: Number.isFinite(+c.baseDamage) ? Math.max(1, Math.min(50, +c.baseDamage)) : 25,
+    shieldValue: category === 'COMPASSION' ? 20 : 5,
+    promptText: c.promptText.slice(0, 300),
+    targetDistortionBonus: { distortion, multiplier: 1.5 },
+    isGeminiGenerated: true,
+  };
+}
 
 class GeminiService {
+  /**
+   * API key resolution order:
+   * 1. Hardware-backed SecureStore (set via Settings screen)
+   * 2. Legacy plaintext copy in UserState (migrated to SecureStore, then wiped)
+   * 3. EXPO_PUBLIC_GEMINI_API_KEY build-time env var
+   */
+  private async resolveApiKey(): Promise<string> {
+    try {
+      const storedKey = await SecureStore.getItemAsync(SECURE_KEY_STORAGE);
+      if (storedKey) return storedKey;
+
+      // One-time migration of legacy plaintext key
+      const userState = await Database.getUserState();
+      const legacyKey = userState.preferences.geminiApiKey || '';
+      if (legacyKey) {
+        await SecureStore.setItemAsync(SECURE_KEY_STORAGE, legacyKey);
+        userState.preferences.geminiApiKey = '';
+        await Database.saveUserState(userState);
+        return legacyKey;
+      }
+    } catch (e) {
+      console.warn('[Gemini] SecureStore unavailable, using fallback key sources', e);
+    }
+
+    return process.env.EXPO_PUBLIC_GEMINI_API_KEY || '';
+  }
+
   private async getClient(): Promise<{ client: GoogleGenerativeAI; modelName: string } | null> {
-    const userState = await Database.getUserState();
-    const apiKey =
-      userState.preferences.geminiApiKey ||
-      process.env.EXPO_PUBLIC_GEMINI_API_KEY ||
-      '';
+    const apiKey = await this.resolveApiKey();
 
     if (!apiKey) {
       return null;
     }
+    const userState = await Database.getUserState();
     const modelName = userState.preferences.geminiModel || 'gemini-3.7-flash';
     return { client: new GoogleGenerativeAI(apiKey), modelName };
   }
@@ -78,28 +196,45 @@ Do not include markdown ticks, just raw JSON.
 `;
 
       const response = await model.generateContent(prompt);
-      const text = response.response.text().trim();
-      const cleanJson = text.replace(/^```json\s*/, '').replace(/```$/, '').trim();
-      const parsed = JSON.parse(cleanJson);
+      const parsed = parseLlmJson<{
+        distortion: string;
+        explanation: string;
+        cards: any[];
+      }>(response.response.text());
 
-      const generatedCards: CombatCard[] = parsed.cards.map((c: any, index: number) => ({
-        id: `crd_gemini_${Date.now()}_${index}`,
-        name: c.name,
-        category: c.category,
-        manaCost: index === 0 ? 1 : 2,
-        baseDamage: c.baseDamage || 25,
-        shieldValue: c.category === 'COMPASSION' ? 20 : 5,
-        promptText: c.promptText,
-        targetDistortionBonus: {
-          distortion: parsed.distortion,
-          multiplier: 1.5,
-        },
-        isGeminiGenerated: true,
-      }));
+      if (!parsed || !Array.isArray(parsed.cards) || parsed.cards.length === 0) {
+        console.warn('[Gemini] Thought reframe returned unparseable JSON, using fallback');
+        return this.getFallbackReframe(thought);
+      }
+
+      const VALID_DISTORTIONS: DistortionType[] = [
+        'CATASTROPHIZING',
+        'ALL_OR_NOTHING',
+        'MIND_READING',
+        'EMOTIONAL_REASONING',
+        'OVERGENERALIZATION',
+        'SHOULD_STATEMENTS',
+        'PERSONALIZATION',
+      ];
+      const rawDistortion = typeof parsed.distortion === 'string' ? parsed.distortion : '';
+      const distortion: DistortionType = (VALID_DISTORTIONS as string[]).includes(rawDistortion)
+        ? (rawDistortion as DistortionType)
+        : 'CATASTROPHIZING';
+
+      const generatedCards = parsed.cards
+        .map((c, index) => sanitizeCombatCard(c, index, distortion))
+        .filter((c): c is CombatCard => c !== null);
+
+      if (generatedCards.length === 0) {
+        return this.getFallbackReframe(thought);
+      }
 
       return {
-        distortion: parsed.distortion as DistortionType,
-        explanation: parsed.explanation,
+        distortion,
+        explanation:
+          typeof parsed.explanation === 'string' && parsed.explanation.length > 0
+            ? parsed.explanation.slice(0, 500)
+            : 'Analysis complete.',
         cards: generatedCards,
       };
     } catch (e) {
@@ -131,9 +266,14 @@ Return ONLY a JSON array of strings, e.g. ["Step 1", "Step 2", "Step 3"]. No mar
 `;
 
       const response = await model.generateContent(prompt);
-      const text = response.response.text().trim();
-      const cleanJson = text.replace(/^```json\s*/, '').replace(/```$/, '').trim();
-      return JSON.parse(cleanJson);
+      const parsed = parseLlmJson<string[]>(response.response.text());
+      if (!parsed || !Array.isArray(parsed)) {
+        console.warn('[Gemini] Task decomposition returned unparseable JSON, using fallback');
+        return this.getFallbackDecomposition(taskTitle);
+      }
+      return parsed
+        .filter((s): s is string => typeof s === 'string' && s.trim().length > 0)
+        .map((s) => s.slice(0, 200));
     } catch (e) {
       return this.getFallbackDecomposition(taskTitle);
     }
@@ -164,11 +304,15 @@ No markdown, only valid JSON.
 `;
 
       const response = await model.generateContent(prompt);
-      const text = response.response.text().trim();
-      const cleanJson = text.replace(/^```json\s*/, '').replace(/```$/, '').trim();
-      const items = JSON.parse(cleanJson);
+      const items = parseLlmJson<any[]>(response.response.text());
+      if (!items || !Array.isArray(items)) {
+        console.warn('[Gemini] Quest generation returned unparseable JSON');
+        return [];
+      }
 
-      return items.map((item: any, idx: number) => ({
+      return items
+        .filter((item: any) => item && typeof item.title === 'string')
+        .map((item: any, idx: number) => ({
         id: `qst_ai_${Date.now()}_${idx}`,
         title: item.title,
         description: item.description,
@@ -336,11 +480,15 @@ No markdown, just raw JSON array.
 `;
 
       const response = await model.generateContent(prompt);
-      const text = response.response.text().trim();
-      const cleanJson = text.replace(/^```json\s*/, '').replace(/```$/, '').trim();
-      const items = JSON.parse(cleanJson);
+      const items = parseLlmJson<any[]>(response.response.text());
+      if (!items || !Array.isArray(items)) {
+        console.warn('[Gemini] Thought feed returned unparseable JSON, using fallback');
+        return this.getFallbackThoughtFeed(domain);
+      }
 
-      return items.map((item: any, idx: number) => ({
+      return items
+        .filter((item: any) => item && typeof item.thought === 'string')
+        .map((item: any, idx: number) => ({
         id: `thg_ai_${Date.now()}_${idx}`,
         thought: item.thought,
         contextDomain: item.contextDomain || 'WORK_BURNOUT',
@@ -374,11 +522,16 @@ No markdown, just raw JSON array.
     try {
       const modelInfo = await this.getClient();
       if (!modelInfo) {
+        // No API key: give modest credit with honest feedback instead of
+        // rubber-stamping arbitrary input as an 85-score reframe.
+        const hasSubstance = userReframe.trim().split(/\s+/).length >= 4;
         return {
-          score: 85,
-          clinicalFeedback: 'Solid balanced thought! You successfully challenged the extreme cognitive trap.',
-          vpReward: 40,
-          manaReward: 2,
+          score: hasSubstance ? 70 : 55,
+          clinicalFeedback: hasSubstance
+            ? 'Offline insight mode: your reframe shows effort. Connect to Wi-Fi and add your Gemini key in Settings for full clinical feedback.'
+            : 'Offline insight mode: try writing a fuller balanced thought — a few more words of real evidence helps. Add your Gemini key in Settings for full analysis.',
+          vpReward: hasSubstance ? 20 : 8,
+          manaReward: 1,
         };
       }
 
@@ -401,16 +554,29 @@ No markdown, just raw JSON.
 `;
 
       const response = await model.generateContent(prompt);
-      const text = response.response.text().trim();
-      const cleanJson = text.replace(/^```json\s*/, '').replace(/```$/, '').trim();
-      const parsed = JSON.parse(cleanJson);
+      const parsed = parseLlmJson<{ score: number; clinicalFeedback: string }>(
+        response.response.text()
+      );
 
-      const score = Math.max(60, Math.min(100, parsed.score || 85));
+      if (!parsed) {
+        console.warn('[Gemini] Reframe evaluation returned unparseable JSON, using default');
+        return {
+          score: 85,
+          clinicalFeedback: 'Great reframe! You successfully applied the clinical technique.',
+          vpReward: 40,
+          manaReward: 2,
+        };
+      }
+
+      const score = Math.max(60, Math.min(100, Number(parsed.score) || 85));
       const vpReward = Math.round(score * 0.5);
 
       return {
         score,
-        clinicalFeedback: parsed.clinicalFeedback || 'Insightful reframe! Great cognitive flexibility.',
+        clinicalFeedback:
+          typeof parsed.clinicalFeedback === 'string' && parsed.clinicalFeedback.length > 0
+            ? parsed.clinicalFeedback.slice(0, 400)
+            : 'Insightful reframe! Great cognitive flexibility.',
         vpReward,
         manaReward: score >= 85 ? 2 : 1,
       };

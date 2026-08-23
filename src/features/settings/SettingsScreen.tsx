@@ -24,6 +24,7 @@ import {
   Info,
 } from 'lucide-react-native';
 import { CrisisBridgeModal } from '../safety/CrisisBridgeModal';
+import { SECURE_KEY_STORAGE } from '../../core/security/secureKeys';
 
 interface SettingsScreenProps {
   userState: UserState;
@@ -47,11 +48,24 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
   ];
 
   const handleSavePreferences = async () => {
+    // Store the API key in hardware-backed SecureStore instead of plaintext UserState
+    const trimmedKey = apiKey.trim();
+    try {
+      const SecureStore = require('expo-secure-store');
+      if (trimmedKey) {
+        await SecureStore.setItemAsync(SECURE_KEY_STORAGE, trimmedKey);
+      } else {
+        await SecureStore.deleteItemAsync(SECURE_KEY_STORAGE);
+      }
+    } catch (e) {
+      console.warn('[Settings] Could not persist API key to SecureStore', e);
+    }
+
     const updated: UserState = {
       ...userState,
       preferences: {
         ...userState.preferences,
-        geminiApiKey: apiKey.trim(),
+        geminiApiKey: '', // never persisted to AsyncStorage; lives in SecureStore only
         geminiModel: selectedModel,
         chronotype: chronotype,
         githubRepo: githubRepo.trim(),

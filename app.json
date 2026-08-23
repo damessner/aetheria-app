@@ -24,7 +24,9 @@
       "package": "com.aetheria.cognitivequest",
       "permissions": [
         "RECEIVE_BOOT_COMPLETED",
-        "VIBRATE"
+        "VIBRATE",
+        "POST_NOTIFICATIONS",
+        "SCHEDULE_EXACT_ALARM"
       ]
     },
     "plugins": [

@@ -25,6 +25,7 @@ import {
 } from 'lucide-react-native';
 import { CrisisBridgeModal } from '../safety/CrisisBridgeModal';
 import { SECURE_KEY_STORAGE } from '../../core/security/secureKeys';
+import { ClinicalExport } from '../../core/export/ClinicalExportService';
 
 interface SettingsScreenProps {
   userState: UserState;
@@ -78,11 +79,14 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
     Alert.alert('Settings Saved', 'Gemini AI, Chronotype & GitHub OTA preferences updated successfully.');
   };
 
-  const handleExportClinicalReport = () => {
-    Alert.alert(
-      '📋 Clinical PDF Report Generated',
-      `Exported 6-Week CBT/BA Clinical Progress:\n• Vitality Points: ${userState.vitalityPoints}\n• Gloom Cleared: ${userState.sanctuary.gloomClearingPercentage.toFixed(1)}%\n• Primary Skill: Dual BA + CR\n• Ready to share with your healthcare professional.`
-    );
+  const handleExportClinicalReport = async () => {
+    const success = await ClinicalExport.exportAndShare(userState);
+    if (success) {
+      Alert.alert(
+        '📋 Summary Ready',
+        'Your clinical progress summary was opened in the share sheet. Send it to yourself or your healthcare professional.'
+      );
+    }
   };
 
   return (
@@ -206,7 +210,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
       <View style={styles.card}>
         <TouchableOpacity style={styles.exportBtn} onPress={handleExportClinicalReport}>
           <Download size={16} color={Colors.textPrimary} />
-          <Text style={styles.exportBtnText}>Generate Clinician / Therapist PDF</Text>
+          <Text style={styles.exportBtnText}>Share Progress Summary with Clinician</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

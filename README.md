@@ -1,14 +1,15 @@
 # Aetheria: The Cognitive Quest 🌌⚔️
 
 [![Build & Release Android APK](https://github.com/damessner/aetheria-app/actions/workflows/build-apk.yml/badge.svg)](https://github.com/damessner/aetheria-app/actions/workflows/build-apk.yml)
-[![Over-The-Air Update](https://github.com/damessner/aetheria-app/actions/workflows/ota-update.yml/badge.svg)](https://github.com/damessner/aetheria-app/actions/workflows/ota-update.yml)
 [![React Native](https://img.shields.io/badge/React_Native-0.76-61DAFB?logo=react&logoColor=black)](https://reactnative.dev)
 [![Expo](https://img.shields.io/badge/Expo-SDK_52-000020?logo=expo&logoColor=white)](https://expo.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Google Gemini](https://img.shields.io/badge/Gemini_AI-Flash_1.5-8E75B2?logo=google&logoColor=white)](https://ai.google.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
+[![Google Gemini](https://img.shields.io/badge/Gemini_AI-3.7_Flash-8E75B2?logo=google&logoColor=white)](https://ai.google.dev)
+[![License: MIT](https://github.com/damessner/aetheria-app/raw/main/LICENSE)](LICENSE)
 
 > **Aetheria** transforms evidence-based **Cognitive Behavioral Therapy (CBT)** and **Behavioral Activation (BA)** into an immersive, gamified fantasy realm-restoration mobile experience powered by **Google Gemini AI**.
+
+> ⚠️ **Aetheria is a self-help tool, not a medical device.** It is not a substitute for professional diagnosis, therapy, or emergency care. In crisis, contact your local emergency number or visit [findahelpline.com](https://findahelpline.com).
 
 ---
 
@@ -195,13 +196,20 @@ Unlike generic habit trackers that trigger avoidance and shame spirals through r
 
 ```
 src/
+├── components/              # Shared UI kit (SectionCard, ScreenHeader, buttons) & error boundary
+├── content/                 # Static seed content (combat deck, quests, thought feed, wisdom scrolls)
 ├── core/
-│   ├── ai/gemini.ts            # Google Gemini AI Client (Gemini 3.7 Flash default)
-│   ├── database/db.ts          # Encrypted Local Storage & Seed Persistence
+│   ├── ai/gemini.ts            # Google Gemini AI Client (Gemini 3.7 Flash default, SecureStore key)
+│   ├── database/db.ts          # Local persistence (AsyncStorage) — seeds live in src/content
 │   ├── eventbus/EventBus.ts    # Decoupled Reactive Event Bus
-│   ├── ota/UpdateManager.ts    # In-App GitHub Releases & OTA Update Checker
-│   ├── ota/UpdateBanner.tsx    # 1-Tap Update Notification Banner
-│   ├── security/crisisDirectory.ts # Offline International Crisis Database
+│   ├── export/                 # Clinician progress summary (share sheet)
+│   ├── notifications/          # Real local notification scheduling for routines
+│   ├── ota/                    # GitHub Releases APK update checker + banner
+│   ├── routines/               # Book routine scheduling w/ daily reminders
+│   ├── security/               # Crisis-language detection, crisis directory, secure key storage
+│   ├── spacedrepetition/       # Ebbinghaus-style recall scheduler
+│   ├── state/appStore.ts       # Zustand single source of truth for app state
+│   ├── sync/                   # GitHub content sync with SHA-256 integrity checks
 │   ├── theme/index.ts          # Dark Astral & Circadian OLED Palette
 │   └── types/index.ts          # Core Domain Interfaces & Chronotypes
 ├── features/
@@ -239,14 +247,14 @@ Aetheria integrates **Google Gemini (defaulting to Gemini 3.7 Flash with selecta
 
 ## 6. GitHub Actions & Automated Releases
 
-Aetheria comes pre-configured with two automated GitHub Actions CI/CD workflows:
-
 * **Automated APK Builder (`.github/workflows/build-apk.yml`):**
-  Triggered when pushing a version tag or manually via Actions dispatch. Compiles a release Android APK and publishes it to your repository's GitHub Releases page using **Node.js 24 & Temurin JDK 17**.
-* **Instant OTA Updates (`.github/workflows/ota-update.yml`):**
-  Pushes instant Over-The-Air JavaScript/Asset bundle updates to active devices on `git push` to `main`.
-* **In-App Updater (`UpdateBanner.tsx`):**
-  The app polls your GitHub Releases API on startup and notifies users when a new APK release is available.
+  Triggered on pushes to `main` and version tags (`v*`). Gates every build on
+  TypeScript typecheck + unit tests, compiles release & debug APKs, signs them
+  with a stable keystore (so updates install over previous versions), stamps
+  `versionName`/`versionCode` from the tag, and attaches APKs to a GitHub Release.
+  The in-app updater polls your repo's Releases API on startup.
+* **Content sync integrity:** remote content payloads are verified against
+  SHA-256 hashes declared in `content/manifest.json` before being applied.
 
 ---
 
@@ -278,17 +286,16 @@ bun start     # or npx expo start
 
 ## 8. Testing & Verification
 
-Run the automated unit test suite:
+Run the automated unit test suite (63 tests: combat math, crisis detection, content integrity, clinical modules):
 ```bash
 bun test
 ```
-* **Combat Engine Mathematics:** Distortion affinity multipliers ($1.5\times$ vs $0.8\times$), shield absorption, and mana constraints.
-* **Event Bus:** Cross-module event propagation.
 
 Run TypeScript compiler typecheck:
 ```bash
 bunx tsc --noEmit
 ```
+Both gates run automatically in CI before any APK is built.
 
 ---
 

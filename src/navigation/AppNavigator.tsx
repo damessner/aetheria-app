@@ -20,6 +20,7 @@ import {
   createBottomTabNavigator,
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, Spacing } from '../core/theme';
 import { UserState, EnergyTier } from '../core/types';
 import { useAppStore } from '../core/state/appStore';
@@ -323,6 +324,7 @@ const TabIcon =
 
 const TabNavigator: React.FC = () => {
   const userState = useAppStore((s) => s.userState);
+  const insets = useSafeAreaInsets();
 
   return (
       <Tab.Navigator
@@ -333,6 +335,8 @@ const TabNavigator: React.FC = () => {
         tabBarStyle: {
           backgroundColor: Colors.surface,
           borderTopColor: Colors.border,
+          height: 56 + insets.bottom,
+          paddingBottom: insets.bottom,
         },
         tabBarLabelStyle: { fontSize: 11 },
       }}
@@ -366,6 +370,7 @@ export const AppNavigator: React.FC = () => {
   const hydrated = useAppStore((s) => s.hydrated);
   const userState = useAppStore((s) => s.userState);
   const setUserState = useAppStore((s) => s.setUserState);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     hydrate();
@@ -389,21 +394,31 @@ export const AppNavigator: React.FC = () => {
     return () => unsubs.forEach((u) => u());
   }, [hydrate]);
 
-  if (!hydrated) return <Loading />;
+  if (!hydrated) {
+    return (
+      <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: Colors.background }}>
+        <Loading />
+      </View>
+    );
+  }
 
   // One-time medical disclaimer before any clinical content is shown
   if (!userState?.hasAcknowledgedDisclaimer) {
     return (
-      <DisclaimerScreen
-        onAcknowledge={() =>
-          setUserState((prev) => ({ ...prev, hasAcknowledgedDisclaimer: true }))
-        }
-      />
+      <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: Colors.background }}>
+        <DisclaimerScreen
+          onAcknowledge={() =>
+            setUserState((prev) => ({ ...prev, hasAcknowledgedDisclaimer: true }))
+          }
+        />
+      </View>
     );
   }
 
   return (
     <NavigationContainer theme={navTheme}>
+      {/* Keep ALL content below the status bar (fixes cropped-top on Android) */}
+      <View style={{ flex: 1, paddingTop: insets.top }}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Tabs" component={TabNavigator} />
         <Stack.Screen
@@ -452,6 +467,7 @@ export const AppNavigator: React.FC = () => {
           options={{ ...stackScreenOptions, headerShown: true, title: 'Settings' }}
         />
       </Stack.Navigator>
+      </View>
     </NavigationContainer>
   );
 };

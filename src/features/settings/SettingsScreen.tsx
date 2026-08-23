@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Switch,
+  ActivityIndicator,
 } from 'react-native';
 import { UserState } from '../../core/types';
 import { Colors, Spacing } from '../../core/theme';
@@ -41,6 +42,11 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
   const [githubRepo, setGithubRepo] = useState(userState.preferences.githubRepo || '');
   const [circadianAuto, setCircadianAuto] = useState(userState.preferences.circadianMode === 'AUTO');
   const [crisisModalVisible, setCrisisModalVisible] = useState(false);
+  const [isCheckingUpdates, setIsCheckingUpdates] = useState(false);
+  const [updateCheckResult, setUpdateCheckResult] = useState<{
+    isUpdateAvailable: boolean;
+    message: string;
+  } | null>(null);
 
   const modelOptions: { id: 'gemini-3.7-flash' | 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.0-flash'; label: string; tag: string }[] = [
     { id: 'gemini-3.7-flash', label: 'Gemini 3.7 Flash', tag: 'Fastest & Advanced' },
@@ -77,6 +83,36 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
     await Database.saveUserState(updated);
     onStateUpdated(updated);
     Alert.alert('Settings Saved', 'Gemini AI, Chronotype & GitHub OTA preferences updated successfully.');
+  };
+
+  const handleCheckForUpdates = async () => {
+    setIsCheckingUpdates(true);
+    setUpdateCheckResult(null);
+    try {
+      const { UpdateManager } = require('../../core/ota/UpdateManager');
+      const info = await UpdateManager.checkForUpdates();
+      if (info.isUpdateAvailable && info.downloadUrl) {
+        setUpdateCheckResult({
+          isUpdateAvailable: true,
+          message: `Version ${info.version} is available! Tap the banner or open the release page to install.`,
+        });
+        // Deep-link straight to the APK download
+        const { Linking } = require('react-native');
+        await Linking.openURL(info.downloadUrl);
+      } else {
+        setUpdateCheckResult({
+          isUpdateAvailable: false,
+          message: `You're on the latest version (v${info.version}).`,
+        });
+      }
+    } catch (e) {
+      setUpdateCheckResult({
+        isUpdateAvailable: false,
+        message: 'Could not reach GitHub Releases. Check your connection and repository setting.',
+      });
+    } finally {
+      setIsCheckingUpdates(false);
+    }
   };
 
   const handleExportClinicalReport = async () => {
@@ -140,7 +176,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
           <Text style={styles.cardTitle}>GitHub Repository</Text>
         </View>
         <Text style={styles.cardDesc}>
-          In-app updater queries this repository for instant APK releases and OTA bundle patches.
+          In-app updater queries this repository for new APK releases.
         </Text>
         <TextInput
           style={styles.input}
@@ -149,6 +185,35 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ userState, onSta
           value={githubRepo}
           onChangeText={setGithubRepo}
         />
+        <TouchableOpacity
+          style={[styles.saveBtn, isCheckingUpdates && { opacity: 0.6 }, { marginTop: Spacing.sm }]}
+          onPress={handleCheckForUpdates}
+          disabled={isCheckingUpdates}
+          accessibilityRole="button"
+          accessibilityLabel="Check for app updates now"
+        >
+          {isCheckingUpdates ? (
+            <ActivityIndicator size="small" color="#0A0A0E" />
+          ) : (
+            <Download size={16} color="#0A0A0E" />
+          )}
+          <Text style={styles.saveBtnText}>
+            {isCheckingUpdates ? 'Checking…' : 'Check for Updates'}
+          </Text>
+        </TouchableOpacity>
+        {updateCheckResult ? (
+          <Text
+            style={{
+              color: updateCheckResult.isUpdateAvailable
+                ? Colors.reframeGold
+                : Colors.vitalityGreen,
+              fontSize: 12,
+              marginTop: 8,
+            }}
+          >
+            {updateCheckResult.message}
+          </Text>
+        ) : null}
       </View>
 
       <Text style={styles.sectionTitle}>Circadian Chronotype & Shift-Worker Engine</Text>

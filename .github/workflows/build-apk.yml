@@ -95,6 +95,17 @@ jobs:
           }
           GRADLE_PATCH
 
+      - name: 🔢 Stamp Version from Tag
+        working-directory: android
+        run: |
+          VERSION="${{ needs.version.outputs.value }}"
+          # versionCode: derive a monotonically increasing integer from the version
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          CODE=$((MAJOR * 10000 + MINOR * 100 + PATCH))
+          sed -i "s/versionCode [0-9]*/versionCode $CODE/" app/build.gradle
+          sed -i "s/versionName \"[^\"]*\"/versionName \"$VERSION\"/" app/build.gradle
+          echo "Stamped versionName=$VERSION versionCode=$CODE"
+
       - name: 🔨 Compile Android APK
         working-directory: android
         run: |

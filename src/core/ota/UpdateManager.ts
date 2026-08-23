@@ -1,8 +1,16 @@
 import { OTAReleaseInfo } from '../types';
 import { Database } from '../database/db';
+import Constants from 'expo-constants';
 
 class UpdateManagerService {
-  private currentVersion = '1.0.0';
+  /**
+   * Single source of truth is `version` in app.json, exposed via
+   * expo-constants — never hardcode it here again.
+   */
+  private get currentVersion(): string {
+    const v = Constants.expoConfig?.version;
+    return typeof v === 'string' && v.length > 0 ? v : '0.0.0';
+  }
 
   /**
    * Check GitHub Releases API for newer APK releases

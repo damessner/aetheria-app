@@ -4,3 +4,4 @@
  * stay consistent and lean.
  */
 export { SectionCard, ScreenHeader, StatChip, PrimaryButton } from './ui';
+export { AppErrorBoundary } from './AppErrorBoundary';

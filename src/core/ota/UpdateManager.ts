@@ -1,5 +1,3 @@
-import * as Updates from 'expo-updates';
-import { Platform } from 'react-native';
 import { OTAReleaseInfo } from '../types';
 import { Database } from '../database/db';
 
@@ -7,25 +5,10 @@ class UpdateManagerService {
   private currentVersion = '1.0.0';
 
   /**
-   * Check for both GitHub Releases (for APK downloads) and Expo OTA updates (for JS bundle patches)
+   * Check GitHub Releases API for newer APK releases
    */
   async checkForUpdates(): Promise<OTAReleaseInfo> {
     try {
-      // 1. Check Expo Updates (OTA)
-      if (!__DEV__ && Updates.isEnabled) {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          return {
-            version: 'OTA Patch Available',
-            releaseTag: 'ota-latest',
-            releaseNotes: 'Performance and content patch ready for instant install.',
-            publishedAt: new Date().toISOString(),
-            isUpdateAvailable: true,
-          };
-        }
-      }
-
-      // 2. Check GitHub Releases API for APK releases
       const userState = await Database.getUserState();
       const repo = userState.preferences.githubRepo || 'damessner/aetheria-app';
       
@@ -60,13 +43,6 @@ class UpdateManagerService {
       publishedAt: new Date().toISOString(),
       isUpdateAvailable: false,
     };
-  }
-
-  async applyOtaUpdate(): Promise<void> {
-    if (!__DEV__ && Updates.isEnabled) {
-      await Updates.fetchUpdateAsync();
-      await Updates.reloadAsync();
-    }
   }
 
   private compareVersions(v1: string, v2: string): number {

@@ -24,8 +24,6 @@ export const UpdateBanner: React.FC = () => {
   const handleUpdatePress = async () => {
     if (updateInfo.downloadUrl) {
       await Linking.openURL(updateInfo.downloadUrl);
-    } else {
-      await UpdateManager.applyOtaUpdate();
     }
   };
 

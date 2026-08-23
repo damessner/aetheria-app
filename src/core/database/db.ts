@@ -36,8 +36,11 @@ import {
   INITIAL_QUESTS,
   INITIAL_TASKS,
   INITIAL_THOUGHT_FEED,
-  INITIAL_SCROLLS,
 } from '../../content';
+import { INITIAL_SCROLLS_RICH } from '../../content/wisdomScrollsRich';
+
+/** Canonical bundled scroll seed: the FULL rich content set (L2, routines, recall) */
+const INITIAL_SCROLLS = INITIAL_SCROLLS_RICH;
 
 export {
   INITIAL_COMBAT_DECK,
@@ -45,8 +48,8 @@ export {
   INITIAL_QUESTS,
   INITIAL_TASKS,
   INITIAL_THOUGHT_FEED,
-  INITIAL_SCROLLS,
 };
+export { INITIAL_SCROLLS_RICH } from '../../content/wisdomScrollsRich';
 
 class DatabaseService {
   async getUserState(): Promise<UserState> {

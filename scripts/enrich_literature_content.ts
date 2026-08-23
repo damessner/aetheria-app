@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { WisdomScroll, BookRoutine, Level2Expansion, SpacedRecallChallenge } from '../src/core/types';
-import { INITIAL_SCROLLS } from '../src/core/database/db';
+import { INITIAL_SCROLLS_RICH } from '../src/content/wisdomScrollsRich';
 
 const ROUTINE_PRESETS: Record<string, BookRoutine[]> = {
   scr_parent_1: [
@@ -261,7 +261,7 @@ const SPACED_RECALL_PRESETS: Record<string, SpacedRecallChallenge[]> = {
 };
 
 // Enrich all 24 scrolls with default rich routines, expansions, and spaced recall challenges
-const enrichedScrolls: WisdomScroll[] = INITIAL_SCROLLS.map((scroll) => {
+const enrichedScrolls: WisdomScroll[] = INITIAL_SCROLLS_RICH.map((scroll: WisdomScroll) => {
   const routines = ROUTINE_PRESETS[scroll.id] || [
     {
       id: `rtn_def_${scroll.id}`,

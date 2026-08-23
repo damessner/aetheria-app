@@ -236,6 +236,49 @@ export interface ThoughtEvaluation {
   manaReward: number;
 }
 
+export interface BookRoutine {
+  id: string;
+  scrollId: string;
+  bookTitle: string;
+  title: string;
+  description: string;
+  suggestedTime: string; // e.g. "07:30", "20:00"
+  frequency: 'DAILY' | 'MORNING' | 'EVENING' | 'WORK_HOURS' | 'WEEKLY';
+  energyTier: EnergyTier;
+  reminderEnabled: boolean;
+  clinicalRationale: string;
+  isScheduled?: boolean;
+}
+
+export interface Level2Expansion {
+  title: string;
+  subtitle: string;
+  deepCaseStudy: string;
+  contentMarkdown: string;
+  advancedQuiz: {
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+    clinicalDistinction: string;
+  }[];
+  unlockedMasteryRelic?: TaskItem['relicDrop'];
+}
+
+export interface SpacedRecallChallenge {
+  id: string;
+  scrollId: string;
+  bookTitle: string;
+  author: string;
+  scenarioPrompt: string;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  clinicalInsight: string;
+  nextReviewDueDays: number;
+}
+
 export interface WisdomScroll {
   id: string;
   title: string;
@@ -260,7 +303,14 @@ export interface WisdomScroll {
     explanation: string;
   }[];
   unlockedCardReward: CombatCard;
+  suggestedRoutines?: BookRoutine[];
+  level2Expansion?: Level2Expansion;
+  spacedRecallChallenges?: SpacedRecallChallenge[];
   isCompleted?: boolean;
+  completedAt?: string;
+  isLevel2Unlocked?: boolean;
+  isLevel2Completed?: boolean;
+  memoryLevel?: number; // 0 to 5 Stars
 }
 
 export interface SchemaArchetype {
@@ -380,6 +430,11 @@ export interface UserState {
   activeCrucibleVows?: ShadowFlawType[];
   streakData?: StreakData;
   unlockedAchievementIds?: string[];
+  scheduledRoutines?: BookRoutine[];
+  spacedRepetitionReviews?: Record<
+    string,
+    { lastReviewedAt: string; reviewStage: number; nextDueAt: string; memoryStars: number }
+  >;
   sanctuary: SanctuaryState;
   stats: {
     mindShield: number;

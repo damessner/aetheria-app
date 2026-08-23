@@ -2266,6 +2266,9 @@ class DatabaseService {
       if (!target) return;
 
       target.isCompleted = true;
+      target.completedAt = new Date().toISOString();
+      target.isLevel2Unlocked = true;
+      target.memoryLevel = 1;
       await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(scrolls));
 
       // Add unlocked combat card to userState.activeCards
@@ -2288,6 +2291,34 @@ class DatabaseService {
       await this.saveUserState(updatedState);
     } catch (e) {
       console.error('Failed to complete wisdom scroll', e);
+    }
+  }
+
+  async completeLevel2Scroll(scrollId: string): Promise<void> {
+    try {
+      const scrolls = await this.getWisdomScrolls();
+      const target = scrolls.find((s) => s.id === scrollId);
+      if (!target || !target.level2Expansion) return;
+
+      target.isLevel2Completed = true;
+      target.memoryLevel = Math.max(target.memoryLevel || 1, 2);
+      await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(scrolls));
+
+      const userState = await this.getUserState();
+      const relic = target.level2Expansion.unlockedMasteryRelic;
+      const updatedRelics = relic
+        ? [...userState.equippedRelics.filter((r) => r && r.id !== relic.id), relic]
+        : userState.equippedRelics;
+
+      const updatedState: UserState = {
+        ...userState,
+        equippedRelics: updatedRelics,
+        vitalityPoints: userState.vitalityPoints + 100,
+        clarityMana: userState.clarityMana + 3,
+      };
+      await this.saveUserState(updatedState);
+    } catch (e) {
+      console.error('Failed to complete Level 2 scroll', e);
     }
   }
 

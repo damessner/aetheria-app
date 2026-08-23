@@ -325,7 +325,7 @@ const TabNavigator: React.FC = () => {
   const userState = useAppStore((s) => s.userState);
 
   return (
-    <Tab.Navigator
+      <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors.reframeGold,

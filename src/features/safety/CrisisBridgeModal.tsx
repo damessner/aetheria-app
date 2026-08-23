@@ -77,6 +77,8 @@ export const CrisisBridgeModal: React.FC<CrisisBridgeModalProps> = ({ visible, o
               <TouchableOpacity
                 style={styles.callBtn}
                 onPress={() => handleCall(contact.phoneNumber)}
+                accessibilityRole="button"
+                accessibilityLabel={`Call ${contact.helplineName} at ${contact.phoneNumber}`}
               >
                 <Phone size={16} color="#FFFFFF" />
                 <Text style={styles.callBtnText}>Call {contact.phoneNumber}</Text>
@@ -86,6 +88,8 @@ export const CrisisBridgeModal: React.FC<CrisisBridgeModalProps> = ({ visible, o
                 <TouchableOpacity
                   style={styles.smsBtn}
                   onPress={() => handleSms(contact.smsNumber!)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Text ${contact.helplineName} at ${contact.smsNumber}`}
                 >
                   <MessageSquare size={16} color={Colors.clarityMana} />
                   <Text style={styles.smsBtnText}>Text {contact.smsNumber}</Text>

@@ -225,6 +225,13 @@ export const ScrollDetailModal: React.FC<ScrollDetailModalProps> = ({
                       {q.options.map((opt, optIdx) => {
                         const isSelected = quizAnswers[qIdx] === optIdx;
                         const isCorrect = q.correctIndex === optIdx;
+                        const a11yState = quizSubmitted
+                          ? isCorrect
+                            ? 'correct answer'
+                            : isSelected
+                              ? 'your wrong answer'
+                              : ''
+                          : '';
                         return (
                           <TouchableOpacity
                             key={optIdx}
@@ -235,6 +242,9 @@ export const ScrollDetailModal: React.FC<ScrollDetailModalProps> = ({
                               quizSubmitted && isSelected && !isCorrect && styles.quizOptionWrong,
                             ]}
                             onPress={() => handleSelectQuizOption(qIdx, optIdx)}
+                            accessibilityRole="button"
+                            accessibilityLabel={`Option ${optIdx + 1}: ${opt} ${a11yState}`.trim()}
+                            accessibilityState={{ selected: isSelected }}
                           >
                             <Text
                               style={[
@@ -242,6 +252,8 @@ export const ScrollDetailModal: React.FC<ScrollDetailModalProps> = ({
                                 isSelected && { color: Colors.textPrimary, fontWeight: '700' },
                               ]}
                             >
+                              {quizSubmitted && isCorrect ? '✓ ' : ''}
+                              {quizSubmitted && isSelected && !isCorrect ? '✗ ' : ''}
                               {opt}
                             </Text>
                           </TouchableOpacity>
@@ -280,7 +292,12 @@ export const ScrollDetailModal: React.FC<ScrollDetailModalProps> = ({
                 )}
 
                 {!quizSubmitted ? (
-                  <TouchableOpacity style={styles.submitQuizBtn} onPress={handleSubmitQuiz}>
+                  <TouchableOpacity
+                    style={styles.submitQuizBtn}
+                    onPress={handleSubmitQuiz}
+                    accessibilityRole="button"
+                    accessibilityLabel="Submit quiz answers and forge your combat card"
+                  >
                     <Award size={16} color="#0A0A0E" />
                     <Text style={styles.submitQuizBtnText}>Forge Combat Card (+50 VP)</Text>
                   </TouchableOpacity>

@@ -481,10 +481,14 @@ export const academyStyles = StyleSheet.create({
   quizOptionCorrect: {
     borderColor: Colors.vitalityGreen,
     backgroundColor: 'rgba(16, 185, 129, 0.15)',
+    borderStyle: 'solid',
+    borderWidth: 2,
   },
   quizOptionWrong: {
     borderColor: Colors.distortionRed,
     backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    borderStyle: 'dashed',
+    borderWidth: 2,
   },
   quizOptionText: {
     color: Colors.textSecondary,

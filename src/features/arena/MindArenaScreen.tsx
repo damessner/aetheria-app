@@ -20,6 +20,7 @@ import {
 } from '../../core/types';
 import { Colors, Spacing } from '../../core/theme';
 import { Database, INITIAL_COMBAT_DECK } from '../../core/database/db';
+import { ARENA_BOSSES } from '../../content/arenaBosses';
 import { Gemini } from '../../core/ai/gemini';
 import { EventBus } from '../../core/eventbus/EventBus';
 import {
@@ -34,17 +35,6 @@ import {
   CheckCircle2,
 } from 'lucide-react-native';
 
-const DEFAULT_BOSS: DistortionEnemy = {
-  id: 'boss_catastro_1',
-  name: 'Catastro-Phantom',
-  distortionType: 'CATASTROPHIZING',
-  maxHp: 80,
-  currentHp: 80,
-  attackPower: 15,
-  thoughtQuote: 'If this deployment breaks, my entire career is over.',
-  visualTheme: 'gloom',
-};
-
 const DISTORTION_CHOICES: { type: DistortionType; label: string }[] = [
   { type: 'CATASTROPHIZING', label: 'Catastrophizing' },
   { type: 'ALL_OR_NOTHING', label: 'All-or-Nothing' },
@@ -57,8 +47,9 @@ const DISTORTION_CHOICES: { type: DistortionType; label: string }[] = [
 export const MindArenaScreen: React.FC = () => {
   const [deck, setDeck] = useState<CombatCard[]>(INITIAL_COMBAT_DECK);
   const [battleState, setBattleState] = useState<CardBattleState>(() =>
-    CombatEngine.createBattle(DEFAULT_BOSS, INITIAL_COMBAT_DECK)
+    CombatEngine.createBattle(ARENA_BOSSES[0], INITIAL_COMBAT_DECK)
   );
+  const [bossSelectVisible, setBossSelectVisible] = useState(false);
 
   // Custom Thought / Socratic AI State
   const [customThoughtModal, setCustomThoughtModal] = useState(false);
@@ -73,10 +64,16 @@ export const MindArenaScreen: React.FC = () => {
     Database.getUserState().then((state) => {
       if (state.activeCards && state.activeCards.length > 0) {
         setDeck(state.activeCards);
-        setBattleState(CombatEngine.createBattle(DEFAULT_BOSS, state.activeCards));
+        setBattleState(CombatEngine.createBattle(ARENA_BOSSES[0], state.activeCards));
       }
     });
   }, []);
+
+  const handleSelectBoss = (bossIndex: number) => {
+    const boss = ARENA_BOSSES[bossIndex];
+    setBattleState(CombatEngine.createBattle(boss, deck));
+    setBossSelectVisible(false);
+  };
 
   const handleDistortionSelected = (distortion: DistortionType) => {
     const nextState = CombatEngine.selectDistortion(battleState, distortion);
@@ -162,7 +159,7 @@ export const MindArenaScreen: React.FC = () => {
   };
 
   const restartBattle = () => {
-    setBattleState(CombatEngine.createBattle(DEFAULT_BOSS, deck));
+    setBattleState(CombatEngine.createBattle(battleState.enemy, deck));
     setVictoryModal(false);
   };
 
@@ -180,10 +177,15 @@ export const MindArenaScreen: React.FC = () => {
       {/* Top Bar with Boss Display */}
       <View style={styles.bossCard}>
         <View style={styles.bossHeader}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.bossTag}>Distortion Phantom</Text>
+          <TouchableOpacity
+            style={{ flex: 1 }}
+            onPress={() => setBossSelectVisible(true)}
+            accessibilityRole="button"
+            accessibilityLabel={`Change distortion phantom. Current: ${battleState.enemy.name}`}
+          >
+            <Text style={styles.bossTag}>Distortion Phantom — tap to change</Text>
             <Text style={styles.bossName}>{battleState.enemy.name}</Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.customThoughtBtn}
             onPress={() => setCustomThoughtModal(true)}
@@ -368,6 +370,75 @@ export const MindArenaScreen: React.FC = () => {
 
             <TouchableOpacity style={styles.forgeBattleBtn} onPress={restartBattle}>
               <Text style={styles.forgeBattleText}>Return to Sanctuary</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Boss Select Modal */}
+      <Modal visible={bossSelectVisible} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalCard, { maxHeight: '85%' }]}>
+            <Text style={[styles.modalTitle, { color: Colors.textPrimary, marginBottom: 4 }]}>
+              Choose Your Phantom
+            </Text>
+            <Text style={{ color: Colors.textMuted, fontSize: 12, marginBottom: Spacing.md }}>
+              Each distortion takes a different form. Weaker phantoms fall faster — but the Iron Decree hits hard.
+            </Text>
+            <ScrollView style={{ flexGrow: 0 }}>
+              {ARENA_BOSSES.map((boss) => {
+                const isCurrent = boss.id === battleState.enemy.id;
+                const label = DISTORTION_CHOICES.find(
+                  (d) => d.type === boss.distortionType
+                )?.label;
+                return (
+                  <TouchableOpacity
+                    key={boss.id}
+                    style={[
+                      {
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 10,
+                        backgroundColor: Colors.surfaceLight,
+                        borderRadius: 10,
+                        borderWidth: 1,
+                        borderColor: isCurrent ? Colors.reframeGold : Colors.border,
+                        padding: Spacing.sm,
+                        marginBottom: 8,
+                      },
+                    ]}
+                    onPress={() => handleSelectBoss(ARENA_BOSSES.indexOf(boss))}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Battle ${label}: ${boss.name}, health ${boss.maxHp}`}
+                  >
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ color: Colors.reframeGold, fontSize: 11, fontWeight: '700', textTransform: 'uppercase' }}>
+                        {label}
+                      </Text>
+                      <Text style={{ color: Colors.textPrimary, fontSize: 14, fontWeight: '700' }}>
+                        {boss.name}
+                      </Text>
+                      <Text style={{ color: Colors.textMuted, fontSize: 11, fontStyle: 'italic' }} numberOfLines={1}>
+                        "{boss.thoughtQuote}"
+                      </Text>
+                    </View>
+                    <View style={{ alignItems: 'flex-end' }}>
+                      <Text style={{ color: Colors.distortionRed, fontSize: 11, fontWeight: '700' }}>
+                        ♥ {boss.maxHp}
+                      </Text>
+                      <Text style={{ color: Colors.textMuted, fontSize: 11 }}>
+                        ⚔ {boss.attackPower}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+            <TouchableOpacity
+              style={[styles.forgeBattleBtn, { marginTop: 4 }]}
+              onPress={() => setBossSelectVisible(false)}
+            >
+              <Text style={styles.forgeBattleText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -59,6 +59,12 @@ jobs:
       - name: 📦 Install Dependencies
         run: bun install
 
+      - name: 🧪 Typecheck
+        run: bunx tsc --noEmit
+
+      - name: 🧪 Unit Tests
+        run: bun test
+
       - name: 🚀 Prebuild Android Project
         run: bunx expo prebuild --platform android --clean
 

@@ -16,6 +16,8 @@ import { Colors, Spacing } from '../../core/theme';
 import { Database } from '../../core/database/db';
 import { Gemini } from '../../core/ai/gemini';
 import { EventBus } from '../../core/eventbus/EventBus';
+import { useCrisisGuard } from '../../core/security/useCrisisGuard';
+import { CrisisBridgeModal } from '../safety/CrisisBridgeModal';
 import {
   Flame,
   Send,
@@ -39,6 +41,7 @@ export const CampfireScreen: React.FC<CampfireScreenProps> = ({ userState }) => 
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
+  const { crisisModalVisible, dismissCrisisModal, guardMessage } = useCrisisGuard();
 
   const companions: {
     id: CompanionKey;
@@ -99,6 +102,12 @@ export const CampfireScreen: React.FC<CampfireScreenProps> = ({ userState }) => 
   const handleSendMessage = async (textToSend?: string) => {
     const text = (textToSend || inputText).trim();
     if (!text || isLoading) return;
+
+    // Safety interception: crisis language never reaches the LLM
+    if (!guardMessage(text)) {
+      setInputText('');
+      return;
+    }
 
     setInputText('');
     const userMsg: CampfireMessage = {
@@ -337,6 +346,9 @@ export const CampfireScreen: React.FC<CampfireScreenProps> = ({ userState }) => 
           <Send size={16} color="#0A0A0E" />
         </TouchableOpacity>
       </View>
+
+      {/* Safety net: crisis-language interception */}
+      <CrisisBridgeModal visible={crisisModalVisible} onClose={dismissCrisisModal} />
     </KeyboardAvoidingView>
   );
 };

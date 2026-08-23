@@ -15,6 +15,8 @@ import { Colors, Spacing } from '../../core/theme';
 import { Database } from '../../core/database/db';
 import { Gemini } from '../../core/ai/gemini';
 import { EventBus } from '../../core/eventbus/EventBus';
+import { useCrisisGuard } from '../../core/security/useCrisisGuard';
+import { CrisisBridgeModal } from '../safety/CrisisBridgeModal';
 import {
   Flame,
   ShieldAlert,
@@ -54,6 +56,7 @@ export const ShadowCrucibleScreen: React.FC<ShadowCrucibleScreenProps> = ({ user
   const [inquestMessages, setInquestMessages] = useState<{ sender: 'user' | 'inquisitor'; text: string }[]>([]);
   const [inputText, setInputText] = useState('');
   const [isInterrogating, setIsInterrogating] = useState(false);
+  const { crisisModalVisible, dismissCrisisModal, guardMessage } = useCrisisGuard();
   const chatScrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -87,6 +90,12 @@ export const ShadowCrucibleScreen: React.FC<ShadowCrucibleScreenProps> = ({ user
   const handleSendInquestMessage = async () => {
     const text = inputText.trim();
     if (!text || isInterrogating || !selectedDossier) return;
+
+    // Safety interception: crisis language never reaches the LLM
+    if (!guardMessage(text)) {
+      setInputText('');
+      return;
+    }
 
     setInputText('');
     const userMsg = { sender: 'user' as const, text };
@@ -355,6 +364,9 @@ export const ShadowCrucibleScreen: React.FC<ShadowCrucibleScreenProps> = ({ user
           </View>
         </Modal>
       )}
+
+      {/* Safety net: crisis-language interception */}
+      <CrisisBridgeModal visible={crisisModalVisible} onClose={dismissCrisisModal} />
     </ScrollView>
   );
 };

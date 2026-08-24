@@ -17,12 +17,11 @@ import { INITIAL_SCROLLS_RICH } from './wisdomScrollsRich';
 import { SCROLLS_WAVE3 } from './wisdomScrollsWave3';
 import { SCROLLS_WAVE4A } from './wisdomScrollsWave4a';
 export { INITIAL_SCROLLS_RICH, SCROLLS_WAVE3, SCROLLS_WAVE4A };
-/** Full offline academy library: base rich set + role-deep wave 3 */
+
+/** Full offline academy library: upgraded base set + role-deep wave 3 */
 export const INITIAL_SCROLLS_FULL = [
-  ...INITIAL_SCROLLS_RICH,
-  ...SCROLLS_WAVE4A, // wave 4a REPLACES the thin versions of scrolls 1–8
-  ...SCROLLS_WAVE3.filter(
-    (w) => !SCROLLS_WAVE4A.some((r) => r.id === w.id)
-  ),
+  ...INITIAL_SCROLLS_RICH.filter((r) => !SCROLLS_WAVE4A.some((w) => w.id === r.id)),
+  ...SCROLLS_WAVE4A,
+  ...SCROLLS_WAVE3,
 ];
 export { ARENA_BOSSES, getBossForDistortion } from './arenaBosses';

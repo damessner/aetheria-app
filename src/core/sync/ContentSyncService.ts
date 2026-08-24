@@ -51,12 +51,17 @@ export interface ContentManifest {
 export const GITHUB_CONTENT_BASE_URL =
   'https://raw.githubusercontent.com/damessner/aetheria-app/main/content';
 
+/**
+ * Storage keys MUST mirror Database.STORAGE_KEYS (`@aetheria_*_v2`). Syncing
+ * into differently-suffixed keys silently downloads content that no screen
+ * ever reads.
+ */
 export const SYNC_STORAGE_KEYS = {
   CONTENT_VERSION: '@aetheria_content_version',
   CONTENT_LAST_SYNCED: '@aetheria_content_last_synced',
-  ACADEMY_SCROLLS: '@aetheria_academy_scrolls',
-  THOUGHT_FEED: '@aetheria_thought_feed',
-  QUESTS: '@aetheria_quests',
+  ACADEMY_SCROLLS: '@aetheria_academy_scrolls_v2',
+  THOUGHT_FEED: '@aetheria_thought_feed_v2',
+  QUESTS: '@aetheria_quests_v2',
 };
 
 class ContentSyncServiceImpl {
@@ -163,20 +168,30 @@ class ContentSyncServiceImpl {
       const remoteQuests: QuestItem[] = JSON.parse(remoteQuestsText);
 
       // 3. Merge with local progress
-      // Preserve completed scrolls
+      // Preserve ALL per-scroll progress (completion, Level 2, memory stars)
       const currentScrollsRaw = await AsyncStorage.getItem(SYNC_STORAGE_KEYS.ACADEMY_SCROLLS);
-      const completedScrollIds = new Set<string>();
+      const scrollProgressMap = new Map<string, WisdomScroll>();
       if (currentScrollsRaw) {
         const currentScrolls: WisdomScroll[] = JSON.parse(currentScrollsRaw);
         currentScrolls.forEach((s) => {
-          if (s.isCompleted) completedScrollIds.add(s.id);
+          if (s.isCompleted || s.isLevel2Completed || (s.memoryLevel ?? 0) > 0) {
+            scrollProgressMap.set(s.id, s);
+          }
         });
       }
 
-      const mergedScrolls = remoteScrolls.map((s) => ({
-        ...s,
-        isCompleted: completedScrollIds.has(s.id) || !!s.isCompleted,
-      }));
+      const mergedScrolls = remoteScrolls.map((s) => {
+        const prev = scrollProgressMap.get(s.id);
+        if (!prev) return s;
+        return {
+          ...s,
+          isCompleted: s.isCompleted || !!prev.isCompleted,
+          completedAt: prev.completedAt,
+          isLevel2Unlocked: prev.isLevel2Unlocked,
+          isLevel2Completed: prev.isLevel2Completed,
+          memoryLevel: Math.max(s.memoryLevel ?? 0, prev.memoryLevel ?? 0),
+        };
+      });
 
       // Preserve solved thought items
       const currentThoughtsRaw = await AsyncStorage.getItem(SYNC_STORAGE_KEYS.THOUGHT_FEED);

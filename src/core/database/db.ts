@@ -259,13 +259,55 @@ class DatabaseService {
     try {
       const data = await AsyncStorage.getItem(STORAGE_KEYS.ACADEMY_SCROLLS);
       if (data) {
-        return JSON.parse(data);
+        const scrolls: WisdomScroll[] = JSON.parse(data);
+        // One-time migration: early installs were seeded with thin scroll
+        // content (no Level-2 expansions, routines, or recall challenges).
+        // Upgrade them to the bundled rich set while preserving progress.
+        return this.migrateThinScrollsIfNeeded(scrolls);
       }
       await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(INITIAL_SCROLLS));
       return INITIAL_SCROLLS;
     } catch (e) {
       return INITIAL_SCROLLS;
     }
+  }
+
+  /**
+   * Replaces stale thin scroll records with the bundled rich versions
+   * (Level 2, routines, recall challenges) when the stored copy is missing
+   * that content. User progress fields are carried over untouched.
+   */
+  private async migrateThinScrollsIfNeeded(stored: WisdomScroll[]): Promise<WisdomScroll[]> {
+    const needsMigration = stored.some(
+      (s) =>
+        !s.level2Expansion &&
+        !(INITIAL_SCROLLS.find((rich) => rich.id === s.id)?.level2Expansion)
+    );
+    if (!needsMigration) {
+      return stored;
+    }
+
+    console.log('[Database] Migrating academy scrolls to rich content set');
+    const migrated = stored.map((s) => {
+      const rich = INITIAL_SCROLLS.find((r) => r.id === s.id);
+      if (!rich || s.level2Expansion) return s;
+      return {
+        ...rich,
+        // Preserve user progress
+        isCompleted: !!s.isCompleted,
+        completedAt: s.completedAt,
+        isLevel2Unlocked: !!s.isLevel2Unlocked || !!s.isCompleted,
+        isLevel2Completed: !!s.isLevel2Completed,
+        memoryLevel: Math.max(rich.memoryLevel ?? 0, s.memoryLevel ?? 0),
+      };
+    });
+
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(migrated));
+    } catch (e) {
+      console.warn('[Database] Failed to persist scroll migration', e);
+    }
+    return migrated;
   }
 
   async completeWisdomScroll(scrollId: string): Promise<void> {

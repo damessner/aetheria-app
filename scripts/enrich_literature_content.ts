@@ -3,13 +3,13 @@ import { WisdomScroll, BookRoutine, Level2Expansion, SpacedRecallChallenge } fro
 import { INITIAL_SCROLLS_RICH } from '../src/content/wisdomScrollsRich';
 import { SCROLLS_WAVE3 } from '../src/content/wisdomScrollsWave3';
 import { SCROLLS_WAVE4A } from '../src/content/wisdomScrollsWave4a';
+import { SCROLLS_WAVE4C } from '../src/content/wisdomScrollsWave4c';
 
-/** All scrolls: base rich set (with 4a depth replacements) + wave-3 role-deep */
+/** All scrolls: base rich set (with wave-4 depth replacements) + wave-3 role-deep */
+const WAVE4 = [...SCROLLS_WAVE4A, ...SCROLLS_WAVE4C];
 const ALL_SCROLLS: WisdomScroll[] = [
-  ...INITIAL_SCROLLS_RICH.filter(
-    (r) => !SCROLLS_WAVE4A.some((w) => w.id === r.id)
-  ),
-  ...SCROLLS_WAVE4A,
+  ...INITIAL_SCROLLS_RICH.filter((r) => !WAVE4.some((w) => w.id === r.id)),
+  ...WAVE4,
   ...SCROLLS_WAVE3,
 ];
 
@@ -272,9 +272,11 @@ const SPACED_RECALL_PRESETS: Record<string, SpacedRecallChallenge[]> = {
 };
 
 // Enrich all scrolls with default rich routines, expansions, and spaced recall challenges.
-// Hand-authored scrolls (wave 3 + wave 4a) pass through unchanged — their ids
+// Hand-authored scrolls (waves 3 + 4a/4c) pass through unchanged — their ids
 // have no presets, and the fallbacks would only fire if fields were missing.
-const HAND_AUTHORED = new Set([...SCROLLS_WAVE3, ...SCROLLS_WAVE4A].map((s) => s.id));
+const HAND_AUTHORED = new Set(
+  [...SCROLLS_WAVE3, ...SCROLLS_WAVE4A, ...SCROLLS_WAVE4C].map((s) => s.id)
+);
 const enrichedScrolls: WisdomScroll[] = ALL_SCROLLS.map((scroll: WisdomScroll) => {
   if (HAND_AUTHORED.has(scroll.id)) return scroll;
   const routines = ROUTINE_PRESETS[scroll.id] || [
@@ -362,7 +364,7 @@ To truly integrate ${scroll.title}, one must apply it not when life is quiet, bu
 fs.writeFileSync('./content/wisdom_scrolls.json', JSON.stringify(enrichedScrolls, null, 2));
 
 const manifest = {
-  version: '1.5.0',
+  version: '1.6.0',
   updatedAt: new Date().toISOString(),
   name: 'Aetheria Remote Content Manifest (Literature, Level 2 Expansions & Routines)',
   repository: 'https://github.com/damessner/aetheria-app',

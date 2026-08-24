@@ -40,18 +40,20 @@ import {
 import { INITIAL_SCROLLS_RICH } from '../../content/wisdomScrollsRich';
 import { SCROLLS_WAVE3 } from '../../content/wisdomScrollsWave3';
 import { SCROLLS_WAVE4A } from '../../content/wisdomScrollsWave4a';
+import { SCROLLS_WAVE4C } from '../../content/wisdomScrollsWave4c';
 import { SHADOW_DEEP_DIVES } from '../../content/shadowDeepDives';
 
 /**
- * Canonical bundled scroll seed: FULL library — base 24 with wave-4a depth
- * replacements (4a entries win by id over the thin rich versions), plus the
- * role-deep wave-3 scrolls.
+ * Canonical bundled scroll seed: FULL library — base 24 with wave-4 depth
+ * replacements (wave-4 entries win by id over the thin rich versions), plus
+ * the role-deep wave-3 scrolls.
  */
+const WAVE4 = [...SCROLLS_WAVE4A, ...SCROLLS_WAVE4C];
 const INITIAL_SCROLLS = [
   ...INITIAL_SCROLLS_RICH.filter(
-    (r) => !SCROLLS_WAVE4A.some((w) => w.id === r.id)
+    (r) => !WAVE4.some((w) => w.id === r.id)
   ),
-  ...SCROLLS_WAVE4A,
+  ...WAVE4,
   ...SCROLLS_WAVE3,
 ];
 

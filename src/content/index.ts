@@ -16,12 +16,21 @@ export { INITIAL_SCROLLS } from './wisdomScrolls';
 import { INITIAL_SCROLLS_RICH } from './wisdomScrollsRich';
 import { SCROLLS_WAVE3 } from './wisdomScrollsWave3';
 import { SCROLLS_WAVE4A } from './wisdomScrollsWave4a';
-export { INITIAL_SCROLLS_RICH, SCROLLS_WAVE3, SCROLLS_WAVE4A };
+import { SCROLLS_WAVE4C } from './wisdomScrollsWave4c';
+export {
+  INITIAL_SCROLLS_RICH,
+  SCROLLS_WAVE3,
+  SCROLLS_WAVE4A,
+  SCROLLS_WAVE4C,
+};
+
+/** Depth upgrades (4a + 4c) replace thin base-scroll versions by id */
+const WAVE4 = [...SCROLLS_WAVE4A, ...SCROLLS_WAVE4C];
 
 /** Full offline academy library: upgraded base set + role-deep wave 3 */
 export const INITIAL_SCROLLS_FULL = [
-  ...INITIAL_SCROLLS_RICH.filter((r) => !SCROLLS_WAVE4A.some((w) => w.id === r.id)),
-  ...SCROLLS_WAVE4A,
+  ...INITIAL_SCROLLS_RICH.filter((r) => !WAVE4.some((w) => w.id === r.id)),
+  ...WAVE4,
   ...SCROLLS_WAVE3,
 ];
 export { ARENA_BOSSES, getBossForDistortion } from './arenaBosses';

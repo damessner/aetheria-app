@@ -15,7 +15,14 @@ export { INITIAL_TASKS } from './tasks';
 export { INITIAL_SCROLLS } from './wisdomScrolls';
 import { INITIAL_SCROLLS_RICH } from './wisdomScrollsRich';
 import { SCROLLS_WAVE3 } from './wisdomScrollsWave3';
-export { INITIAL_SCROLLS_RICH, SCROLLS_WAVE3 };
+import { SCROLLS_WAVE4A } from './wisdomScrollsWave4a';
+export { INITIAL_SCROLLS_RICH, SCROLLS_WAVE3, SCROLLS_WAVE4A };
 /** Full offline academy library: base rich set + role-deep wave 3 */
-export const INITIAL_SCROLLS_FULL = [...INITIAL_SCROLLS_RICH, ...SCROLLS_WAVE3];
+export const INITIAL_SCROLLS_FULL = [
+  ...INITIAL_SCROLLS_RICH,
+  ...SCROLLS_WAVE4A, // wave 4a REPLACES the thin versions of scrolls 1–8
+  ...SCROLLS_WAVE3.filter(
+    (w) => !SCROLLS_WAVE4A.some((r) => r.id === w.id)
+  ),
+];
 export { ARENA_BOSSES, getBossForDistortion } from './arenaBosses';

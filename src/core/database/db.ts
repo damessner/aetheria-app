@@ -39,10 +39,21 @@ import {
 } from '../../content';
 import { INITIAL_SCROLLS_RICH } from '../../content/wisdomScrollsRich';
 import { SCROLLS_WAVE3 } from '../../content/wisdomScrollsWave3';
+import { SCROLLS_WAVE4A } from '../../content/wisdomScrollsWave4a';
 import { SHADOW_DEEP_DIVES } from '../../content/shadowDeepDives';
 
-/** Canonical bundled scroll seed: FULL rich set (base 24 + role-deep wave 3) */
-const INITIAL_SCROLLS = [...INITIAL_SCROLLS_RICH, ...SCROLLS_WAVE3];
+/**
+ * Canonical bundled scroll seed: FULL library — base 24 with wave-4a depth
+ * replacements (4a entries win by id over the thin rich versions), plus the
+ * role-deep wave-3 scrolls.
+ */
+const INITIAL_SCROLLS = [
+  ...INITIAL_SCROLLS_RICH.filter(
+    (r) => !SCROLLS_WAVE4A.some((w) => w.id === r.id)
+  ),
+  ...SCROLLS_WAVE4A,
+  ...SCROLLS_WAVE3,
+];
 
 export {
   INITIAL_COMBAT_DECK,

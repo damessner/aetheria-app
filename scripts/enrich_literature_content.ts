@@ -2,9 +2,16 @@ import * as fs from 'fs';
 import { WisdomScroll, BookRoutine, Level2Expansion, SpacedRecallChallenge } from '../src/core/types';
 import { INITIAL_SCROLLS_RICH } from '../src/content/wisdomScrollsRich';
 import { SCROLLS_WAVE3 } from '../src/content/wisdomScrollsWave3';
+import { SCROLLS_WAVE4A } from '../src/content/wisdomScrollsWave4a';
 
-/** All scrolls: base rich set + wave-3 role-deep expansion */
-const ALL_SCROLLS: WisdomScroll[] = [...INITIAL_SCROLLS_RICH, ...SCROLLS_WAVE3];
+/** All scrolls: base rich set (with 4a depth replacements) + wave-3 role-deep */
+const ALL_SCROLLS: WisdomScroll[] = [
+  ...INITIAL_SCROLLS_RICH.filter(
+    (r) => !SCROLLS_WAVE4A.some((w) => w.id === r.id)
+  ),
+  ...SCROLLS_WAVE4A,
+  ...SCROLLS_WAVE3,
+];
 
 const ROUTINE_PRESETS: Record<string, BookRoutine[]> = {
   scr_parent_1: [
@@ -265,10 +272,11 @@ const SPACED_RECALL_PRESETS: Record<string, SpacedRecallChallenge[]> = {
 };
 
 // Enrich all scrolls with default rich routines, expansions, and spaced recall challenges.
-// Wave-3 scrolls carry hand-authored deep content, so they pass through unchanged
-// (their ids have no presets; the fallbacks would only apply if fields were missing).
+// Hand-authored scrolls (wave 3 + wave 4a) pass through unchanged — their ids
+// have no presets, and the fallbacks would only fire if fields were missing.
+const HAND_AUTHORED = new Set([...SCROLLS_WAVE3, ...SCROLLS_WAVE4A].map((s) => s.id));
 const enrichedScrolls: WisdomScroll[] = ALL_SCROLLS.map((scroll: WisdomScroll) => {
-  if (SCROLLS_WAVE3.some((w) => w.id === scroll.id)) return scroll;
+  if (HAND_AUTHORED.has(scroll.id)) return scroll;
   const routines = ROUTINE_PRESETS[scroll.id] || [
     {
       id: `rtn_def_${scroll.id}`,
@@ -354,7 +362,7 @@ To truly integrate ${scroll.title}, one must apply it not when life is quiet, bu
 fs.writeFileSync('./content/wisdom_scrolls.json', JSON.stringify(enrichedScrolls, null, 2));
 
 const manifest = {
-  version: '1.4.0',
+  version: '1.5.0',
   updatedAt: new Date().toISOString(),
   name: 'Aetheria Remote Content Manifest (Literature, Level 2 Expansions & Routines)',
   repository: 'https://github.com/damessner/aetheria-app',

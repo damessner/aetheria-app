@@ -10,6 +10,8 @@ import { WisdomScroll } from '../core/types';
  *  - 2-3 schedulable routines and 2 spaced-recall challenges per scroll.
  */
 
+// Base-scroll replacements from wave 4a take precedence over any same-id
+// entries below; the spread order guarantees it.
 export const SCROLLS_WAVE3: WisdomScroll[] = [
   /* ================================ DAD ================================== */
 

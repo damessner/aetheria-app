@@ -38,10 +38,11 @@ import {
   INITIAL_THOUGHT_FEED,
 } from '../../content';
 import { INITIAL_SCROLLS_RICH } from '../../content/wisdomScrollsRich';
+import { SCROLLS_WAVE3 } from '../../content/wisdomScrollsWave3';
 import { SHADOW_DEEP_DIVES } from '../../content/shadowDeepDives';
 
-/** Canonical bundled scroll seed: the FULL rich content set (L2, routines, recall) */
-const INITIAL_SCROLLS = INITIAL_SCROLLS_RICH;
+/** Canonical bundled scroll seed: FULL rich set (base 24 + role-deep wave 3) */
+const INITIAL_SCROLLS = [...INITIAL_SCROLLS_RICH, ...SCROLLS_WAVE3];
 
 export {
   INITIAL_COMBAT_DECK,
@@ -278,29 +279,42 @@ class DatabaseService {
    * that content. User progress fields are carried over untouched.
    */
   private async migrateThinScrollsIfNeeded(stored: WisdomScroll[]): Promise<WisdomScroll[]> {
-    const needsMigration = stored.some(
-      (s) =>
-        !s.level2Expansion &&
-        !(INITIAL_SCROLLS.find((rich) => rich.id === s.id)?.level2Expansion)
-    );
+    const richById = new Map(INITIAL_SCROLLS.map((r) => [r.id, r]));
+    // Stale = an old thin record missing its Level-2 expansion, or the whole
+    // wave-3 role-deep set absent (pre-expansion install).
+    const needsMigration =
+      stored.some((s) => {
+        const rich = richById.get(s.id);
+        return !s.level2Expansion && !!rich?.level2Expansion;
+      }) || stored.length < INITIAL_SCROLLS.length;
+
     if (!needsMigration) {
       return stored;
     }
 
-    console.log('[Database] Migrating academy scrolls to rich content set');
-    const migrated = stored.map((s) => {
-      const rich = INITIAL_SCROLLS.find((r) => r.id === s.id);
-      if (!rich || s.level2Expansion) return s;
-      return {
+    console.log('[Database] Migrating academy scrolls to full content library');
+    // Keep progress for scrolls we know; append brand-new scrolls untouched.
+    const migrated: WisdomScroll[] = [];
+    const seen = new Set<string>();
+    for (const s of stored) {
+      const rich = richById.get(s.id);
+      seen.add(s.id);
+      if (!rich || s.level2Expansion) {
+        migrated.push(s);
+        continue;
+      }
+      migrated.push({
         ...rich,
-        // Preserve user progress
         isCompleted: !!s.isCompleted,
         completedAt: s.completedAt,
         isLevel2Unlocked: !!s.isLevel2Unlocked || !!s.isCompleted,
         isLevel2Completed: !!s.isLevel2Completed,
         memoryLevel: Math.max(rich.memoryLevel ?? 0, s.memoryLevel ?? 0),
-      };
-    });
+      });
+    }
+    for (const r of INITIAL_SCROLLS) {
+      if (!seen.has(r.id)) migrated.push(r);
+    }
 
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.ACADEMY_SCROLLS, JSON.stringify(migrated));

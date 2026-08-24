@@ -14,15 +14,15 @@ describe('Dynamic GitHub Content Sync Engine & Remote Manifest', () => {
     expect(manifest.files.thought_stream).toBe('thought_stream.json');
     expect(manifest.files.quests).toBe('quests.json');
     expect(manifest.files.method_codex).toBe('method_codex.json');
-    expect(manifest.counts.wisdom_scrolls).toBe(24);
+    expect(manifest.counts.wisdom_scrolls).toBe(33);
     expect(manifest.counts.thought_stream).toBe(24);
   });
 
-  it('validates /content/wisdom_scrolls.json contains 24 complete masterclasses', () => {
+  it('validates /content/wisdom_scrolls.json contains 33 complete masterclasses', () => {
     const raw = fs.readFileSync('./content/wisdom_scrolls.json', 'utf-8');
     const scrolls: WisdomScroll[] = JSON.parse(raw);
 
-    expect(scrolls.length).toBe(24);
+    expect(scrolls.length).toBe(33);
     for (const s of scrolls) {
       expect(s.id).toBeDefined();
       expect(s.title).toBeDefined();

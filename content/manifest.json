@@ -1,6 +1,6 @@
 {
-  "version": "1.3.0",
-  "updatedAt": "2026-08-23T10:18:24.731Z",
+  "version": "1.4.0",
+  "updatedAt": "2026-08-24T17:12:39.592Z",
   "name": "Aetheria Remote Content Manifest (Literature, Level 2 Expansions & Routines)",
   "repository": "https://github.com/damessner/aetheria-app",
   "files": {
@@ -10,7 +10,7 @@
     "method_codex": "method_codex.json"
   },
   "counts": {
-    "wisdom_scrolls": 24,
+    "wisdom_scrolls": 33,
     "thought_stream": 24,
     "quests": 8,
     "method_codex": 8

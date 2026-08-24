@@ -91,11 +91,11 @@ describe('Deep Literature Masterclasses, Level 2 Expansions, Routines & Spaced R
     expect(record?.reviewStage).toBe(2);
   });
 
-  it('validates all 24 scrolls in /content/wisdom_scrolls.json have rich Level 2 expansions & routines', () => {
+  it('validates all 33 scrolls in /content/wisdom_scrolls.json have rich Level 2 expansions & routines', () => {
     const raw = fs.readFileSync('./content/wisdom_scrolls.json', 'utf-8');
     const scrolls: WisdomScroll[] = JSON.parse(raw);
 
-    expect(scrolls.length).toBe(24);
+    expect(scrolls.length).toBe(33);
     for (const s of scrolls) {
       expect(s.suggestedRoutines).toBeDefined();
       expect(s.suggestedRoutines?.length).toBeGreaterThan(0);

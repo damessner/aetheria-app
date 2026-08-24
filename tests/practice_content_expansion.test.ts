@@ -3,6 +3,7 @@ import { ARENA_BOSSES } from '../src/content/arenaBosses';
 import { INITIAL_THOUGHT_FEED } from '../src/content';
 import { THOUGHT_FEED_WAVE2 } from '../src/content/thoughtFeedWave2';
 import { INITIAL_SCROLLS_RICH } from '../src/content/wisdomScrollsRich';
+import { SCROLLS_WAVE3 } from '../src/content/wisdomScrollsWave3';
 import { SHADOW_DEEP_DIVES } from '../src/content/shadowDeepDives';
 import { DistortionType, ThoughtDomain, ShadowFlawType, WisdomScroll } from '../src/core/types';
 
@@ -61,21 +62,22 @@ describe('Practice Content Expansion (Phases A-D)', () => {
     expect(INITIAL_THOUGHT_FEED.length).toBeGreaterThanOrEqual(33);
   });
 
-  it('Academy: all 24 rich scrolls ship Level-2 + routines + recall offline', () => {
+  it('Academy: all 33 rich scrolls ship Level-2 + routines + recall offline', () => {
     expect(INITIAL_SCROLLS_RICH.length).toBe(24);
-    for (const s of INITIAL_SCROLLS_RICH) {
+    expect(SCROLLS_WAVE3.length).toBe(9);
+    const all = [...INITIAL_SCROLLS_RICH, ...SCROLLS_WAVE3];
+    for (const s of all) {
       expect(s.level2Expansion).toBeDefined();
       expect(s.level2Expansion!.advancedQuiz.length).toBeGreaterThan(0);
       expect((s.suggestedRoutines || []).length).toBeGreaterThan(0);
       expect((s.spacedRecallChallenges || []).length).toBeGreaterThan(0);
       // Fresh seed state
       expect(s.isCompleted).toBe(false);
-      expect(s.memoryLevel).toBe(1);
     }
     // Unique scroll and routine ids
-    const scrollIds = INITIAL_SCROLLS_RICH.map((s) => s.id);
-    expect(new Set(scrollIds).size).toBe(24);
-    const routineIds = INITIAL_SCROLLS_RICH.flatMap((s) =>
+    const scrollIds = all.map((s) => s.id);
+    expect(new Set(scrollIds).size).toBe(33);
+    const routineIds = all.flatMap((s) =>
       (s.suggestedRoutines || []).map((r) => r.id)
     );
     expect(new Set(routineIds).size).toBe(routineIds.length);

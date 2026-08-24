@@ -191,7 +191,7 @@ const HomeScreen: React.FC = () => {
 const PRACTICE_ITEMS: HubItem[] = [
   { key: 'ARENA', label: 'Mind Arena', subtitle: 'Battle distortions with Socratic cards', icon: Swords },
   { key: 'STREAM', label: 'Cognitive Stream', subtitle: 'Rapid thought-reframing quizzes', icon: BrainCircuit },
-  { key: 'ACADEMY', label: 'Academy', subtitle: '24 wisdom masterclass scrolls', icon: BookOpen },
+  { key: 'ACADEMY', label: 'Academy', subtitle: '33 wisdom masterclass scrolls', icon: BookOpen },
   { key: 'CRUCIBLE', label: 'Shadow Crucible', subtitle: 'Excavate & forge your flaws', icon: Skull },
 ];
 

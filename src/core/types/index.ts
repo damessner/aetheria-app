@@ -292,6 +292,7 @@ export interface WisdomScroll {
     | 'BEHAVIORAL_ACTIVATION'
     | 'CIRCADIAN_SLEEP'
     | 'PARENTING_COREGULATION'
+    | 'MARRIAGE_EFT'
     | 'SHADOW_INTEGRATION'
     | 'LOGOTHERAPY';
   contentMarkdown: string;

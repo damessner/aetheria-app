@@ -13,4 +13,9 @@ export { INITIAL_USER_STATE } from './userSeed';
 export { INITIAL_QUESTS } from './quests';
 export { INITIAL_TASKS } from './tasks';
 export { INITIAL_SCROLLS } from './wisdomScrolls';
+import { INITIAL_SCROLLS_RICH } from './wisdomScrollsRich';
+import { SCROLLS_WAVE3 } from './wisdomScrollsWave3';
+export { INITIAL_SCROLLS_RICH, SCROLLS_WAVE3 };
+/** Full offline academy library: base rich set + role-deep wave 3 */
+export const INITIAL_SCROLLS_FULL = [...INITIAL_SCROLLS_RICH, ...SCROLLS_WAVE3];
 export { ARENA_BOSSES, getBossForDistortion } from './arenaBosses';

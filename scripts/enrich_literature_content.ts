@@ -1,6 +1,10 @@
 import * as fs from 'fs';
 import { WisdomScroll, BookRoutine, Level2Expansion, SpacedRecallChallenge } from '../src/core/types';
 import { INITIAL_SCROLLS_RICH } from '../src/content/wisdomScrollsRich';
+import { SCROLLS_WAVE3 } from '../src/content/wisdomScrollsWave3';
+
+/** All scrolls: base rich set + wave-3 role-deep expansion */
+const ALL_SCROLLS: WisdomScroll[] = [...INITIAL_SCROLLS_RICH, ...SCROLLS_WAVE3];
 
 const ROUTINE_PRESETS: Record<string, BookRoutine[]> = {
   scr_parent_1: [
@@ -260,8 +264,11 @@ const SPACED_RECALL_PRESETS: Record<string, SpacedRecallChallenge[]> = {
   ],
 };
 
-// Enrich all 24 scrolls with default rich routines, expansions, and spaced recall challenges
-const enrichedScrolls: WisdomScroll[] = INITIAL_SCROLLS_RICH.map((scroll: WisdomScroll) => {
+// Enrich all scrolls with default rich routines, expansions, and spaced recall challenges.
+// Wave-3 scrolls carry hand-authored deep content, so they pass through unchanged
+// (their ids have no presets; the fallbacks would only apply if fields were missing).
+const enrichedScrolls: WisdomScroll[] = ALL_SCROLLS.map((scroll: WisdomScroll) => {
+  if (SCROLLS_WAVE3.some((w) => w.id === scroll.id)) return scroll;
   const routines = ROUTINE_PRESETS[scroll.id] || [
     {
       id: `rtn_def_${scroll.id}`,
@@ -347,7 +354,7 @@ To truly integrate ${scroll.title}, one must apply it not when life is quiet, bu
 fs.writeFileSync('./content/wisdom_scrolls.json', JSON.stringify(enrichedScrolls, null, 2));
 
 const manifest = {
-  version: '1.3.0',
+  version: '1.4.0',
   updatedAt: new Date().toISOString(),
   name: 'Aetheria Remote Content Manifest (Literature, Level 2 Expansions & Routines)',
   repository: 'https://github.com/damessner/aetheria-app',
@@ -366,4 +373,4 @@ const manifest = {
 };
 
 fs.writeFileSync('./content/manifest.json', JSON.stringify(manifest, null, 2));
-console.log('✅ Successfully enriched all 24 scrolls with Level 2 Expansions, Routines, and Spaced Recall!');
+console.log(`✅ Successfully enriched ${enrichedScrolls.length} scrolls with Level 2 Expansions, Routines, and Spaced Recall!`);

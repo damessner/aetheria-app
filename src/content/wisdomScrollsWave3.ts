@@ -1,0 +1,2409 @@
+import { WisdomScroll } from '../core/types';
+
+/**
+ * Wave 3: Role-Deep Expansion — Dad, Marriage, Teacher.
+ *
+ * Design goals (vs. the base 24-scroll set):
+ *  - Long-form masterclass text (~600-900 words) with markdown sections.
+ *  - 4-question Level 1 quizzes with shuffled correct positions.
+ *  - Deep Level-2 crisis protocols with 3-question advanced quizzes.
+ *  - 2-3 schedulable routines and 2 spaced-recall challenges per scroll.
+ */
+
+export const SCROLLS_WAVE3: WisdomScroll[] = [
+  /* ================================ DAD ================================== */
+
+  {
+    id: 'scr_dad_emotion_coach_25',
+    title: 'The Emotion Coach',
+    subtitle: 'Gottman’s Five Steps for Turning Tantrums into Connection',
+    authorOrTradition: 'John Gottman — Raising an Emotionally Intelligent Child',
+    readingMinutes: 6,
+    category: 'PARENTING_COREGULATION',
+    contentMarkdown: `## The Dismissal Reflex
+
+Your daughter’s wailing about the "wrong" cup triggers something ancient in your nervous system: *make it stop*. Most fathers respond to a child’s distress with one of three dismissal patterns — not because they don’t love their kids, but because their own parents dismissed them:
+
+- **Dismissal:** "You’re fine. It’s just a cup. Get another one."
+- **Disapproval:** "Stop crying right now or you’ll lose screen time."
+- **Laissez-faire:** Permissive surrender — anything to end the storm, no limits, no teaching.
+
+Gottman’s four-decade research program found these reflexes predict poorer peer relationships, lower academic performance, more illness, and worse emotion regulation downstream. The children of **emotion coaches** show measurably different physiology: lower baseline heart rates, higher vagal tone, better focus.
+
+The insight that changes everything: **your child’s negative emotion is not an interruption of parenting. It IS the parenting.**
+
+## The Five Steps
+
+### 1. Be Aware of the Emotion
+Notice lower-intensity emotions before they become hurricanes. A slumped shoulder at breakfast is cheaper to address than a 7pm meltdown. Awareness means treating sadness, anger, and fear as *opportunities for connection* rather than inconveniences to suppress.
+
+### 2. Recognize It as an Opportunity
+A toddler terrified of the drain, a ten-year-old excluded at recess, a teenager humiliated by a grade — each is a doorway. You cannot manufacture these moments on demand; when they arrive, drop the lesser task.
+
+### 3. Listen Empathetically & Validate
+Get on their level. Reflect back what you hear *without fixing*: "You really wanted that tower to stay up. It feels awful when it falls." Validation is not agreement — you can validate the feeling while holding the limit on the behavior. "It's okay to be furious. It's not okay to hit."
+
+### 4. Help Them Label the Emotion
+Naming is taming — affect labeling recruits the right ventrolateral prefrontal cortex and dampens amygdala firing. Give them a vocabulary beyond "mad" and "sad": frustrated, disappointed, jealous, embarrassed, left out. A child who can say "I feel left out" doesn’t need to bite.
+
+### 5. Set Limits While Problem-Solving Together
+All emotions are acceptable; all behaviors are not. Then treat the problem as *theirs to solve with your support*, not yours to fix: "What could you try next time your brother grabs your toy?" You are building neural circuitry they will use at thirty.
+
+## What This Looks Like Under Fatigue
+
+At 8:47pm, when you have nothing left, the five steps compress to a single breath: kneel, name it, wait. "You’re so disappointed. I’m right here." That sentence, delivered at eye level with a regulated face, is emotion coaching. Everything else is elaboration.`,
+    keyTakeaway:
+      'Treat every emotional storm as connection practice: notice early, validate the feeling, label it, then problem-solve — all feelings welcome, some behaviors limited.',
+    quiz: [
+      {
+        question:
+          'According to Gottman, what distinguishes emotion coaching from the three dismissal patterns?',
+        options: [
+          'Treating the child’s negative emotion as an opportunity for connection and teaching rather than a problem to eliminate',
+          'Making sure the child never experiences sadness or anger',
+          'Solving every problem for the child quickly so they don’t suffer',
+          'Explaining logically why the child should not feel that way',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Coaches use distress moments as bonding and skill-building opportunities; dismissers treat the same moments as annoyances.',
+      },
+      {
+        question: 'Why does labeling an emotion ("naming it to tame it") work neurologically?',
+        options: [
+          'It distracts the child long enough to forget the upset',
+          'It teaches the child which emotions are socially acceptable',
+          'Affect labeling recruits prefrontal circuits that dampen amygdala reactivity',
+          'It signals to bystanders that the parent is competent',
+        ],
+        correctIndex: 2,
+        explanation:
+          'Putting feelings into words engages right ventrolateral prefrontal cortex and reduces amygdala firing — in both child and parent.',
+      },
+      {
+        question:
+          'Which statement best captures the limit-setting principle in step five?',
+        options: [
+          '"All emotions are acceptable; not all behavioral responses to those emotions are acceptable."',
+          '"Children must earn the right to express anger through good behavior."',
+          '"If you validate feelings you must also give the child what they want."',
+          '"Limits should be saved for truly extreme situations only."',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Emotion coaching holds the boundary on behavior while fully accepting the underlying emotion — the two are separable.',
+      },
+      {
+        question: 'What is the compressed "minimum viable" version of coaching under exhaustion?',
+        options: [
+          'Kneel to eye level, name the feeling, and stay present: "You’re so disappointed. I’m right here."',
+          'Send the child to their room until calm returns',
+          'Offer a snack or screen to break the mood',
+          'Explain the neuroscience of their tantrum to them',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Presence plus validation at eye level delivers the core mechanism — co-regulation — even when you have nothing else left.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_emotion_coach',
+      name: 'Emotion Coach’s Mirror',
+      category: 'COMPASSION',
+      manaCost: 1,
+      baseDamage: 24,
+      shieldValue: 38,
+      promptText:
+        'This feeling is a doorway, not an interruption. Name it, hold the limit, stay close.',
+      targetDistortionBonus: { distortion: 'MIND_READING', multiplier: 1.5 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_ec_kneel_name_wait',
+        scrollId: 'scr_dad_emotion_coach_25',
+        bookTitle: 'Raising an Emotionally Intelligent Child',
+        title: 'Kneel-Name-Wait Evening Anchor',
+        description:
+          'Once today, when your child is upset, kneel to eye level, name what they feel, and wait 10 seconds before saying anything else.',
+        suggestedTime: '18:30',
+        frequency: 'DAILY',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Repeated affect labeling + co-regulation builds the child’s own prefrontal-emotional integration pathways.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_ec_feelings_vocab',
+        scrollId: 'scr_dad_emotion_coach_25',
+        bookTitle: 'Raising an Emotionally Intelligent Child',
+        title: 'Feelings Vocabulary Builder (Dinner Table)',
+        description:
+          'At dinner, each person shares one feeling word from their day besides happy/sad/mad — including you.',
+        suggestedTime: '18:00',
+        frequency: 'EVENING',
+        energyTier: 'STEADY_40',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Expanding emotional granularity improves regulation; parental modeling normalizes male emotional vocabulary.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_ec_early_signal_scan',
+        scrollId: 'scr_dad_emotion_coach_25',
+        bookTitle: 'Raising an Emotionally Intelligent Child',
+        title: 'Morning Low-Intensity Signal Scan',
+        description:
+          'Before school, take 20 seconds to read each child’s posture, face, and voice for low-grade emotion worth naming early.',
+        suggestedTime: '07:15',
+        frequency: 'MORNING',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Step-one awareness catches emotions at low intensity, when coaching is cheapest and most effective.',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: Coaching Through the Public Meltdown Crucible',
+      subtitle: 'When the Audience Is Watching and Your Own History Is Loud',
+      deepCaseStudy:
+        'Supermarket aisle, 5:40pm. Your six-year-old collapses screaming because you said no to the cereal with the cartoon tiger. An elderly couple slows down to stare. A voice inside hisses: "Everyone thinks you’re an incompetent father. And you’re starting to believe them." Your jaw tightens — you recognize the surge as the same one your own father released on you via belt or bellow.',
+      contentMarkdown: `### 🌪️ The Anatomy of the Double Hijack
+
+Two nervous systems are flooding simultaneously: your child’s, and yours. The public audience activates your social-threat circuitry (dorsal anterior cingulate fires on humiliation much like physical pain), while the sight of your child’s rage may trigger implicit memories of how rage was handled in your childhood home.
+
+#### ⚠️ The Three Failure Modes Under Audience Pressure:
+1. **The Performative Crackdown** — Harsh public discipline staged *for the audience*. Teaches the child that appearances outrank their inner world.
+2. **The Capitulation** — Buying the cereal to end the social exposure. Teaches that meltdowns in public are a winning strategy.
+3. **The Frozen Dad** — Standing rigid while shame spirals internally. The child reads your freeze as abandonment mid-storm.
+
+#### 🛡️ The Crucible Protocol:
+1. **Name your own state silently first** ("I’m flooded and embarrassed") — this micro-label re-engages your prefrontal cortex within seconds.
+2. **Drop below their eye line**, speak under the volume of their cry: "Big no. Big feelings. I’m staying."
+3. **Exit or contain**: carry if safe, or step to the aisle’s end — changing geography ends most audience pressure without abandoning the child.
+4. **Debrief later, never in-storm**: that evening — "Today was hard in the shop. Your big feelings were okay. The throwing wasn’t. What could we both try next time?"
+
+#### 🧬 Why This Matters Developmentally:
+Every time you coach while flooded, you are running the exact rep your child will someday need as a flooded adult. You are also *disconfirming* your own childhood schema that adult rage was the only response to childish chaos.`,
+      advancedQuiz: [
+        {
+          question:
+            'In the supermarket crucible, what is the purpose of silently naming your own internal state first?',
+          options: [
+            'It re-engages your prefrontal cortex, restoring the regulatory capacity needed to coach rather than crack down',
+            'It helps you compose a better speech for the onlookers',
+            'It makes the child stop crying out of empathy',
+            'It proves to yourself that the situation is entirely your child’s fault',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Self-affect labeling interrupts your own amygdala hijack; you cannot lend a calm nervous system you no longer possess.',
+          clinicalDistinction:
+            'Emotion coaching under audience pressure requires dual awareness: the child’s storm AND your own.',
+        },
+        {
+          question:
+            'Why is buying the cereal to end the embarrassment a clinical failure despite feeling compassionate?',
+          options: [
+            'Because it reinforces public-meltdown-as-strategy and sacrifices the boundary to manage your own shame',
+            'Because sugar after 5pm disrupts sleep architecture',
+            'Because children must learn that money is finite',
+            'Because it rewards the elderly couple’s judgment',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Capitulation driven by *your* social anxiety teaches the child that storms move boundaries — the opposite of co-regulated limit-holding.',
+          clinicalDistinction:
+            'The test: whose discomfort is the decision solving? If yours, revisit it.',
+        },
+        {
+          question: 'When should the debrief conversation about the incident happen?',
+          options: [
+            'That evening or later, once both nervous systems have returned to baseline',
+            'Immediately, in the car, while emotions are raw',
+            'Never — revisiting meltdowns gives them importance',
+            'Only if the school counselor requests it',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Cortisol needs hours to clear; post-storm debriefs consolidate the lesson without re-triggering the flood.',
+          clinicalDistinction:
+            '"Connect in the storm, teach after it" — instruction delivered mid-flood encodes as threat, not wisdom.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_emotion_coach_crest',
+        name: 'The Coach’s Steady Crest',
+        description:
+          'Forged in the aisles of public crucibles. Grants +25 Mind Shield against social-pressure flooding.',
+        statBoost: 'MIND_SHIELD',
+        boostAmount: 25,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_ec_1',
+        scrollId: 'scr_dad_emotion_coach_25',
+        bookTitle: 'Raising an Emotionally Intelligent Child',
+        author: 'John Gottman',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Emotion Coach.',
+        question:
+          'Your son slams his door after losing a game. What is the emotion-coaching sequence?',
+        options: [
+          'Notice → validate → label → hold behavior limits → problem-solve together',
+          'Wait for calm, then deliver a lecture on sportsmanship',
+          'Ignore it completely — door-slamming seeks attention',
+          'Confiscate the game to teach consequences',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The five steps run in order; the lecture skips validation and the child hears nothing but noise.',
+        clinicalInsight:
+          'Validation is the gateway drug of influence: unvalidated brains do not encode instruction.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_ec_2',
+        scrollId: 'scr_dad_emotion_coach_25',
+        bookTitle: 'Raising an Emotionally Intelligent Child',
+        author: 'John Gottman',
+        scenarioPrompt: '⚡ Day-7 Spaced Review: Dismissal Pattern Recognition.',
+        question:
+          '"You’re fine, it’s just a cup, get another one" belongs to which pattern?',
+        options: [
+          'Dismissal — minimizing the emotion to make it disappear',
+          'Emotion coaching — problem-solving step five',
+          'Laissez-faire — permissive surrender',
+          'Affect labeling — naming to tame',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Dismissal treats the emotion as invalid or trivial; coaching treats it as real information even when the trigger seems small.',
+        clinicalInsight:
+          'Children calibrate emotional reality to your reactions; chronic minimization teaches them to distrust their inner signals.',
+        nextReviewDueDays: 7,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  {
+    id: 'scr_dad_rough_play_26',
+    title: 'The Rough-and-Tumble Code',
+    subtitle: 'Physical Play as Regulation Training — the Father’s Edge',
+    authorOrTradition: 'Play Science — Pellegrini, Fletcher & Beyond',
+    readingMinutes: 5,
+    category: 'PARENTING_COREGULATION',
+    contentMarkdown: `## The Undervalued Paternal Superpower
+
+Mothers and fathers both matter, but decades of observational research document a signature difference: fathers disproportionately engage in **rough-and-tumble play** (RTP) — chasing, wrestling, lifting, mock-fighting — and children with high-quality RTP show measurably better emotion regulation, social competence, and even reduced aggression over time.
+
+Not *more* play. Better play. The dose isn’t chaos; it’s calibrated challenge.
+
+## What Makes RTP Developmentally Potent
+
+### The Excitement–Regulation Cycle
+Wrestling deliberately brings a child to the edge of arousal — laughing hard, heart racing — then de-escalates safely, again and again. Each cycle is a full rehearsal of **arousal up, arousal down**, run by the child’s body in partnership with yours. This is exposure training for the autonomic nervous system, disguised as fun.
+
+### Reading the Pause Face
+Quality RTP depends on the father continuously reading the child’s signals: the split-second check-in glance, the laugh that stays genuine versus goes strained. When you pause at the right moment — the "pause face" moment — you teach the child that power pays attention. Research on play fighting in animals and humans alike shows the winner’s job is *self-handicapping*: the strong one modulates so the weaker one stays in the game.
+
+### Rules, Roles, and Consent
+"I’ll go easy so we both have fun" is the first ethics lesson most boys ever receive from a man. RTP runs on consensual rule-boundedness: tag is tag, tapping out counts, tickle-torture stops when "stop" means stop. Children who experience consent-based physicality at home carry a felt sense of bodily boundaries that lectures cannot install.
+
+## The Clinical Failure Modes
+
+1. **The Overstimulator** — Escalating past the child’s ceiling because *you’re* having fun. Watch for pitch shift in laughter, wild eyes, retreat. Missed pause faces convert play into threat conditioning.
+2. **The Competitor** — Needing to win against a seven-year-old. Dominance play predicts aggression; handicapped play predicts leadership.
+3. **The Absent Body** — Refusing all roughness out of fear of injury or "teaching violence." The evidence says the opposite: children deprived of vigorous physical play seek it elsewhere, uncalibrated, from less attuned partners.
+
+## Under Fatigue
+
+Floor time costs energy you may not have — but RTP has a floor-cost mode. Lie on your back. Become the mountain, the bridge, the bucking bronco platform. The child supplies 100% of the horsepower; you supply gravity, surprise, and the pause face. Ten minutes horizontal beats zero minutes heroic.`,
+    keyTakeaway:
+      'Rough-and-tumble play is autonomic regulation training: escalate excitement, read the pause face, self-handicap, and honor the tap-out — power that pays attention.',
+    quiz: [
+      {
+        question:
+          'What is the core developmental mechanism that makes quality rough-and-tumble play regulating?',
+        options: [
+          'Repeated cycles of arousal escalation followed by safe de-escalation, rehearsed in partnership',
+          'Teaching the child who is physically stronger in the household',
+          'Burning off excess energy so children sit still afterward',
+          'Competition that prepares children for sports team selection',
+        ],
+        correctIndex: 0,
+        explanation:
+          'RTP trains the autonomic nervous system to ride arousal up and down — regulation practice disguised as wrestling.',
+      },
+      {
+        question: 'What does the "pause face" signal, and what is the attuned father’s response?',
+        options: [
+          'The child checking whether the game is still safe; the father pauses and recalibrates intensity',
+          'The child wanting a break from the game entirely; the father ends play for the day',
+          'A facial tic indicating overstimulation requiring medical attention',
+          'The moment the child concedes defeat; the father declares victory',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The pause face is a bid for confirmation; responding to it teaches that strength remains attentive to vulnerability.',
+      },
+      {
+        question:
+          'What is "self-handicapping" in play science, and what does it model ethically?',
+        options: [
+          'The stronger player modulates force so the weaker stays engaged — power in service of relationship',
+          'Deliberately losing while hiding it to protect the child’s ego forever',
+          'Refusing to play when tired, modeling honesty about limits',
+          'Handicapping rules like blindfolds to equalize physical ability',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Self-handicapping is transparent strength-modulation — the felt ethic that capability obligates care.',
+      },
+      {
+        question:
+          'Which is the recommended "floor-cost mode" of RTP for an exhausted father?',
+        options: [
+          'Become the terrain — the mountain, bridge, or bronco — letting the child supply the movement',
+          'Skip play entirely; rest is more important than engagement',
+          'Spectate a video game together instead',
+          'Arm-wrestle with maximum effort to end it quickly',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Horizontal platforms let the child generate action while you provide gravity and surprise — real play at minimal metabolic cost.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_pause_face',
+      name: 'Pause Face Reader',
+      category: 'ACTION_SPARK',
+      manaCost: 1,
+      baseDamage: 26,
+      shieldValue: 32,
+      promptText:
+        'Strength that watches itself is safety. Read the face. Ease the grip. Stay in the game.',
+      targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.4 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_rtp_floor_ten',
+        scrollId: 'scr_dad_rough_play_26',
+        bookTitle: 'Play Science',
+        title: 'Ten-Minute Floor Bronco',
+        description:
+          'Lie down and become the ride: bronco, bridge, mountain-climb. Child supplies motion; you supply surprise and pause faces.',
+        suggestedTime: '17:45',
+        frequency: 'DAILY',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Daily arousal-regulation cycles build vagal flexibility; low-energy mode protects depleted fathers from skipping.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_rtp_tapout_rule',
+        scrollId: 'scr_dad_rough_play_26',
+        bookTitle: 'Play Science',
+        title: 'Tap-Out Means Tap-Out Ritual',
+        description:
+          'Establish and honor the tap-out signal in every wrestle — and visibly tap out yourself at least once per session.',
+        suggestedTime: '17:50',
+        frequency: 'DAILY',
+        energyTier: 'LOW_10',
+        reminderEnabled: false,
+        clinicalRationale:
+          'Consent-based physicality becomes embodied when the authority figure demonstrably obeys the same rule.',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The Overstimulation Spiral Crucible',
+      subtitle: 'When Play Crosses Into Tears — Repairing Mid-Game',
+      deepCaseStudy:
+        'You were wrestling your eight-year-old and it was glorious — until it wasn’t. You held him upside-down one beat too long. The laugh curdled. He thrashes free, red-faced, and shouts "I HATE playing with you!" then bursts into tears. Your stomach drops: you missed it. Again. The old shame whispers that you are too much, too rough, exactly like they always said.',
+      contentMarkdown: `### 🌪️ The Missed Pause Face Autopsy
+
+Overstimulation in play is not a moral failure — it is a data point. Every attuned player misses signals sometimes; the research distinction is between *rupture-with-repair* and *rupture-unnoticed*. Children’s attachment security is built less by perfection than by the reliable repair arc.
+
+#### ⚠️ The Two Classic Errors After Crossing the Line:
+1. **The Withdrawal** — "Fine, no more wrestling, you’re too sensitive." Punishes the child for your miss and confirms that intensity destroys connection.
+2. **The Minimizing Joke** — "Aw come on, that didn’t hurt!" Denies the child’s reality precisely when trust hangs in the balance.
+
+#### 🛡️ The Mid-Game Repair Protocol:
+1. **Own it instantly and specifically**: "Whoa. I held too long. That crossed your line. My bad."
+2. **Re-offer control**: "You want to stop here, or restart with YOU pinning ME?" Control-return converts helplessness back into agency.
+3. **Log the ceiling**: note the exact signal you missed (pitch change? stiffening?) — tomorrow’s game starts with sharper eyes.
+4. **Close the loop verbally**: "We fixed it. Wrestling is still ours." Rupture-repair-reunion completed out loud.
+
+#### 🧬 Why Repair Outperforms Perfection:
+The child who experiences "dad went too far → dad noticed → dad owned it → connection restored" internalizes a template for every future relationship conflict: mistakes are survivable, repair is possible, love persists through friction. That template is worth more than a hundred flawless games.`,
+      advancedQuiz: [
+        {
+          question:
+            'After crossing the child’s stimulation ceiling, what distinguishes repair from rupture-unnoticed?',
+          options: [
+            'Immediate specific ownership, returning control to the child, and completing the reunion out loud',
+            'Promising to be more careful while continuing the same game unchanged',
+            'Ending all physical play permanently to guarantee safety',
+            'Waiting a week and hoping the child forgets',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The repair arc — notice, own, restore agency, reunite — is what builds secure expectations about conflict generally.',
+          clinicalDistinction:
+            'Attachment security is built on repaired ruptures, not absent ones.',
+        },
+        {
+          question:
+            'Why does "no more wrestling, you’re too sensitive" fail as a post-incident response?',
+          options: [
+            'It punishes the child for the father’s miss and teaches that intensity threatens the bond',
+            'It correctly identifies the child as the cause of the problem',
+            'It works short-term but children need verbal reassurance alongside it',
+            'It is only a failure if the child cries again later',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Withdrawal assigns blame downward; the lesson absorbed is that the child’s sensitivity is a burden that breaks things.',
+          clinicalDistinction:
+            'Responsibility flows up the size gradient: the bigger nervous system owns the calibration error.',
+        },
+        {
+          question:
+            'What is the functional value of logging WHICH signal you missed (pitch change, stiffening)?',
+          options: [
+            'It converts a shame event into concrete perceptual training for tomorrow’s game',
+            'It creates documentation useful if others question the parenting',
+            'It proves the child was overreacting since signals were ambiguous',
+            'It has no value; missing signals is random and unavoidable',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Attunement is trainable perception; specific error analysis sharpens the exact channel that failed.',
+          clinicalDistinction:
+            'Shame says "I am bad"; data says "my eyes missed cue X — train cue X."',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_repair_wrestler_band',
+        name: 'The Repair Wrestler’s Band',
+        description:
+          'Worn by those who cross lines and return. Grants +25 Compassion Aura for rupture-repair mastery.',
+        statBoost: 'COMPASSION_AURA',
+        boostAmount: 25,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_rtp_1',
+        scrollId: 'scr_dad_rough_play_26',
+        bookTitle: 'Play Science',
+        author: 'Pellegrini & Fletcher',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Rough-and-Tumble Code.',
+        question:
+          'In play-fighting research, what behavior by the dominant player most predicts positive social outcomes for the child?',
+        options: [
+          'Self-handicapping — modulating strength so the weaker player stays engaged',
+          'Winning decisively to establish clear hierarchy',
+          'Letting the child win while pretending not to',
+          'Refusing to play physically at all',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Transparent strength-modulation models power-under-relationship; fake losses model dishonesty, dominance models oppression.',
+        clinicalInsight:
+          'The strongest player’s restraint IS the ethical curriculum of rough play.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_rtp_2',
+        scrollId: 'scr_dad_rough_play_26',
+        bookTitle: 'Play Science',
+        author: 'Pellegrini & Fletcher',
+        scenarioPrompt: '⚡ Day-14 Spaced Review: Failure Mode Identification.',
+        question:
+          'Your child’s laugh goes shrill, eyes go wide, and he backs toward the couch mid-tickle. What has happened?',
+        options: [
+          'You passed his arousal ceiling — pause immediately and let him re-initiate',
+          'Peak play has been achieved — intensify for maximum benefit',
+          'He is being dramatic — continue briefly to desensitize him',
+          'Normal variation — the signal carries no information',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Pitch shift + postural retreat are late-stage overstimulation cues; honoring them keeps play on the regulating side of threatening.',
+        clinicalInsight:
+          'The window between exhilaration and fear is narrow; the pause face exists precisely because words fail there.',
+        nextReviewDueDays: 14,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  {
+    id: 'scr_dad_ghost_nursery_27',
+    title: 'The Ghost in the Nursery',
+    subtitle: 'Breaking Intergenerational Loops Before They Break You',
+    authorOrTradition: 'Selma Fraiberg — Psychoanalytic Parent-Infant Work',
+    readingMinutes: 6,
+    category: 'PARENTING_COREGULATION',
+    contentMarkdown: `## Why His Crying Makes You Furious
+
+Your infant screams at 3am and a rage rises that frightens you. Your four-year-old whines and you hear yourself using *the voice* — the one that made your blood freeze at his age. Where does this come from? Not from the child. Selma Fraiberg named it in 1975: **ghosts in the nursery** — unresolved experiences from the parent’s own childhood that materialize in moments of parenting stress and speak through the parent’s mouth.
+
+The ghost is not a memory you recall; it is a *reaction* you find inexplicable. Its signature is disproportion: the response is bigger than the trigger warrants, arrives faster than thought, and often feels alien — "why did THAT undo me?"
+
+## The Transmission Mechanism
+
+Intergenerational transmission is not destiny-by-blood; it is **procedural learning under stress**. Under sufficient fatigue and provocation, the brain reaches for its deepest-trained scripts — and the deepest-trained scripts are the ones laid down before age seven. Main & Solomon’s attachment research quantified it: adults with unresolved trauma show markedly elevated rates of disorganized attachment patterns with their own children... *when unresolved*. Resolution, not history, is the variable.
+
+### What Resolution Actually Means
+Resolution is not remembering everything, forgiving everyone, or attending decades of therapy. Operationally, resolution means: **the old story can be thought about without hijacking the present.** You can hold "my father raged" as coherent biography rather than live ammunition.
+
+## Mapping Your Ghosts
+
+Do this in writing, calmly, never mid-conflict:
+
+1. **Find the disproportion.** List recent parenting moments where your reaction scared you or confused you. Look for the common trigger: crying? defiance? mess? neediness? Being ignored?
+2. **Ask the casting question.** Who in your childhood reacted to YOU this way? Or — who did you watch react this way to someone else?
+3. **Name the ghost aloud** to someone safe: "There’s a ghost that says a man’s peace matters more than a child’s noise."
+4. **Write the counter-script** — what the child in that old scene *needed* to hear. Say those words to your actual child. This is the exorcism: the new response, repeated, lays new procedural tracks.
+
+## The Ghost’s Favorite Hour: 3am
+
+Ghosts hunt where resources are thinnest — sleep deprivation, overwork, marital tension. This is why the clinical advice is structural, not merely psychological: protect sleep shifts, lower the bar for everything nonessential, and treat your own dysregulation episodes as *data about load*, not verdicts about character.
+
+## The Generational Pivot
+
+Fraiberg’s famous line: ghosts can be banished "if the parents themselves can be reached in time." Every loop you interrupt — every 3am where you swayed with the crying instead of raging — rewires not only your child’s baseline but your grandchild’s. Few acts of a man’s life carry that leverage.`,
+    keyTakeaway:
+      'Disproportionate parenting reactions are inherited scripts, not character flaws — map the trigger, name the ghost, write the counter-script, and repeat the new response until it becomes the deepest track.',
+    quiz: [
+      {
+        question: 'What is a "ghost in the nursery"?',
+        options: [
+          'An unresolved experience from the parent’s own childhood that surfaces as disproportionate reactions during parenting stress',
+          'A child’s nightmare that disrupts household sleep schedules',
+          'The anxiety expectant parents feel before the baby arrives',
+          'A grandparent who interferes excessively with childcare decisions',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Fraiberg’s term for intergenerational material that speaks through the parent’s reactions, usually outside conscious recall.',
+      },
+      {
+        question: 'What is the most reliable signature that a ghost — not the present situation — is driving your reaction?',
+        options: [
+          'The reaction is disproportionate: faster and larger than the trigger warrants, and feels partly alien',
+          'The reaction occurs only at night',
+          'The child cries whenever you respond this way',
+          'You remember the exact childhood scene while reacting',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Ghost-driven responses bypass deliberation; disproportion plus alienness ("why did that undo me?") is the diagnostic pair.',
+      },
+      {
+        question:
+          'According to attachment research (Main & Solomon), what determines whether a parent transmits disorganized attachment patterns?',
+        options: [
+          'Whether their own trauma is resolved — not whether trauma occurred',
+          'The severity of trauma they experienced in childhood',
+          'Their child’s innate temperament category',
+          'Whether they co-sleep or sleep-train',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Unresolved status is the active ingredient; resolved trauma histories do NOT elevate disorganized attachment risk.',
+      },
+      {
+        question: 'What does Fraiberg-style "resolution" operationally require?',
+        options: [
+          'Being able to think about the old story coherently without it hijacking the present',
+          'Achieving complete forgiveness of one’s own parents',
+          'Recalling every detail of childhood accurately',
+          'Never experiencing any parenting anger again',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Resolution is coherence-without-hijack — the biography becomes thinkable rather than live ammunition.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_ghost_lantern',
+      name: 'The Ghost Lantern',
+      category: 'REFRAME',
+      manaCost: 2,
+      baseDamage: 34,
+      shieldValue: 28,
+      promptText:
+        'This fury predates my child. Whose voice is speaking through me right now?',
+      targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.8 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_ghost_disproportion_log',
+        scrollId: 'scr_dad_ghost_nursery_27',
+        bookTitle: 'Ghosts in the Nursery',
+        title: 'Weekly Disproportion Log',
+        description:
+          'Once a week, list any parenting reaction that scared or puzzled you. Find the shared trigger across entries.',
+        suggestedTime: '21:30',
+        frequency: 'WEEKLY',
+        energyTier: 'STEADY_40',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Pattern detection across incidents reveals the ghost’s trigger signature faster than introspection alone.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_ghost_counter_script',
+        scrollId: 'scr_dad_ghost_nursery_27',
+        bookTitle: 'Ghosts in the Nursery',
+        title: 'Counter-Script Repetition',
+        description:
+          'Each morning, say aloud the words the child-in-your-past needed to hear — then look at your actual child and keep them ready.',
+        suggestedTime: '06:50',
+        frequency: 'MORNING',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Rehearsing the new script in calm states increases its availability under stress (state-dependent learning).',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The 3am Exorcism Crucible',
+      subtitle: 'Interrupting the Loop in Its Favorite Hour',
+      deepCaseStudy:
+        'Night three of your toddler’s sleep regression. 3:12am. She has screamed for forty minutes and you have paced the nursery carpet until it’s worn a groove. Your chest burns, fists clench involuntarily, and one clear violent image flashes through your mind — followed instantly by horror at having had it. Downstairs you can hear your marriage fraying: "JUST LET HER CRY, YOU’RE TEACHING HER THIS." The ghost smells gasoline.',
+      contentMarkdown: `### 🌪️ The Perfect-Storm Architecture
+
+This scenario stacks every risk multiplier: sleep deprivation (prefrontal function measurably degrades past one bad night), prolonged aversive stimulus (screaming), marital conflict (attachment figure unavailable), and intrusive-thought shame (which consumes the very cognitive resources needed for control). The ghost does not create this hour — it merely owns it.
+
+#### ⚠️ The Shame Spiral Trap:
+The violent flash-image horrifies you, and the horror says *"what kind of monster am I"* — which is itself a stressor, raising arousal further. Intrusive thoughts in exhausted parents are near-universal and clinically benign; the danger is not the thought but the spiral of self-condemnation that dismantles regulation.
+
+#### 🛡️ The Structural Protocol:
+1. **Trade shifts, don't share shifts.** Alternating nights (or 4-hour blocks) restores prefrontal capacity; "we're both up" guarantees two dysregulated adults.
+2. **The 90-second handoff rule.** When you feel the burn start, hand the child to your partner mid-word if needed. Walking out of the room for 90 seconds is not weakness; it is the single highest-leverage abuse-prevention behavior known.
+3. **Label the image, not yourself**: "Exhaustion intrusion. Not a plan. Not me." Intrusive thoughts obey the same affect-labeling physics as any other cognition.
+4. **Lower the house's bar**: frozen meals, skipped chores, suspended standards. Ghosts feed on accumulated load; unload the wagon.
+
+#### 🧬 The Generational Ledger:
+If your own 3ams as a child ended in shouting or worse, understand precisely what happened the night you did the handoff instead: you ran a different ending for an identical opening scene. Procedural memory learns endings, and your family's endings just changed.`,
+      advancedQuiz: [
+        {
+          question:
+            'Why is the shame spiral ("what kind of monster am I") itself clinically dangerous after an intrusive thought?',
+          options: [
+            'Self-condemnation is an additional stressor that consumes exactly the cognitive resources needed for self-control',
+            'It indicates the intrusive thought reflects hidden intentions',
+            'It demonstrates the father needs medication',
+            'It has no clinical significance either way',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The meta-arousal of shame degrades regulation further; normalizing intrusions preserves capacity for the behavior that matters.',
+          clinicalDistinction:
+            'Assess behavior and plans, never thoughts: intrusive imagery in sleep-deprived parents is near-universal and benign.',
+        },
+        {
+          question:
+            'Why does alternating night shifts outperform "both parents powering through together"?',
+          options: [
+            'Each adult gets restored prefrontal capacity on off-nights, keeping at least one fully regulated brain available',
+            'It gives each partner private time away from the child',
+            'It prevents attachment formation to either parent',
+            'It evenly distributes the trauma so neither partner resents the other',
+          ],
+          correctIndex: 0,
+          explanation:
+            'One rested regulator beats two depleted ones; the child needs access to a functional nervous system, not fairness optics.',
+          clinicalDistinction:
+            'Structural interventions (shift design) outperform willpower-based ones in the ghost’s favorite hour.',
+        },
+        {
+          question:
+            'What makes the 90-second handoff the highest-leverage move when the burn starts?',
+          options: [
+            'It removes the dysregulated adult from the escalating loop before capacity for control is fully gone',
+            'It teaches the child that crying achieves immediate results',
+            'It resolves the marital argument about sleep training',
+            'It eliminates the need for any other intervention',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Regulation capacity collapses in seconds under stacked load; physically exiting the loop interrupts the causal chain at its weakest link.',
+          clinicalDistinction:
+            'The handoff is prevention architecture, not failure — the men who "never needed it" were simply never this tired.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_loop_breaker_sigil',
+        name: 'The Loop-Breaker Sigil',
+        description:
+          'For men who ran a different ending. Grants +30 Mind Shield against generational flooding.',
+        statBoost: 'MIND_SHIELD',
+        boostAmount: 30,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_ghost_1',
+        scrollId: 'scr_dad_ghost_nursery_27',
+        bookTitle: 'Ghosts in the Nursery',
+        author: 'Selma Fraiberg',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Ghost in the Nursery.',
+        question:
+          'Your reaction to your son’s whining terrifies you. What is the first diagnostic question of ghost-mapping?',
+        options: [
+          '"Where is the disproportion — and who in my childhood reacted this way?"',
+          '"How do I punish whining more effectively?"',
+          '"Is my wife encouraging this behavior somehow?"',
+          '"Should I see a doctor about my anger?"',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Ghost-mapping starts with locating the disproportionate reaction, then asking the casting question: who taught me this response?',
+        clinicalInsight:
+          'The reaction that confuses you is almost always older than the child triggering it.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_ghost_2',
+        scrollId: 'scr_dad_ghost_nursery_27',
+        bookTitle: 'Ghosts in the Nursery',
+        author: 'Selma Fraiberg',
+        scenarioPrompt: '⚡ Day-14 Spaced Review: Resolution vs. Eradication.',
+        question:
+          'A father asks: "Do I need to forgive my father and forget my childhood to protect my kids?" What is the resolution-based answer?',
+        options: [
+          'No — resolution means the story can be thought about without hijacking you, not that it is erased or excused',
+          'Yes — full forgiveness is required before safe parenting',
+          'No — childhood has no measurable effect on parenting behavior',
+          'Yes — provided he completes therapy within six months',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Main & Solomon’s finding: resolved trauma does not elevate risk. Coherence, not erasure, is the protective state.',
+        clinicalInsight:
+          'You are not required to have had a good childhood — only a thought-through one.',
+        nextReviewDueDays: 14,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  /* ============================== MARRIAGE =============================== */
+
+  {
+    id: 'scr_marriage_bids_28',
+    title: 'The Bids Beneath the Noise',
+    subtitle: 'Turning Toward: the Six-Second Habit That Predicts Forever',
+    authorOrTradition: 'John Gottman — The Relationship Cure',
+    readingMinutes: 5,
+    category: 'MARRIAGE_EFT',
+    contentMarkdown: `## The Smallest Unit of Marriage
+
+Forget anniversaries, vacations, and grand gestures. Gottman’s lab found that the fate of a marriage is decided in units of **seconds** — in "bids": tiny invitations for connection like "huh, weird cloud," a sigh from the next room, a phone thrust under your nose showing a meme, a request to look at a drawing.
+
+Bids are trivially easy to miss and statistically decisive. In the newlywed studies, couples who remained married after six years had **turned toward** bids 86% of the time; couples who divorced had managed only 33%. No other single variable came close.
+
+## The Three Responses
+
+1. **Turn Toward** — acknowledge the bid. "Yeah, that IS a weird cloud." Six seconds. Costs nothing.
+2. **Turn Away** — miss or ignore it. Grunt, keep scrolling, walk past. Each miss is a micro-abandonment; the bidder rarely mentions it, they just bid less.
+3. **Turn Against** — irritable rejection: "Can’t you see I’m busy?" Actively corrosive; contempt’s little cousin.
+
+The tragedy of turning away is its invisibility. Nobody fights about the meme nobody looked at. But the ledger accumulates in the bidder’s nervous system as *"reaching for him doesn’t work"* — the quiet premise beneath a thousand later arguments that are ostensibly about dishes.
+
+## Why Tired Dads Miss Bids
+
+Attention is the currency, and you are spending it elsewhere. Work decompression, screens, hypervigilance from the day — your bandwidth is genuinely spent. The clinical answer is not "try harder at everything" but **architectural**: designate protected windows where bids get priority, and tell her honestly that outside those windows your reception is degraded. A known, predictable 20-minute daily window beats unreliable half-attention all evening.
+
+## The Upgrade Move
+
+Beyond catching bids lies upgrading them: meeting a bid with *more* than requested. She shows you a photo; you put your phone down and ask questions about it. He sighs; you cross the room and sit down. Upgraded bids compound — Gottman observed them creating visible "glow" interactions that reset weeks of drift in minutes.
+
+## When You Catch Yourself Having Turned Away
+
+Repair is available retroactively: "Hey — you showed me that thing earlier and I brushed it off. Show me again?" The repair itself is a supercharged turn-toward, because it proves the ledger is being audited.`,
+    keyTakeaway:
+      'Marriages are decided in seconds: catch the small bids for connection and turn toward them — 86% vs 33% separates lasting couples from divorced ones.',
+    quiz: [
+      {
+        question: 'What is a "bid" in Gottman’s framework?',
+        options: [
+          'Any small invitation for attention or connection — a comment, sigh, shown photo, or request to look',
+          'A formal request for behavioral change in the relationship',
+          'An ultimatum issued during serious conflict',
+          'The initial attraction phase of courtship',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Bids are micro-invitations; their apparent insignificance is exactly why they are so often missed.',
+      },
+      {
+        question:
+          'What percentage difference in turning-toward separated the still-married from the divorced in the newlywed studies?',
+        options: [
+          '86% vs 33% — married couples turned toward nearly three times as often',
+          '60% vs 55% — a small but statistically notable edge',
+          '100% vs 80% — successful couples catch essentially every bid',
+          'There was no meaningful difference in bid response',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Bid responsiveness was among the most powerful single predictors of marital survival ever measured.',
+      },
+      {
+        question:
+          'Why is turning away described as more dangerous than turning against?',
+        options: [
+          'It is invisible — accumulating as "reaching doesn’t work" without ever producing a fight that names it',
+          'It involves louder arguments and open hostility',
+          'It only happens in unhappy marriages',
+          'It is easily detected and corrected by both partners',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Silent misses never announce themselves; the erosion shows up months later disguised as unrelated conflict.',
+      },
+      {
+        question:
+          'What is the recommended architectural solution for a depleted, distracted husband?',
+        options: [
+          'Designate protected windows where bids get priority, and be honest that reception is degraded outside them',
+          'Commit to full presence at every moment of the evening',
+          'Schedule a weekly date night and rely on it entirely',
+          'Agree with his wife to reduce bids to conserve energy',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Predictable protected attention outperforms unreliable continuous partial attention; honest contracting beats silent failure.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_turn_toward',
+      name: 'Turn Toward',
+      category: 'COMPASSION',
+      manaCost: 1,
+      baseDamage: 22,
+      shieldValue: 36,
+      promptText:
+        'She bid. Six seconds. Phone down, eyes up: "Show me."',
+      targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.4 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_bids_arrival_window',
+        scrollId: 'scr_marriage_bids_28',
+        bookTitle: 'The Relationship Cure',
+        title: 'Twenty-Minute Arrival Window',
+        description:
+          'First 20 minutes after reuniting in the evening: phone in another room, bids get absolute priority.',
+        suggestedTime: '17:30',
+        frequency: 'DAILY',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Concentrating scarce attention into a protected window maximizes turn-toward rate when bandwidth is lowest.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_bids_ledger_audit',
+        scrollId: 'scr_marriage_bids_28',
+        bookTitle: 'The Relationship Cure',
+        title: 'Evening Bid Audit',
+        description:
+          'Before sleep, recall one bid you caught and one you missed today; repair the missed one tomorrow morning.',
+        suggestedTime: '21:45',
+        frequency: 'EVENING',
+        energyTier: 'STEADY_40',
+        reminderEnabled: false,
+        clinicalRationale:
+          'Retroactive repair ("show me that thing again") audits the emotional ledger before silent erosion compounds.',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The Drought Crucible',
+      subtitle: 'Restarting Bidding After Months of Silence',
+      deepCaseStudy:
+        'You realize with cold clarity that you and your wife haven’t had a real conversation in weeks. She stopped showing you memes a month ago. Tonight she announced bed at 9pm, no goodnight kiss. Nothing is "wrong" — no fight, no crisis — just silence with a roof over it. You want to reach for her but your pride answers first: SHE stopped bidding first. Why should you carry it?',
+      contentMarkdown: `### 🌪️ The Mutual-Withdrawal Deadlock
+
+Both partners in a bid drought typically share the identical internal monologue: "I reached before; it didn’t land; my dignity now forbids going first." Each reads the other’s decreased bidding as rejection, which deepens the withdrawal. The system is stable, symmetrical, and starving.
+
+#### ⚠️ The Scorekeeper’s Fallacy:
+Tracking who stopped bidding first is unfalsifiable and irrelevant — memory self-servingly biases the ledger toward your own virtue. In drought conditions, *who goes first is strategically meaningless; that somebody goes first is everything.*
+
+#### 🛡️ The Restart Protocol:
+1. **Go first, small, and undramatic.** Not a State-of-the-Marriage summit — a single bid above your current baseline: sit nearer, offer the tea, ask one curious question. Grand gestures under drought read as pressure.
+2. **Name the weather, not the blame**: "I’ve noticed we’ve been ships passing lately. I miss you. No accusations — I just wanted you to know I noticed too."
+3. **Expect a lag.** Weeks of withdrawal don’t reverse overnight; her first responses may be cool. Bid consistency, not bid intensity, rebuilds the channel.
+4. **Upgrade whatever comes back.** Her first tentative bid back gets your fullest possible reception — the first fish back in the pond gets fed like royalty.
+
+#### 🧬 Why Going First Isn't Losing:
+The bid ledger is not zero-sum currency; it is a signaling system. Re-igniting it benefits the igniter first — you get back the marriage you were also starving in. Pride protects an account whose balance is mutual loneliness.`,
+      advancedQuiz: [
+        {
+          question:
+            'Why is determining "who stopped bidding first" clinically pointless in a bid drought?',
+          options: [
+            'Memory biases the ledger self-servingly, and recovery requires only that someone goes first — symmetry of starvation makes the score irrelevant',
+            'Because whoever stopped first legally forfeits claim to repair efforts',
+            'Because bid patterns are genetically determined',
+            'Because therapists forbid discussing relationship history',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The scorekeeper debate maintains the deadlock; unilateral restart breaks it regardless of historical fault.',
+          clinicalDistinction:
+            'In systemic terms, the withdrawal loop is the pathology — not either individual’s entry into it.',
+        },
+        {
+          question:
+            'Why does the protocol prescribe SMALL bids rather than a grand reconciliation gesture?',
+          options: [
+            'Grand gestures under drought register as pressure or suspicion, while small consistent bids quietly rebuild the signaling channel',
+            'Small bids cost less money',
+            'Grand gestures are only appropriate on anniversaries',
+            'Large bids overwhelm the nervous systems of young children nearby',
+          ],
+          correctIndex: 0,
+          explanation:
+            'After sustained withdrawal, sudden intensity triggers threat appraisal; low-stakes consistency lowers the cost of reciprocation.',
+          clinicalDistinction:
+            'Rebuild bandwidth before rebuilding intensity — the channel precedes the message.',
+        },
+        {
+          question: 'Her first responses to your restart attempts are cool. What does the protocol advise?',
+          options: [
+            'Expect the lag — maintain consistent small bids; consistency, not intensity, reopens channels',
+            'Escalate to a direct confrontation about her coldness',
+            'Interpret the coolness as proof she wants the divorce',
+            'Match her coldness tit-for-tat to preserve leverage',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Trust rebuilt at the pace of the slower system; punishing slow thaw reconfirms the original reason for withdrawal.',
+          clinicalDistinction:
+            'Bid consistency functions like interest compounding — small deposits, patient intervals, eventual liquidity.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_bid_spark_flint',
+        name: 'Flint of the First Bid',
+        description:
+          'For those who go first. Grants +25 Compassion Aura for drought-breaking courage.',
+        statBoost: 'COMPASSION_AURA',
+        boostAmount: 25,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_bids_1',
+        scrollId: 'scr_marriage_bids_28',
+        bookTitle: 'The Relationship Cure',
+        author: 'John Gottman',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Bids Beneath the Noise.',
+        question:
+          'Your wife calls from the kitchen: "Come look at this weird shadow." You are mid-task. Statistically optimal response?',
+        options: [
+          'Go now if possible — or explicitly defer: "Give me ninety seconds, then show me" — and actually return',
+          'Call back "that’s nice honey" while finishing the task',
+          'Look briefly while walking past without stopping',
+          'Remind her gently that you were working, so she saves such things for later',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Either catch the bid or consciously re-contract it — the fatal move is the silent miss that leaves the bid dangling.',
+        clinicalInsight:
+          'Explicit deferral preserves the ledger; silent deferral spends it.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_bids_2',
+        scrollId: 'scr_marriage_bids_28',
+        bookTitle: 'The Relationship Cure',
+        author: 'John Gottman',
+        scenarioPrompt: '⚡ Day-14 Spaced Review: Response Taxonomy.',
+        question:
+          '"Can\'t you see I\'m trying to finish this spreadsheet?" is which bid response?',
+        options: [
+          'Turning against — irritable rejection that actively corrodes',
+          'Turning toward — engagement with the bid',
+          'Turning away — neutral omission',
+          'Upgrading — exceeding the bid’s requirements',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Hostility attached to rejection makes it "against," the most corrosive category after contempt itself.',
+        clinicalInsight:
+          'Against > away in damage; a missed bid wounds slowly, a punished bid wounds immediately.',
+        nextReviewDueDays: 14,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  {
+    id: 'scr_marriage_flooding_29',
+    title: 'The Flooded Brain',
+    subtitle: 'Diffuse Physiological Arousal and the Structured Timeout',
+    authorOrTradition: 'John Gottman — Heart Rate & Marital Conflict Research',
+    readingMinutes: 5,
+    category: 'MARRIAGE_EFT',
+    contentMarkdown: `## The 100 BPM Wall
+
+Somewhere in most heated arguments, a physiological cliff appears: heart rate exceeds roughly 100 bpm, stress hormones flood circulation, and — critically — the prefrontal cortex begins losing the reins. Gottman calls this **diffuse physiological arousal (DPA)**, and its signature is unmistakable in the transcript: you start misquoting her, dredging up 2019, losing the thread of your own point.
+
+Here is the finding that should hang in every kitchen: **above ~100 bpm, you cannot hear your partner accurately.** Neutral sentences scan as attacks. Empathy, humor, and perspective-taking go offline. You are, neurologically, arguing with a threat-detection system wearing your spouse’s face.
+
+## Why Men Flood Faster — and Know It Less
+
+Men show higher baseline cardiovascular reactivity to marital conflict and sustain arousal longer after it ends. Worse: they frequently *don’t notice* their own flooding — feeling subjectively calm while physiologically maxed. Wives’ heart-rate accuracy often exceeds husbands’ self-report. This combination — floods fast, floods long, blind to the flood — explains why "just talk it out harder" fails so catastrophically in heterosexual marriages.
+
+## The Stonewalling Trap
+
+Your body knows it’s drowning even if you don’t, and drives the escape behavior Gottman ranks as the fourth horseman: **stonewalling** — shutting down, monosyllables, leaving without a word, the glaze. Stonewalling feels like self-protection from inside and reads as contemptuous abandonment from outside. Both perceptions are accurate. The exit is necessary; the manner is lethal.
+
+## The Structured Timeout Protocol
+
+The fix is not suppression but *structured retreat*:
+
+1. **Recognize your tells** — heat in the face, narrowed vision, urge to escape, urge to escalate. Either pole counts.
+2. **Announce the break WITH a return time**: "I’m flooded. I want to solve this properly. I need 30 minutes and then I’m coming back." The return time is the entire ballgame — it converts flight into a tactical regroup.
+3. **Actually downregulate** — walk, breathe, shower. Do not rehearse your rebuttals; rumination sustains the flood while masquerading as preparation.
+4. **Return on time.** Always. One broken promise retroactively converts every prior timeout into stonewalling.
+5. **Reopen softly** — begin with your part in the loop, not her worst quote.
+
+## The Counterintuitive Part
+
+Couples who take structured breaks resolve conflicts *faster* than couples who push through, and report less residual resentment. The break isn't lost time; arguing while flooded produces nothing recoverable. Thirty minutes spent downregulating buys back the only resource the conversation actually needed: two functioning prefrontal cortices.`,
+    keyTakeaway:
+      'Past ~100 bpm you cannot hear your partner — call the timeout with a promised return time, genuinely downregulate, and return on schedule; a break without a return time is just stonewalling with paperwork.',
+    quiz: [
+      {
+        question: 'What happens to listening accuracy once diffuse physiological arousal passes ~100 bpm?',
+        options: [
+          'Neutral statements scan as attacks; empathy and perspective-taking go offline',
+          'Hearing becomes enhanced due to adrenaline-sharpened senses',
+          'Nothing significant — arousal affects only physical performance',
+          'Partners suddenly gain access to suppressed memories',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Threat physiology reclassifies ambiguous signals as hostile; accurate listening is a prefrontal luxury the flood removes.',
+      },
+      {
+        question:
+          'What makes many husbands especially vulnerable in conflict, per Gottman’s physiology findings?',
+        options: [
+          'They flood faster, stay flooded longer, and often don’t subjectively notice they are flooded',
+          'They are constitutionally unable to feel empathy during arguments',
+          'They process auditory information more slowly than women in all contexts',
+          'They recover from arousal more quickly but hide it poorly',
+        ],
+        correctIndex: 0,
+        explanation:
+          'High reactivity plus slow recovery plus poor self-awareness of arousal is the documented trifecta.',
+      },
+      {
+        question: 'What single element converts a timeout from stonewalling into tactical regrouping?',
+        options: [
+          'A promised, kept return time',
+          'Explaining in detail why the partner caused the flooding',
+          'Leaving quickly enough that anger hasn’t peaked',
+          'Writing down your rebuttals during the break',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The return commitment reframes the exit as "for us" rather than "from you" — and keeping it validates the frame.',
+      },
+      {
+        question: 'Why is rehearsing rebuttals during the break counterproductive?',
+        options: [
+          'Rumination sustains flood-level arousal while masquerading as productive preparation',
+          'It wastes time that should be spent apologizing',
+          'Written notes are prohibited in healthy conflict',
+          'Memorized arguments always sound insincere when delivered',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The goal is downregulation, not litigation prep; mental rehearsal keeps cortisol elevated and the return premature.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_structured_timeout',
+      name: 'Structured Timeout',
+      category: 'REFRAME',
+      manaCost: 1,
+      baseDamage: 20,
+      shieldValue: 40,
+      promptText:
+        'I’m flooded. Thirty minutes, then I return. This is for us, not from you.',
+      targetDistortionBonus: { distortion: 'CATASTROPHIZING', multiplier: 1.5 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_flood_tell_map',
+        scrollId: 'scr_marriage_flooding_29',
+        bookTitle: 'Gottman Conflict Research',
+        title: 'Personal Flood-Tell Mapping',
+        description:
+          'Tonight, write your top three physical signs of flooding (heat, vision narrowing, escape urge). Share them with your wife.',
+        suggestedTime: '20:30',
+        frequency: 'WEEKLY',
+        energyTier: 'STEADY_40',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Fathers under-detect their own arousal; externalizing the tells lets a partner help call the break earlier.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_flood_drill',
+        scrollId: 'scr_marriage_flooding_29',
+        bookTitle: 'Gottman Conflict Research',
+        title: 'Dry-Run Timeout Drill',
+        description:
+          'Once this week, practice the timeout script out loud during peacetime: announcement, return time, walk, return.',
+        suggestedTime: '19:00',
+        frequency: 'WEEKLY',
+        energyTier: 'LOW_10',
+        reminderEnabled: false,
+        clinicalRationale:
+          'Scripts rehearsed in calm states remain accessible during sympathetic flooding (state-dependent retrieval).',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The Broken Return Crucible',
+      subtitle: 'When the Timeout Was Weaponized — or You Broke Your Word',
+      deepCaseStudy:
+        'Six weeks ago you called your first structured timeout — and it worked. But last night you promised twenty minutes and came back after two hours; she’d already cried herself asleep. Worse, you realize she has begun flinching at the phrase "I need a break," because your business partner used timeouts for years as pure avoidance — and she told you this. The tool is now contaminated twice over: your lateness and his history.',
+      contentMarkdown: `### 🌪️ Tool Contamination: When the Timeout Itself Becomes the Fight
+
+Timeouts inherit the history of how they've been used. If a partner experienced years of avoidance dressed as "needing space," every timeout request activates that archive — regardless of your intentions tonight. Add one broken return promise and the tool flips from regrouping device into evidence exhibit.
+
+#### ⚠️ The Two Contamination Patterns:
+1. **The Lateness Breach** — Return-time failures retroactively recast ALL previous timeouts as stonewalling. Trust in the tool decays faster than trust in the person.
+2. **The Inherited Trigger** — A partner’s prior relationship trained "I need space" as the preamble to abandonment. Your clean usage collides with her earned alarm.
+
+#### 🛡️ The Rebuild Protocol:
+1. **Own the breach without defensiveness first**: "I said twenty minutes and gave you two hours. That broke the deal. You were alone with a fight we hadn’t finished." No explanations lead — the breach leads.
+2. **Make the return mechanically impossible to miss**: set a literal phone alarm in front of her; commit to returning AT the alarm, even if just to extend the break with fresh agreement.
+3. **Differentiate explicitly**: "My timeouts are not his disappearing acts. Here’s how mine differ: stated return, kept return, soft reopen. Call me on it the second I deviate."
+4. **Install the observer clause**: grant her standing permission to name YOUR flooding ("your jaw just went") and treat it as a service, not an attack. External detection covers your blind spot.
+5. **Run a low-stakes trial**: use the full protocol once during a minor disagreement — rebuilding tool-trust on small fires before the next blaze.
+
+#### 🧬 Why Tool-Trust Matters More Than Tool-Elegance:
+Conflict technology is worthless without relational credit. The timeout works because she believes in the return — belief is the operating system, the protocol merely the app.`,
+      advancedQuiz: [
+        {
+          question:
+            'Why must the ownership of the broken return come BEFORE any explanation?',
+          options: [
+            'Explanations offered first register as defense; leading with the breach itself is what distinguishes accountability from justification',
+            'Because explanations are never relevant or true',
+            'To save time in an already busy evening',
+            'Because she is required to forgive before hearing context',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Sequencing carries meaning: breach-first says the impact registers; explanation-first says managing your image outranks her night alone.',
+          clinicalDistinction:
+            'Context has a place — after ownership. Same words, different order, opposite effect.',
+        },
+        {
+          question:
+            'What is the function of setting the return alarm IN FRONT of her?',
+          options: [
+            'It converts the promise from speech into visible mechanism — making the return independent of willpower or mood at return-time',
+            'It demonstrates superior phone organization',
+            'It pressures her into accepting shorter breaks',
+            'It has purely symbolic value with no functional role',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Externalizing the commitment addresses the actual fear: that the return depends on your flooded judgment. Mechanisms are believable; intentions are cheap.',
+          clinicalDistinction:
+            'Trust rebuilds through verifiable structure, not renewed sincerity.',
+        },
+        {
+          question:
+            'What does the "observer clause" accomplish given that husbands under-detect their own flooding?',
+          options: [
+            'It enlists the partner’s more accurate arousal detection as a service, covering the husband’s physiological blind spot',
+            'It transfers responsibility for the marriage onto her vigilance',
+            'It allows him to ignore self-monitoring entirely',
+            'It creates a formal scoring system for future arguments',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Since subjective calm during maxed physiology is the documented trap, granting the observation license turns her perception into shared instrumentation.',
+          clinicalDistinction:
+            'The clause only works if observations are received as data, never prosecuted as attacks.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_kept_promise_seal',
+        name: 'The Kept-Promise Seal',
+        description:
+          'Earned when return times mean something again. Grants +30 Mind Shield.',
+        statBoost: 'MIND_SHIELD',
+        boostAmount: 30,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_flood_1',
+        scrollId: 'scr_marriage_flooding_29',
+        bookTitle: 'Gottman Conflict Research',
+        author: 'John Gottman',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Flooded Brain.',
+        question:
+          'Mid-argument you notice facial heat and the urge to say something devastating. What has happened and what is the move?',
+        options: [
+          'You’re flooding — announce a break WITH a return time, then genuinely downregulate and return on schedule',
+          'You’re winning — press the advantage before she regroups',
+          'Suppress the signs and push through to avoid seeming weak',
+          'End the relationship discussion permanently to protect both parties',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Flooding signs are the cue for structured retreat; pushing through guarantees degraded hearing and escalated damage.',
+        clinicalInsight:
+          'The devastating-line urge is itself a flood symptom — above 100 bpm, cruelty feels like clarity.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_flood_2',
+        scrollId: 'scr_marriage_flooding_29',
+        bookTitle: 'Gottman Conflict Research',
+        author: 'John Gottman',
+        scenarioPrompt: '⚡ Day-7 Spaced Review: Stonewall vs. Timeout.',
+        question:
+          'From her side of the table, what separates your legitimate timeout from horseman #4 stonewalling?',
+        options: [
+          'Whether a stated return time exists and is kept',
+          'How angry your voice sounded when leaving',
+          'Whether the argument topic was important or trivial',
+          'How long the marriage has lasted so far',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Identical exits diverge entirely on the return contract: announced-and-kept is regrouping, silent-or-broken is abandonment.',
+        clinicalInsight:
+          'Stonewalling is not an exit style; it is a missing promise.',
+        nextReviewDueDays: 7,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  {
+    id: 'scr_marriage_mental_load_30',
+    title: 'The Invisible Checklist',
+    subtitle: 'The Mental Load: Why "Just Ask Me for Help" Fails',
+    authorOrTradition: 'Fair Play & Cognitive Labor Research',
+    readingMinutes: 6,
+    category: 'MARRIAGE_EFT',
+    contentMarkdown: `## You Do Chores. She Carries the House.
+
+You empty the dishwasher without complaint, do bedtime twice a week, handle your own laundry. By any counting of tasks you pull weight. So why does she describe drowning — and why does the phrase "you never help" land like an accusation of theft?
+
+Because the modern domestic dispute is not about **tasks**. It is about **cognitive labor**: noticing, planning, deciding, tracking, and worrying. The dishwasher is a task; knowing the dishwasher was low on tablets, adding them to the list, remembering the coupon expires Thursday, and noticing *before anyone else did* — that is the load. Research on cognitive labor (Damiano, Ciciolla, et al.) finds mothers disproportionately carry the "invisible" dimension — being the one who *must remember* — and that this imbalance independently predicts lower relationship and life satisfaction, distinct from chore-hours worked.
+
+## The Birthday Party Diagnostic
+
+She organizes the birthday party. You help — genuinely: you buy supplies she listed, decorate per her instructions, arrive punctually. Yet afterward she is exhausted and resentful while you feel unfairly criticized. The asymmetry: you executed **conception-to-completion steps 3 through 7**; she performed steps 1, 2, and 8 alone — imagining the party was needed, deciding its shape, and lying awake ensuring nothing fell through. Execution without ownership is help. Ownership is the load.
+
+## Why "Just Tell Me What To Do" Fails
+
+Offering to help *on request* sounds generous and functions as delegation-refusal: it preserves you as the capable deputy while she remains the sole executive. The executive role is the exhausting one. Worse, requesting tasks converts partnership into management — she must survey the domain, formulate the task, specify standards, and monitor completion. You’ve added a supervisory tax to her overload while calling it support.
+
+## The Ownership Transfer
+
+The Fair Play protocol’s core move is deceptively simple: **full ownership of domains, not assistance with tasks.** You don’t "help with" school logistics; you OWN school logistics — conception (notice what’s coming), planning (decide how), execution (do it), and monitoring (ensure completion) — without being asked, reminded, or checked on. She surrenders the domain *completely*, including the right to hover-correct, which is her half of the bargain.
+
+### The Standard-Holding Problem
+Ownership transfer stalls when the transferee performs deliberately badly to escape: the "strategic incompetence" wash that shrinks shirts and schedules dentist appointments at naptime. She detects the maneuver, retakes the domain, and the load returns doubled. The clinical standard is **CFA — Conception, Follow-through, and Accountability** — done to the household’s existing standard, learned by asking, not by failing on purpose.
+
+## What You Actually Get
+
+This is not penance economics. Partners who hold real domains report relief on both sides: she stops being the household’s single point of failure (and its resident project manager), and you gain what deputies never have — actual authority, competence, and the peculiar pride of a domain that runs because you run it.`,
+    keyTakeaway:
+      'The mental load is cognitive labor — noticing, planning, monitoring — not task execution. Take full ownership of whole domains (conception to follow-up) rather than waiting to be asked; "just ask me" is delegation refusal.',
+    quiz: [
+      {
+        question: 'What is "cognitive labor" in household research?',
+        options: [
+          'The invisible work of noticing, planning, deciding, tracking, and worrying — as distinct from executing tasks',
+          'The intellectual demands of balancing a household budget',
+          'Any household task requiring concentration, like cooking complex recipes',
+          'The mental effort children expend on homework',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Task execution is visible; cognitive labor is the surrounding managerial layer — and the imbalance there predicts dissatisfaction independently of chore counts.',
+      },
+      {
+        question:
+          'In the birthday party diagnostic, why did helping still leave her carrying the load?',
+        options: [
+          'She alone performed conception (noticing/deciding) and monitoring — the load-bearing steps around your execution',
+          'She secretly enjoys organizing and exaggerates her effort',
+          'Your decorating quality required her to redo most of it',
+          'The party was unnecessary work she chose unilaterally',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Execution without ownership is help; the load lives in the steps before and after doing — needing no one to notice it was needed.',
+      },
+      {
+        question: 'Why does "just tell me what to do" function as delegation refusal?',
+        options: [
+          'It preserves her as sole executive — she must survey, formulate, specify, and monitor — converting partnership into management',
+          'It is rude and hurts her feelings directly',
+          'It takes longer than doing the task yourself',
+          'Women prefer men who act without consultation',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The request system taxes the overloaded person with supervision; the executive burden, not the tasks, is what exhausts her.',
+      },
+      {
+        question:
+          'What does full domain ownership require that task-help does not?',
+        options: [
+          'Conception, planning, execution, and monitoring — unasked, unre-minded, held to household standard',
+          'Performing the task faster than she would',
+          'Consulting her on every decision within the domain',
+          'Financial contribution toward outsourcing the domain',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Ownership spans the entire lifecycle of a domain; her reciprocal duty is complete surrender, including resisting hover-correction.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_domain_owner',
+      name: 'Domain Owner',
+      category: 'ACTION',
+      manaCost: 2,
+      baseDamage: 30,
+      shieldValue: 34,
+      promptText:
+        'Noticed it, planned it, did it, closed it — unasked. This domain runs because I run it.',
+      targetDistortionBonus: { distortion: 'SHOULD_STATEMENTS', multiplier: 1.4 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_load_domain_claim',
+        scrollId: 'scr_marriage_mental_load_30',
+        bookTitle: 'Fair Play',
+        title: 'Domain Claim Conversation',
+        description:
+          'This week, negotiate full ownership of one complete domain (e.g., school logistics). She surrenders monitoring; you accept conception.',
+        suggestedTime: '20:00',
+        frequency: 'WEEKLY',
+        energyTier: 'STEADY_40',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Load redistribution requires explicit domain contracts; informal intentions reliably revert to the default imbalance.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_load_notice_practice',
+        scrollId: 'scr_marriage_mental_load_30',
+        bookTitle: 'Fair Play',
+        title: 'Daily Noticing Sweep',
+        description:
+          'Walk the house once daily scanning for what needs noticing — low supplies, forms due, worn shoes — and log one item you handled unasked.',
+        suggestedTime: '21:00',
+        frequency: 'DAILY',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Conception is a trainable attention habit; deliberate sweeps build the noticing muscle that task-executors never develop.',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The Relapse Crucible',
+      subtitle: 'When the Domain Slides Back — Yours or Hers',
+      deepCaseStudy:
+        'Three weeks ago you took full ownership of school logistics — forms, lunches, scheduling — and it was working. Then a brutal work sprint hit, you dropped two balls (expired swim form, missed early pickup), and she silently reabsorbed the domain "to help." Now she resents you anew, you feel demoted and ashamed, and the phrase "it’s easier to do it myself" has returned to the house like smoke.',
+      contentMarkdown: `### 🌪️ The Silent Retake Anatomy
+
+Her retaking the domain feels charitable from inside her head and catastrophic from inside yours — but structurally, the retake is the predictable product of a design flaw: **the transfer had no failure protocol.** Every domain owner drops balls eventually; contracts that treat a drop as grounds for revocation were doomed contracts, not failed owners.
+
+#### ⚠️ The Two Failure Spirals:
+1. **The Strategic-Incompetence Slide (yours):** performing badly enough that revocation becomes inevitable — unconscious or not, it converts ownership back into deputyhood with plausible deniability.
+2. **The Perfectionist Retake (hers):** reabsorbing the domain at first imperfection, confirming to both parties that ownership was conditional theater.
+
+#### 🛡️ The Recommitment Protocol:
+1. **Name the retake explicitly — hers to raise or yours**: "You took back school stuff after the swim form. I get why. Let’s decide deliberately instead of silently."
+2. **Separate the drop from the domain**: audit the failure — was it capacity (work sprint) or system (no backup calendar)? Capacity failures need load-adjustment, not revocation.
+3. **Renegotiate scope, not sovereignty**: during crunch periods, temporarily shrink the domain (she handles swim, you keep forms+lunches) rather than transferring it wholesale.
+4. **Install the failure clause upfront**: agreed rule that a dropped ball triggers a *conversation about support*, never automatic repossession.
+5. **Her half of the contract**: she commits to tolerating your standards differing from hers, provided outcomes meet the family floor — hover-correction voids the warranty.
+
+#### 🧬 Why This Crucible Decides Everything:
+Most ownership transfers die at first contact with real life. Surviving the relapse — with the domain intact, the failure processed, the contract amended — is what converts a nice gesture into permanent architecture.`,
+      advancedQuiz: [
+        {
+          question:
+            'Why must a dropped ball trigger "a conversation about support, never automatic repossession"?',
+          options: [
+            'Revocation-on-imperfection proves ownership was conditional theater and guarantees the load returns; failures need diagnosis, not punishment',
+            'Because repossession is legally complicated by joint property rules',
+            'Because conversations are quicker than retraining the domain',
+            'Because dropped balls indicate the wrong person owned the domain',
+          ],
+          correctIndex: 0,
+          explanation:
+            'The failure clause is what makes ownership real; without it, every stumble reverts the system to the default imbalance.',
+          clinicalDistinction:
+            'Design for expected failure; contracts assuming perfect owners are pre-written divorces of the arrangement.',
+        },
+        {
+          question:
+            'During a work crunch, what does renegotiating "scope, not sovereignty" look like?',
+          options: [
+            'Temporarily shrinking which sub-parts you hold (she takes swim, you keep forms+lunches) rather than handing back the whole domain',
+            'Working harder to maintain the full domain regardless of circumstances',
+            'Outsourcing the entire domain to paid services until the crunch passes',
+            'Alternating days of responsibility for everything in the domain',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Scope adjustment adapts to real capacity while preserving your executive identity in the domain — the sovereignty survives the season.',
+          clinicalDistinction:
+            'All-or-nothing domain contracts shatter under load; granular ones flex.',
+        },
+        {
+          question:
+            'What is HER enforceable obligation under the ownership contract?',
+          options: [
+            'Complete surrender of the domain — including tolerating your methods differing from hers, so long as outcomes meet the family floor',
+            'Expressing gratitude weekly for the tasks completed',
+            'Matching your contribution task-for-task in her own domains',
+            'Providing detailed written instructions for each sub-task',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Hover-correction reconstitutes her as supervisor and you as deputy — the exact structure the transfer meant to dissolve.',
+          clinicalDistinction:
+            'Standards may legitimately differ from hers; the floor, not her preference, is the contract.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_steady_domain_keystone',
+        name: 'Keystone of the Held Domain',
+        description:
+          'For owners who survive their first relapse. Grants +30 Logic Edge.',
+        statBoost: 'LOGIC_EDGE',
+        boostAmount: 30,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_load_1',
+        scrollId: 'scr_marriage_mental_load_30',
+        bookTitle: 'Fair Play',
+        author: 'Eve Rodsky / Damiano et al.',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Invisible Checklist.',
+        question:
+          'Your wife says "you never help." You DO chores regularly. What reframe explains her experience?',
+        options: [
+          'She carries the cognitive labor — noticing/planning/monitoring — and executive burden, not task shortage, is the exhaustion',
+          'She doesn’t accurately track the chores you complete',
+          'Help is defined differently in every marriage',
+          'She is weaponizing guilt to extract more leisure time',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Research separates task execution from cognitive labor; being the household’s sole remembering-system is the load she describes.',
+        clinicalInsight:
+          'Deputies execute; executives lie awake. "Helping" keeps you a deputy.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_load_2',
+        scrollId: 'scr_marriage_mental_load_30',
+        bookTitle: 'Fair Play',
+        author: 'Eve Rodsky / Damiano et al.',
+        scenarioPrompt: '⚡ Day-14 Spaced Review: The Request System.',
+        question:
+          'You offer: "Just text me a list and I’ll knock it out Saturday." Why does this fail the load test?',
+        options: [
+          'She remains the sole executive — surveying, formulating, specifying, and monitoring — while you perform supervised execution',
+          'Saturday is a busy day for household logistics',
+          'Text lists are impersonal compared to verbal requests',
+          'It doesn’t fail — this is exactly the ownership model',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Request-based help adds managerial tax to her overload; ownership moves conception and monitoring INTO you, unasked.',
+        clinicalInsight:
+          'If she still has to think of it, she still owns it — your muscles just joined her mind.',
+        nextReviewDueDays: 14,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  /* ============================== TEACHER ================================ */
+
+  {
+    id: 'scr_teach_deescalate_31',
+    title: 'The Eye of the Classroom Storm',
+    subtitle: 'De-escalating a Dysregulated Student Without Losing Yourself',
+    authorOrTradition: 'Ross Greene — Collaborative & Proactive Solutions',
+    readingMinutes: 6,
+    category: 'STOICISM',
+    contentMarkdown: `## Twenty-Nine Witnesses
+
+A student is escalating — voice rising, chair scraping back, fists curling — and the defining feature of your situation is not the student. It is the **twenty-nine other students watching**, plus the corridor teacher who will hear, plus the knowledge that how this next minute goes becomes classroom legend by lunchtime. De-escalation here is performance art under fire: regulate the storming child, reassure the audience, and keep your own physiology inside the window — simultaneously.
+
+Greene’s foundational reframe makes this possible: **kids do well if they can.** Challenging behavior is a *skill deficit* surfacing under demand — lagging skills in flexibility, frustration tolerance, problem-solving — not manipulation, not bad parenting on display, not a referendum on your authority. This is not sentimentality; it changes your intervention. Skill deficits are taught, not punished into remission.
+
+## The Escalation Curve and Where Intervention Lives
+
+Escalation follows a curve: **trigger → acceleration → peak → de-escalation → recovery.** Two clinical facts govern everything:
+
+1. **At the peak, no teaching occurs.** The student’s prefrontal cortex is offline; words enter as noise. Any instruction delivered at peak — "Sit DOWN and CALM DOWN" — is fuel.
+2. **The curve cannot be argued backward.** You cannot logic someone downstairs. You can only *reduce stimulation and demand*, ensure safety, and wait for the descent.
+
+## The De-escalation Protocol
+
+### At Acceleration (the golden window)
+- **Reduce audience**: proximity without looming, quiet voice, or better — give the class a legitimate absorbing task and address him semi-privately.
+- **Offer face-saving off-ramps**: "You need a minute or the water pass?" Choices restore perceived control; defiance is often the only control available.
+- **One instruction, stated once, positively**: repetition and threats advertise panic.
+
+### At Peak (containment only)
+- **Safety geometry**: distance from peers, clear your own exit, remove projectiles casually.
+- **Minimum words, maximum calm**: "I'm here. You're safe. We'll sort it." Monotone is medicine.
+- **Never touch without training and necessity.** Restraint escalates injury and litigation alike.
+- **Clear the room if possible** — sending the class out (prearranged signal, practiced drill) removes both audience fuel and hostage anxiety.
+
+### De-escalation and Recovery (where the actual teaching lives)
+- **No post-mortems during descent.** The first calm sentence should be *normalcy*, not analysis: "Water? You're okay."
+- **Later that day or next morning, the collaborative interview** (Greene's EMS): Empathy — "I noticed math period got explosive. What's up?" Define the problem *with* him; Identify — solve it *together*. This is where lagging skills get diagnosed and drilled.
+
+## Protecting Your Own Nervous System
+
+Your amygdala mirrors his. Pre-commit to your physiological anchor (exhale longer than inhale, feet flat, hands open) and to your Stoic line: **his storm is weather; my response is climate.** The students aren't just watching the de-escalation — they're downloading your template for handling other people's emergencies. The class that watches a teacher stay regulated through a peak learns more SEL than any curriculum unit delivers.`,
+    keyTakeaway:
+      'Challenging behavior is lagging skill, not choice: act early at acceleration with choices and face-saving, contain with minimum words at peak, teach collaboratively only after descent — and your regulation is the lesson the other 29 download.',
+    quiz: [
+      {
+        question: 'What does Greene’s mantra "kids do well if they can" imply for intervention?',
+        options: [
+          'Challenging behavior reflects lagging skills under demand — teach and problem-solve rather than punish',
+          'Students should be graded on behavior alongside academics',
+          'Misbehavior always stems from inadequate consequences at home',
+          'Only special educators should handle escalations',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Reframing behavior as skill deficit redirects intervention from consequence delivery to collaborative skill-building.',
+      },
+      {
+        question: 'Why is the escalation "peak" the wrong moment for any instruction?',
+        options: [
+          'The student’s prefrontal cortex is offline; words arrive as threat noise and add fuel',
+          'Instruction at peak violates school insurance policies',
+          'Other students might copy the instructions incorrectly',
+          'Peak moments last too long for effective lecturing',
+        ],
+        correctIndex: 0,
+        explanation:
+          'At peak, only containment applies: safety, minimum words, reduced stimulation. Teaching resumes after descent.',
+      },
+      {
+        question: 'What is the function of offering two choices during acceleration?',
+        options: [
+          'Choices restore perceived control, providing a face-saving off-ramp before defiance becomes the only agency available',
+          'Choices distract students long enough to forget the trigger',
+          'Choice-offering documents your reasonableness for administrators',
+          'Binary options simplify decision-making for cognitively overloaded teachers',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Defiance flourishes where autonomy is absent; legitimate micro-choices deflate the power struggle at its cheapest point.',
+      },
+      {
+        question:
+          'What is the double function of your own regulation in a classroom escalation?',
+        options: [
+          'It contains the immediate storm AND installs the de-escalation template the watching students will reuse for life',
+          'It primarily protects you from disciplinary investigation afterwards',
+          'It models compliance with school behavior policy',
+          'It mainly shortens the episode, saving instructional minutes',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Mirror-neuron borrowing means your calm is contagious — the audience acquires emergency-handling circuitry by watching yours hold.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_eye_of_storm',
+      name: 'Eye of the Storm',
+      category: 'COMPASSION',
+      manaCost: 1,
+      baseDamage: 26,
+      shieldValue: 36,
+      promptText:
+        'His storm is weather. My response is climate. Minimum words. Maximum calm.',
+      targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.7 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_descale_anchor_drill',
+        scrollId: 'scr_teach_deescalate_31',
+        bookTitle: 'Collaborative & Proactive Solutions',
+        title: 'Pre-Class Physiological Anchor Drill',
+        description:
+          'Before each class, 30 seconds: exhale-longer breathing, feet flat, hands open, silent cue line "weather not climate."',
+        suggestedTime: '08:50',
+        frequency: 'WORK_HOURS',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Pre-committed somatic anchors remain retrievable during mirror-triggered flooding mid-class.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_descale_choice_bank',
+        scrollId: 'scr_teach_deescalate_31',
+        bookTitle: 'Collaborative & Proactive Solutions',
+        title: 'Off-Ramp Choice Bank',
+        description:
+          'Draft 5 generic face-saving choices (water pass, errand, seat swap, minute-out, helper task) and keep them on a desk card.',
+        suggestedTime: '16:00',
+        frequency: 'WEEKLY',
+        energyTier: 'STEADY_40',
+        reminderEnabled: false,
+        clinicalRationale:
+          'Choices must be pre-generated; inventing face-savers mid-acceleration exceeds working memory under load.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_descale_ems_followup',
+        scrollId: 'scr_teach_deescalate_31',
+        bookTitle: 'Collaborative & Proactive Solutions',
+        title: 'Next-Morning EMS Interview',
+        description:
+          'After any escalation, conduct the Empathy-Define-Solve conversation the following morning — never within the recovery hour.',
+        suggestedTime: '07:40',
+        frequency: 'WORK_HOURS',
+        energyTier: 'STEADY_40',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Collaborative problem-solving requires a regulated cortex on both sides; mornings maximize that overlap.',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The False Accusation Crucible',
+      subtitle: 'When De-escalation Gets Reported as Aggression',
+      deepCaseStudy:
+        'You did everything right. Minimum words, safe geometry, the water-pass off-ramp. The storm subsided. Then Friday: you’re summoned — the student told their parents you "grabbed" him and "yelled in his face." You touched no one. Your loudest volume was a firm library voice. The deputy principal is supportive but procedure is procedure, and you spend the weekend drafting a timeline while your stomach eats itself and your mind rehearses courtroom defenses during dinner with your family.',
+      contentMarkdown: `### 🌪️ The Secondary Storm
+
+The accusation triggers a second escalation curve — yours. Unfairness is among the strongest known amygdala triggers, and unlike the classroom episode, this one runs for days, invades your home, and offers no closure date. Teachers in this crucible commonly report sleep disruption, intrusive rehearsal, hypervigilance about future physical proximity to students, and the corrosive question: *why keep setting myself up?*
+
+#### ⚠️ The Three Self-Destructive Responses:
+1. **The Vigilante Defense Campaign** — cornering colleagues to litigate your innocence, collecting allies, emailing justifications at midnight. Reads as instability; feeds your own flood.
+2. **The Premature Confession Tone** — over-apologizing for technique you didn't misuse, implicitly validating the account. Protects against conflict, corrodes professional integrity.
+3. **The Armored Teacher** — resolving never again to approach an escalating student closely. Safe for your file, quietly abandons your most vulnerable students to their storms.
+
+#### 🛡️ The Crucible Protocol:
+1. **Paper trail as practice, not paranoia**: contemporaneous notes after every significant incident (objective facts, witnesses, times). Written the same day, they are your testimony; reconstructed later, they are fiction you resent having to invent.
+2. **Procedural separation**: cooperate fully, answer literally, decline speculation. Facts are your ally; narrative is your enemy — yours included.
+3. **Contain the home invasion**: scheduled worry window (15 minutes daily, timer), no case-thinking after 8pm. The accusation borrows your evenings only if you keep lending them.
+4. **The Stoic audit**: separate what was in your control (your conduct, your records, your cooperation) from what wasn't (the accusation, the timeline, the outcome). Act maximally in circle one; release circle two daily.
+5. **Protect the craft, not just the file**: after clearance, debrief the technique itself with a trusted colleague — was there ANY beat a camera could have misread? Adjust geometry accordingly. Not because you were wrong, but because cameras and children misread identically.
+
+#### 🧬 The Long Game:
+Teachers cleared of false accusations uniformly report the same scar tissue: hesitation at the next escalation. Naming that hesitancy out loud — in staff meeting, to yourself — is what prevents it from calcifying into the Armored Teacher. Your future students' storms still need someone willing to stand close.`,
+      advancedQuiz: [
+        {
+          question:
+            'Why are same-day incident notes epistemically critical compared to later reconstructions?',
+          options: [
+            'Contemporaneous objective notes constitute testimony; delayed reconstruction constitutes narrative — and juries, panels, and your own memory treat them differently',
+            'Administrators refuse to read notes written after 48 hours',
+            'Same-day notes are legally required in all jurisdictions',
+            'Later notes are inadmissible but otherwise equivalent',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Memory degrades and self-serves; the note written at 3:15pm the day of the incident is the closest a human gets to footage.',
+          clinicalDistinction:
+            'Record facts (positions, words, witnesses, clock times), never interpretations ("he was clearly about to…").',
+        },
+        {
+          question:
+            'What defines the "worry window" technique for containing the accusation’s home invasion?',
+          options: [
+            'A bounded daily 15-minute slot for case-rumination, timer-enforced, with case-thinking banned outside it',
+            'A weekly meeting window where concerns are raised to administration',
+            'A notification system for updates from the investigating officer',
+            'A relaxation exercise performed upon arriving home each day',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Suppression fails; containment works — scheduling the rumination satisfies the mind’s vigilance demand while protecting the rest of life.',
+          clinicalDistinction:
+            'The technique requires genuine engagement during the window, not token worry — deferred, not denied.',
+        },
+        {
+          question:
+            'Why does the protocol insist on a post-clearance technique debrief even though you did nothing wrong?',
+          options: [
+            'Cameras and children misread identically — auditing how the scene could appear adjusts geometry without conceding wrongdoing',
+            'Administration requires mandatory retraining after all complaints',
+            'Some part of you probably did commit the act unconsciously',
+            'It provides grounds to countersue the accusing family',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Appearance-management is distinct from guilt; the practitioner’s question is "how does this look unmediated?" — answered without accepting the accusation’s premises.',
+          clinicalDistinction:
+            'Adjust technique for the record of the future; integrity means neither self-flagellation nor blindness.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_clear_sky_shield',
+        name: 'The Clear-Sky Shield',
+        description:
+          'For teachers weathered false storms upright. Grants +35 Mind Shield.',
+        statBoost: 'MIND_SHIELD',
+        boostAmount: 35,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_descale_1',
+        scrollId: 'scr_teach_deescalate_31',
+        bookTitle: 'Collaborative & Proactive Solutions',
+        author: 'Ross Greene',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Eye of the Classroom Storm.',
+        question:
+          'A student is at PEAK escalation — shouting, standing, chair tipped. Rank the correct priorities.',
+        options: [
+          'Peer safety distance → minimum monotone words → wait for descent → teach later via EMS',
+          'Deliver clear consequences immediately while witnesses are present',
+          'Talk him through the logical consequences of his actions',
+          'Remove him physically to the corridor to protect the lesson',
+        ],
+        correctIndex: 0,
+        explanation:
+          'At peak, only containment: safety geometry, fewest words, patience. All instruction waits for the descending limb.',
+        clinicalInsight:
+          'Words at peak are not merely wasted — they are accelerant.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_descale_2',
+        scrollId: 'scr_teach_deescalate_31',
+        bookTitle: 'Collaborative & Proactive Solutions',
+        author: 'Ross Greene',
+        scenarioPrompt: '⚡ Day-7 Spaced Review: The Golden Window.',
+        question:
+          'During ACCELERATION (voice rising, agitation starting), which intervention is highest-yield?',
+        options: [
+          'Reduce audience pressure and offer two legitimate face-saving choices',
+          'Begin the collaborative problem-solving interview immediately',
+          'Issue a formal warning to activate consequences',
+          'Ignore the signals to avoid rewarding early disruption',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Acceleration is when choice and face-saving work — prefrontal function is impaired but present. By peak, only containment remains.',
+        clinicalInsight:
+          'The cheapest point on the curve to intervene is always one step before you think you need to.',
+        nextReviewDueDays: 7,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  {
+    id: 'scr_teach_attribution_32',
+    title: 'It Isn’t About You',
+    subtitle: 'Attribution Retraining for Defiance, Apathy & Eye-Rolls',
+    authorOrTradition: 'Weiner’s Attribution Theory × Greene’s Skill Deficit Model',
+    readingMinutes: 5,
+    category: 'CBT_REBT',
+    contentMarkdown: `## The Teacher’s Occupational Hazard
+
+The ninth-grader rolls his eyes at your carefully planned lesson. The girl you stayed late for scrolls her phone during your feedback. A student you championed says "this class is pointless." By afternoon you’ve drafted a resignation speech and mentally reassigned your care budget. Welcome to **personal attribution bias** — the occupational hazard of work whose output is other people’s growth: interpreting others’ behavior as verdicts on *you*.
+
+## Attribution Theory in Thirty Seconds
+
+Weiner’s framework: people automatically explain events along dimensions of **locus** (me vs. circumstance), **stability** (forever vs. right now), and **controllability** (chosen vs. constrained). Teacher burnout correlates with a specific toxic cluster: explaining student behavior as *internal to me, stable, and controllable by the student* — "he disrespects me because he’s defiant and I’m ineffective."
+
+Every leg of that attribution is empirically wrong in most cases:
+
+- **Wrong locus**: Students behave according to sleep, hunger, home chaos, friendship wars, dopamine economics, and developmental neurology. The eye-roll is emitted *in your room*, rarely *about your room*.
+- **Wrong stability**: Adolescents’ attitudes churn hourly. Today’s apathy is not a settled verdict on your curriculum or your worth.
+- **Wrong controllability**: Greene again — *kids do well if they can.* Defiance and avoidance are most often skill deficits (frustration tolerance, help-seeking, shame management) wearing attitude as camouflage.
+
+## The Rewiring Practice: Three Questions
+
+When stung, run the attribution audit before reacting:
+
+1. **"Would this behavior survive a change of teacher?"** If yes — and it would; every teacher gets the eye-roll — its cause is largely not-you. (Test: does the school’s beloved veteran get eye-rolls too? Watch. Yes.)
+2. **"What need or deficit is this behavior advertising?"** Defiance advertises autonomy hunger. Apathy often advertishes shame-avoidance — the student who "doesn’t care" frequently cares enormously and is protecting a fragile self from confirmed inadequacy. The phone-scroll during feedback is avoidance of an ego threat, not a review of your teaching.
+3. **"What response serves the skill, not my ego?"** The audit converts the question from *how do I feel better* to *what does this human lack and how do I supply it.*
+
+## The Ego-Protection Trap
+
+Here is the mechanism that makes personal attribution seductive: it is secretly flattering. If his eye-roll is about me, then my approval matters to him — I am significant. Skill-deficit attribution feels colder ("his behavior is developmental weather"), but it purchases exactly what personal attribution steals: **effective action and emotional durability.** Teachers who retrain attributions show measurably lower emotional exhaustion; the class clown stops costing you evenings.
+
+## Detachment ≠ Indifference
+
+The retrained teacher is not the checked-out teacher. You still prepare meticulously, still champion the kid — but your emotional telemetry disconnects student behavior from self-worth. Paradoxically, students sense the difference: nothing invites genuine effort like an adult whose regard doesn’t have to be manipulated and whose help isn’t a toll booth between you and your dignity.`,
+    keyTakeaway:
+      'Student defiance and apathy are mostly developmental weather, not personal verdicts — audit the attribution (locus, stability, controllability), read behavior as advertised skill deficits, and respond to the need instead of the sting.',
+    quiz: [
+      {
+        question:
+          'Which toxic attribution cluster predicts teacher burnout in Weiner’s framework?',
+        options: [
+          'Internal to me + stable + controllable by the student: "he’s defiant and I’m ineffective, permanently"',
+          'External + unstable + uncontrollable: "kids will be kids"',
+          'Internal + unstable + controllable: "I can fix this tomorrow"',
+          'Attribution style has no measured link to teacher wellbeing',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The me-forever-choices triad maximizes guilt and hopelessness simultaneously; every leg is usually factually wrong.',
+      },
+      {
+        question:
+          'What does the phone-scroll during your detailed feedback most likely advertise?',
+        options: [
+          'Shame-avoidance — protecting a fragile self from an anticipated ego threat, not indifference to your effort',
+          'Genuine contempt for your professional judgment',
+          'Phone addiction unrelated to the classroom context',
+          'A deliberate strategy to provoke you into confrontation',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Apparent apathy frequently shields intense caring; the defense exists precisely because the stakes feel enormous to the student.',
+      },
+      {
+        question:
+          'Why is personal attribution described as "secretly flattering"?',
+        options: [
+          'If the behavior is about me, my significance is affirmed — the interpretation smuggles in importance while taxing effectiveness',
+          'It flatters teachers into working harder for students',
+          'It compliments teachers on their classroom management',
+          'It is not — the description refers to student flattery tactics',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Ego-significance is the hidden payoff that keeps the biased attribution sticky despite its costs.',
+      },
+      {
+        question:
+          'How does detachment-after-retraining differ from teacher burnout disengagement?',
+        options: [
+          'Behavioral effort stays maximal while self-worth telemetry disconnects from student moods — students experience steadier, safer regard',
+          'Detached teachers assign less work and care less about outcomes',
+          'There is no difference — detachment is early-stage burnout',
+          'Retrained teachers rely on stricter rules to reduce emotional contact',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The retraining targets the worth-linkage, not the effort; students paradoxically receive MORE consistent regard from the non-reactive adult.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_attribution_audit',
+      name: 'Attribution Audit',
+      category: 'FACT_CHECK',
+      manaCost: 1,
+      baseDamage: 32,
+      shieldValue: 30,
+      promptText:
+        'Evidence check: Would this eye-roll survive a substitute teacher? Then it isn’t about me. What skill is missing?',
+      targetDistortionBonus: { distortion: 'PERSONALIZATION', multiplier: 1.9 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_attrib_sub_test',
+        scrollId: 'scr_teach_attribution_32',
+        bookTitle: 'Attribution Theory in the Classroom',
+        title: 'Substitute-Teacher Test Journal',
+        description:
+          'After any stinging student moment, write one line: "Would this survive a sub? Y/N. If yes — what’s the actual driver?"',
+        suggestedTime: '16:30',
+        frequency: 'WORK_HOURS',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Single-line journaling fits real workload; the substitution question mechanically relocates locus from me to circumstance.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_attrib_need_read',
+        scrollId: 'scr_teach_attribution_32',
+        bookTitle: 'Attribution Theory in the Classroom',
+        title: 'Friday Need-Reading Review',
+        description:
+          'Each Friday, review the week’s difficult moments and name one need or deficit each behavior was advertising.',
+        suggestedTime: '15:45',
+        frequency: 'WEEKLY',
+        energyTier: 'STEADY_40',
+        reminderEnabled: false,
+        clinicalRationale:
+          'Batch-processing avoids in-the-moment rationalization and trains rapid need-reading for live use.',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The Champion Betrayal Crucible',
+      subtitle: 'When the Student You Invested Most In Turns On You',
+      deepCaseStudy:
+        'You spent two years on this student: extra hours, the recommendation letter you wrote at midnight, the scholarship interview prep, defending him in staff meetings when others wrote him off. Last week he stood in your classroom and told a visiting group — laughing — that your class was "the biggest waste of time in this building." Several colleagues heard it. You smiled professionally, finished the tour, and drove home in a silence that tasted like betrayal. You are now reconsidering every extra mile you’ve ever given.',
+      contentMarkdown: `### 🌪️ The Investment-Loss Asymmetry
+
+Ordinary disrespect stings; disrespect from a *significant investment* destabilizes. The pain scales with what you deposited — and the mind immediately files the loss under future-prevention policy: **never again invest at this depth.** That policy is the crucible’s true prize, and the reason it must be examined rather than enacted.
+
+#### ⚠️ The Three Distortions Compounding Here:
+1. **The Loyalty Contract Illusion** — the unstated belief that investment creates obligation. Students never signed; adolescents especially cannot honor contracts their prefrontal development hasn’t notarized.
+2. **The Audience Multiplier** — the public venue converts ingratitude into humiliation, recruiting your social-threat circuitry on top of the relational wound.
+3. **The Totalizing Ledger** — two years of deposit erased by one withdrawal, as if the relationship were a bank account rather than a living system with its own weather.
+
+#### 🛡️ The Crucible Protocol:
+1. **Grieve before analyzing.** The wound is real; skip straight to reframing and it goes underground. Give it 48 hours and one honest conversation with someone safe.
+2. **Run the developmental lens**: adolescent identity work REQUIRES rejecting former attachments — teachers, parents, coaches — to differentiate. Being rejected *because you mattered* is a stage, not a verdict. Some students can only individuate against the people who held them safest.
+3. **Audit without self-flagellation**: was there any legitimate signal missed — a need he’d stopped voicing, a dynamic gone stale? Extract the data; discard the self-condemnation.
+4. **Decide investment policy consciously, not reactively**: the mature position isn't "invest everywhere equally" nor "never again" — it's *invest with open hands*: deeply, while releasing outcomes and repayment expectations at the moment of giving.
+5. **Watch the long tail**: a striking proportion of these students return years later — the rejection often reverses precisely BECAUSE the differentiation succeeded. Hold the door without waiting in it.
+
+#### 🧬 Why Open Hands Matter Developmentally:
+Students need adults who invest without invoice. The teacher whose care is unconditional in both directions — surviving ingratitude without retracting capacity to love — provides the secure base adolescents borrow to launch from. Your open hand, not the recommendation letter, was always the treatment.`,
+      advancedQuiz: [
+        {
+          question:
+            'Why does adolescent identity development predict rejection of invested mentors?',
+          options: [
+            'Individuation requires rejecting former attachments; students often can only differentiate against the adults who held them safest',
+            'Adolescents are constitutionally ungrateful until age 20',
+            'Investment creates dependency that students instinctively punish',
+            'Rejection indicates the mentor crossed a professional boundary',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Developmental psychology frames mentor-rejection as differentiation labor — painful to receive, often a marker of having mattered enormously.',
+          clinicalDistinction:
+            'Being rejected because you were safe differs categorically from being rejected because you failed.',
+        },
+        {
+          question:
+            'What does "invest with open hands" operationalize?',
+          options: [
+            'Deep investment paired with release of repayment expectations at the moment of giving — care without invoice',
+            'Reducing investment depth to match likely gratitude',
+            'Spreading smaller investments evenly across all students',
+            'Formal contracts clarifying mutual obligations upfront',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Open-handed giving survives ingratitude because repayment was never priced in; closed-hand investing converts students into debtors who inevitably default.',
+          clinicalDistinction:
+            'The alternative to transactional investment is not no investment — it is unconditional investment with released outcomes.',
+        },
+        {
+          question:
+            'Why must grieving precede reframing in this crucible?',
+          options: [
+            'Premature cognitive reframe of a real relational wound drives it underground, where it silently writes the never-again policy anyway',
+            'Grieving is legally required before returning to classroom duties',
+            'Reframes are ineffective and should never be attempted',
+            'Colleagues expect visible mourning before respect is restored',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Affect precedes cognition: unfelt grief reasserts itself as policy — cynicism, withdrawal — regardless of intellectual insight achieved.',
+          clinicalDistinction:
+            'Order of operations in wound-care: feel, then frame. Reversed, the frame becomes a defense the wound routes around.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_open_hand_sigil',
+        name: 'The Open-Hand Sigil',
+        description:
+          'For teachers who invest without invoice. Grants +35 Compassion Aura.',
+        statBoost: 'COMPASSION_AURA',
+        boostAmount: 35,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_attrib_1',
+        scrollId: 'scr_teach_attribution_32',
+        bookTitle: 'Attribution Theory in the Classroom',
+        author: 'Bernard Weiner × Ross Greene',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying It Isn’t About You.',
+        question:
+          'State the three legs of the toxic attribution cluster and the corrective question for each.',
+        options: [
+          'Locus→"would a sub get this too?", Stability→"is this weather or climate?", Controllability→"what skill deficit is advertised?"',
+          'Frequency, duration, intensity — tracked in the behavior log',
+          'Antecedent, behavior, consequence — mapped in the ABC chart',
+          'Trigger, thought, feeling — analyzed in the thought record',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Each Weiner dimension has a targeted corrective question; together they relocate causation from your worth to developmental circumstance.',
+        clinicalInsight:
+          'The audit takes under sixty seconds once trained — the price of skipping it is an evening.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_attrib_2',
+        scrollId: 'scr_teach_attribution_32',
+        bookTitle: 'Attribution Theory in the Classroom',
+        author: 'Bernard Weiner × Ross Greene',
+        scenarioPrompt: '⚡ Day-14 Spaced Review: Apathy Camouflage.',
+        question:
+          'A student announces "I don’t care about this class" after failing your test. Highest-probability clinical read?',
+        options: [
+          'Shame-avoidance: caring is dangerous to a fragile self, so indifference armor goes up precisely where stakes are highest',
+          'Accurate self-assessment that the class lacks relevance',
+          'Learned helplessness requiring complete syllabus redesign',
+          'A power play targeting you personally for retaliation',
+        ],
+        correctIndex: 0,
+        explanation:
+          '"I don\'t care" from adolescents most often translates to "caring hurts too much right now" — the armor appears at the point of maximum vulnerability.',
+        clinicalInsight:
+          'Take the armor at face value and you fight the student; read the need underneath and you recruit an ally.',
+        nextReviewDueDays: 14,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+
+  {
+    id: 'scr_teach_emotional_labor_33',
+    title: 'The Performance Between Bells',
+    subtitle: 'Surface Acting, Deep Acting & Micro-Recovery for Teachers',
+    authorOrTradition: 'Alicia Grandey — Emotional Labor Research',
+    readingMinutes: 5,
+    category: 'NEUROSCIENCE',
+    contentMarkdown: `## Service With a Smile — at Scale
+
+Flight attendants fake warmth for hundreds of passengers daily; nurses for patients; teachers for *thirty simultaneous developing humans, six hours a day, with no door to close*. Emotional labor research (Hochschild’s founding work, Grandey’s refinements) identifies the two strategies workers use to display required emotions — and their dramatically different health consequences:
+
+- **Surface acting**: faking the display while the inner feeling stays put. The forced smile over exhaustion. Cheapest in the moment; most expensive over time. Meta-analyses tie heavy surface acting to emotional exhaustion, depersonalization, sleep problems, and even cardiovascular load.
+- **Deep acting**: changing the inner feeling so the display follows naturally — genuinely reframing the challenging student as "an anxious kid in a storm" until concern replaces irritation. Costlier per instance; protective over time. Deep actors show *less* burnout than teachers who feel nothing required at all.
+
+## Why Teaching Is the Extreme Case
+
+Three amplifiers stack in classrooms: **intensity** (children’s dysregulation evokes strong automatic responses), **duration** (six-hour stretches dwarf the nurse’s episodic contact), and — uniquely — **audience pedagogy**: students learn partly from the emotions you display, meaning suppression itself corrupts the lesson. A surface-acting teacher teaches surface-acting.
+
+## The Recovery Science
+
+Emotional labor depletes a finite regulatory resource; recovery research identifies what actually restores it:
+
+1. **Micro-recovery between lessons**: 90-second transitions with a physiological shift — hallway walk, window gaze, exhale-led breathing, water. Transition time spent troubleshooting equipment or scanning emails is *not* recovery; the resource stays drained into afternoon.
+2. **Real lunch, real detachment**: eating in the classroom while composing emails keeps the system half-on. Psychological detachment (being genuinely off) during breaks predicts next-morning vigor better than total break length.
+3. **The after-school decompression ritual**: a fixed transition object — specific playlist, walk route, gym session — that marks work-brain as closed. Teachers lacking a ritual report ruminative spillover into evenings; the family receives the residue.
+
+## Deep Acting Without Self-Deception
+
+The critique worth taking seriously: forced positivity is surface acting in disguise. Authentic deep acting starts from *true* reappraisals — "this behavior is developmental weather" is TRUE, so feeling calmer about it is alignment, not fakery. The test: deep acting leaves you feeling more integrated; surface acting leaves you feeling like a fraud with sore facial muscles.
+
+## The Systemic Caveat
+
+Individual technique cannot justify pathological systems. A timetable with zero transition minutes, mandated enthusiasm, or chronic understaffing will burn out the best deep actor. Use the science for the margin you control — and document what the timetable steals, for the conversation with leadership that individual coping should never have to replace.`,
+    keyTakeaway:
+      'Fake displays (surface acting) burn teachers down; genuine reappraisal (deep acting) protects them — and both require engineered micro-recovery between lessons, real detached lunch breaks, and an after-school ritual that closes work-brain.',
+    quiz: [
+      {
+        question:
+          'What distinguishes surface acting from deep acting in emotional labor research?',
+        options: [
+          'Surface acting fakes the display while the feeling stays; deep acting changes the inner feeling so the display follows authentically',
+          'Surface acting is used by novices, deep acting by veterans',
+          'Surface acting occurs in lessons, deep acting in staff meetings',
+          'Deep acting means suppressing all emotion completely',
+        ],
+        correctIndex: 0,
+        explanation:
+          'The strategies differ in whether the INNER state changes — which is why their long-term health costs diverge so sharply.',
+      },
+      {
+        question: 'What does meta-analytic research associate with heavy surface acting?',
+        options: [
+          'Emotional exhaustion, depersonalization, sleep problems, and cardiovascular strain',
+          'Improved short-term student rapport with no long-term effects',
+          'Higher salaries in customer-facing roles',
+          'Nothing — the two strategies prove equivalent over time',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Sustained display-feeling dissonance is a physiological stressor; the body keeps score of faked smiles.',
+      },
+      {
+        question: 'What qualifies as genuine micro-recovery between lessons?',
+        options: [
+          '90 seconds of physiological shift — walking, window gaze, exhale breathing — rather than troubleshooting or email-scanning',
+          'Checking messages during transition to reduce end-of-day workload',
+          'Preparing materials for the immediately following lesson',
+          'Socializing with students informally in the corridor',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Recovery requires the regulatory resource to actually disengage; half-on transitions drain it while feeling like productivity.',
+      },
+      {
+        question:
+          'How do you distinguish authentic deep acting from disguised surface acting (forced positivity)?',
+        options: [
+          'Deep acting uses TRUE reappraisals and leaves you feeling integrated; forced positivity feels fraudulent and leaves sore facial muscles',
+          'Deep acting is positive, surface acting negative — the valence tells',
+          'There is no reliable way to tell them apart experientially',
+          'Deep acting requires formal training certification to be authentic',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Alignment-with-truth is the criterion: "developmental weather" reappraisals work because they are accurate, making calm congruence rather than costume.',
+      },
+    ],
+    unlockedCardReward: {
+      id: 'crd_deep_act',
+      name: 'Deep Actor’s Lens',
+      category: 'REFRAME',
+      manaCost: 1,
+      baseDamage: 28,
+      shieldValue: 32,
+      promptText:
+        'Not a fake smile — a true seeing: this is weather, and weather passes. Feel the true thing.',
+      targetDistortionBonus: { distortion: 'EMOTIONAL_REASONING', multiplier: 1.5 },
+    },
+    suggestedRoutines: [
+      {
+        id: 'rtn_el_micro_recovery',
+        scrollId: 'scr_teach_emotional_labor_33',
+        bookTitle: 'Emotional Labor Research',
+        title: 'Between-Bells Reset Ritual',
+        description:
+          'Every class transition: 90 seconds — stand, walk to the window or door, one long-exhale cycle, sip water. No email, no troubleshooting.',
+        suggestedTime: '10:35',
+        frequency: 'WORK_HOURS',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Micro-recovery between emotional-labor bouts is the highest-leverage depletion intervention in teaching timetables.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_el_detached_lunch',
+        scrollId: 'scr_teach_emotional_labor_33',
+        bookTitle: 'Emotional Labor Research',
+        title: 'Off-Site Lunch Protocol',
+        description:
+          'Eat at least twice weekly OUTSIDE your classroom — staffroom, outdoors, car — phone face-down, no work tabs open.',
+        suggestedTime: '12:30',
+        frequency: 'WORK_HOURS',
+        energyTier: 'STEADY_40',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Psychological detachment during breaks predicts next-day vigor more strongly than break duration.',
+        isScheduled: false,
+      },
+      {
+        id: 'rtn_el_decompression_ritual',
+        scrollId: 'scr_teach_emotional_labor_33',
+        bookTitle: 'Emotional Labor Research',
+        title: 'Threshold Decompression Ritual',
+        description:
+          'Fix one transition ritual marking work-brain closed — playlist, walk route, or workout — performed before family re-entry daily.',
+        suggestedTime: '16:45',
+        frequency: 'WORK_HOURS',
+        energyTier: 'LOW_10',
+        reminderEnabled: true,
+        clinicalRationale:
+          'Fixed transition rituals prevent ruminative spillover; the family currently receives the residue of unrecovered labor.',
+        isScheduled: false,
+      },
+    ],
+    level2Expansion: {
+      title: 'Level 2: The Smile You Can’t Take Off Crucible',
+      subtitle: 'When Observation Season Demands Performance of Wellbeing',
+      deepCaseStudy:
+        'Observation week. You are running on five-hour sleeps because the baby is teething, your marking backlog is a legal liability, and your most challenging class is period 3 — the slot your observer booked. The unwritten rule is explicit in your school: observers grade your *energy* as much as your technique. You must perform enthusiasm you do not possess, for fifty minutes, to a class who can smell fraud, while an adult with a clipboard annotates your authenticity deficit.',
+      contentMarkdown: `### 🌪️ The Double Audience Trap
+
+Performance pressure normally flows one way — toward students. Observation week adds a second audience whose judgments carry career weight, and the two audiences demand *different* selves: students need the regulated authentic adult; observers reward the energetic entertainer. Surface acting spikes precisely when your regulatory resources are lowest. This collision is why observation weeks correlate with illness and why veteran teachers describe them as theater seasons.
+
+#### ⚠️ The Three Failure Modes:
+1. **The Full Costume** — manufacturing peak enthusiasm from an empty tank. Students detect incongruence (they are world-experts on adult fraudulence) and rate the lesson as fake; you pay the physiological bill for weeks.
+2. **The Preemptive Collapse** — deciding the performance is impossible, arriving defeated, and delivering a flat lesson that fulfills its own prophecy.
+3. **The Midnight Marker** — sacrificing sleep to over-prepare artifacts for the observer, converting an evaluation day into a health sabotage week.
+
+#### 🛡️ The Crucible Protocol:
+1. **Choose congruence over sparkle**: plan a lesson that RUNS on calm authority rather than performance energy — structured routines, student-led segments, work you genuinely enjoy teaching. Design around your actual state, not your wished-for one.
+2. **Bank real recovery beforehand**: protect sleep ruthlessly in the preceding week; the lesson is delivered by your nervous system, and sleep is its rehearsal.
+3. **Brief your observer honestly if culture permits** ("teething baby at home — you’ll see calm routines, not fireworks") — transparency converts judgment into context, and many observers recalibrate gratefully.
+4. **Deploy deep acting on ONE true anchor**: find the one genuinely likable or fascinating element of the period-3 content and let your attention live there. Authentic enthusiasm is grown from a true seed, not painted on.
+5. **Schedule the crash deliberately**: block light marking and an early night the day AFTER. Planned recovery absorbs the bill; unplanned collapse pays it with interest.
+
+#### 🧬 The Career Mathematics:
+Teachers burn out not from hard days but from *uncosted* days. The professional who prices performance honestly — recovering deliberately after high-display events — outlasts the natural performer who never learned to, because sustainability beats brilliance on every horizon beyond one term.`,
+      advancedQuiz: [
+        {
+          question:
+            'Why does designing the observed lesson around "calm authority" beat manufacturing enthusiasm?',
+          options: [
+            'Congruent lessons run on your actual state; performed enthusiasm is detectable by students and bills your depleted system for weeks',
+            'Observers formally deduct points for excessive energy',
+            'Enthusiasm is pedagogically irrelevant to learning outcomes',
+            'Calm lessons require less preparation time overall',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Students’ fraud-detectors are exquisite; incongruence degrades the lesson AND the teacher. Structure lets authenticity carry authority.',
+          clinicalDistinction:
+            'Design for the nervous system you will actually bring, not the one the occasion seems to demand.',
+        },
+        {
+          question:
+            'What is the function of briefing the observer about the teething baby?',
+          options: [
+            'Transparency supplies context that recalibrates judgment — converting an authenticity deficit into a comprehensible human circumstance',
+            'It excuses poor teaching in advance and lowers expectations',
+            'It violates professional norms around observation neutrality',
+            'It shifts evaluation responsibility away from the teacher',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Observers annotate what they cannot explain; a sentence of context prevents weeks of misattributed inference.',
+          clinicalDistinction:
+            'Briefing is information, not excuse-making — it works precisely because it asks for no concession.',
+        },
+        {
+          question:
+            'Why is the deliberately scheduled post-observation crash a professional strategy rather than weakness?',
+          options: [
+            'High-display events produce a predictable physiological bill; planned recovery absorbs it cheaply while unplanned collapse pays with interest',
+            'It signals healthy boundaries to administrators reviewing workload',
+            'Crash days reduce marking backlogs more efficiently',
+            'It has no real effect; recovery timing is arbitrary',
+          ],
+          correctIndex: 0,
+          explanation:
+            'Emotional labor accounting is the core career skill: performers who price their displays survive; those who deny the bill pay it in health.',
+          clinicalDistinction:
+            'Sustainability mathematics favors the honest pricer over the natural performer on every horizon past one term.',
+        },
+      ],
+      unlockedMasteryRelic: {
+        id: 'rel_congruence_compass',
+        name: 'The Congruence Compass',
+        description:
+          'Points to the true thing under the costume. Grants +35 Mind Shield.',
+        statBoost: 'MIND_SHIELD',
+        boostAmount: 35,
+      },
+    },
+    spacedRecallChallenges: [
+      {
+        id: 'spc_el_1',
+        scrollId: 'scr_teach_emotional_labor_33',
+        bookTitle: 'Emotional Labor Research',
+        author: 'Alicia Grandey',
+        scenarioPrompt:
+          '⚡ Flash Memory Check: 3 days since studying The Performance Between Bells.',
+        question:
+          'Period 2 left you wrung out. Period 3 starts in four minutes. Which option actually restores regulatory capacity?',
+        options: [
+          'Walk to the window, one long-exhale breath cycle, drink water — no inbox, no troubleshooting',
+          'Scan and reply to two parent emails to lighten the evening load',
+          'Rewrite the seating plan for period 3 based on period 2’s disruptions',
+          'Vent rapidly to the colleague next door about period 2',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Recovery requires genuine disengagement of the regulatory resource; email, planning and venting all keep it half-engaged.',
+        clinicalInsight:
+          'Half-on breaks are the teaching profession’s signature illusion of recovery.',
+        nextReviewDueDays: 3,
+      },
+      {
+        id: 'spc_el_2',
+        scrollId: 'scr_teach_emotional_labor_33',
+        bookTitle: 'Emotional Labor Research',
+        author: 'Alicia Grandey',
+        scenarioPrompt: '⚡ Day-14 Spaced Review: Strategy Selection.',
+        question:
+          'Facing a chronically provocative class, which strategy does the research favor for long-term sustainability?',
+        options: [
+          'Deep acting — cultivate TRUE reappraisals ("anxious kid in a storm") until the felt response genuinely changes',
+          'Surface acting — perfect the professional smile regardless of inner state',
+          'Emotional suppression — feel nothing by refusing to engage',
+          'Alternating randomly to avoid habituation to any single strategy',
+        ],
+        correctIndex: 0,
+        explanation:
+          'Display-feeling dissonance (surface) is the pathogen; felt-state change (deep) is protective because the display stops being labor.',
+        clinicalInsight:
+          'The reappraisal must be TRUE — "developmental weather" works because it is accurate, not because it is pleasant.',
+        nextReviewDueDays: 14,
+      },
+    ],
+    isCompleted: false,
+    isLevel2Unlocked: false,
+    isLevel2Completed: false,
+    memoryLevel: 1,
+  },
+];

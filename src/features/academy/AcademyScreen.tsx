@@ -37,6 +37,7 @@ import {
   Lock,
   Compass,
   Shield,
+  Heart,
 } from 'lucide-react-native';
 
 interface AcademyScreenProps {
@@ -61,6 +62,7 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
   const categories: { id: WisdomScroll['category'] | 'ALL'; label: string }[] = [
     { id: 'ALL', label: 'All Masterclasses' },
     { id: 'PARENTING_COREGULATION', label: '👨‍👧 Parenting & Co-Regulation' },
+    { id: 'MARRIAGE_EFT', label: '💍 Marriage & Partnership' },
     { id: 'STOICISM', label: '🏛️ Stoic Wisdom' },
     { id: 'NEUROSCIENCE', label: '🧠 Polyvagal & Brain' },
     { id: 'CBT_REBT', label: '⚡ CBT, ACT & REBT' },
@@ -126,6 +128,8 @@ export const AcademyScreen: React.FC<AcademyScreenProps> = ({ userState }) => {
         return Moon;
       case 'PARENTING_COREGULATION':
         return Shield;
+      case 'MARRIAGE_EFT':
+        return Heart;
       case 'LOGOTHERAPY':
         return BookOpen;
       case 'SHADOW_INTEGRATION':
